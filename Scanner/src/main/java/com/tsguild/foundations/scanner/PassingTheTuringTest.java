@@ -11,31 +11,6 @@ import java.util.Scanner;
  *
  * @author jeffc
  * Filename: PassingTheTuringTest.java
-
-Create a program that uses taken user input in a conversation. First ask the user for their name. Then display that name, and tell them yours (or your AI's name!) Ask them for their favorite color. Then display that, but in a conversational way. Do the same thing with favorite food and number, and then say goodbye!
-
-Make sure you use the right variable with the right user input!
-What You Should See (Example)
-
---- exec-maven-plugin:1.2.1:exec (default-cli) @ Unit1 ---
-Hello there!
-What's your name? Zaphod
-
-Hi, Zaphod!  What's your favorite color? Blue
-
-Huh, Blue? Mine's Electric Lime.
-
-I really like limes. They're my favorite fruit, too.
-What's YOUR favorite fruit, Zaphod? Pawpaws
-
-Really? Pawpaws? That's wild!
-Speaking of favorites, what's your favorite number? 42
-
-42 is a cool number. Mine's -7.
-Did you know 42 * -7 is -294? That's a cool number too!
-
-Well, thanks for talking to me, Zaphod!
-
  */
 public class PassingTheTuringTest {
     
