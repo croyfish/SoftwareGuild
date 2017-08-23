@@ -1,0 +1,57 @@
+/* Span Width */
+.span {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Header Styles 
+h1 {
+    font-family: 'Comic Sans MS';
+    color: blue;
+    font-size: 6vw;
+} */
+
+/* Link Styles */
+
+p {
+  font-size: 2.5vw;
+}
+
+a {
+  text-decoration: underline;
+  font-weight: none;
+}
+
+/* Unvisited Link Color */
+a:link {
+  color: Green;
+}
+
+/* Visited Link Color */
+a:visited {
+  color: Red;
+}
+
+/* Hovered-Over Link Style */
+a:hover {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Active Link Style */
+a:active {
+  text-decoration: none;
+}
+
+/* Pills Style */
+.center-pills { 
+  display: inline-block; 
+}
+
+/* Resizes Images */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 5px;
+}

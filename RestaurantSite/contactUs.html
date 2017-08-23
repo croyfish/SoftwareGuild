@@ -1,0 +1,125 @@
+<DOCTYPE! html>
+    <html>
+
+        <head>
+
+            <title>Restaurant Site</title>
+
+            <!-- CSS Stylesheet Link -->
+            <link href="restaurantStyles.css" 
+                    rel="stylesheet" 
+                    type="text/css" />
+
+            <!-- Latest compiled and minified CSS -->
+            <link rel="stylesheet"
+                    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+
+            <!-- Optional theme -->
+            <link rel="stylesheet"
+                    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+            </script>
+
+            <!-- CSS Page Style -->
+            <style>
+                .data {
+                    text-align: center;
+                }
+
+                /* Header Styles */
+                h1 {
+                    font-family: 'Comic Sans MS';
+                    color: blue;
+                    font-size: 4.5vw;
+                }
+            </style>
+
+        </head>
+       
+       
+        <body style="background-color: maroon;">
+                
+            <div class="header">
+                        
+                <!-- Restaurant Name -->
+                <center><h1>Mobile Munchies</h1></center>
+                <hr></br>
+                        
+                <!-- Jumbotron -->
+                <div class="container">
+                    <div class="jumbotron">
+                        <h1>Big News</h1>
+                        <p style="font-size: 3.5vw;">The Mobile Munchies website now includes a jumbotron!</p>
+                    </div>
+                </div>
+                        
+            </div>
+
+            <!-- Navigation Pills -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-1"></div>
+                        <div class="col-xs-10 text-center" >
+                            <ul class="nav nav-pills center-pills">
+                                <li class="span"><a href="index.html"><span class="glyphicon glyphicon-home"></span></a></li>
+                                <li class="span"><a href="menu.html">Menu</a></li>
+                                <li class="span"><a href="contactUs.html">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    <div class ="col-xs-1"></div>
+                </div>
+            </div>
+
+            </br><hr></br>
+
+            <!-- Feedback Form -->
+            <div class="data" style="color: yellow;">
+
+                <b>Name:</b>     <input type="text" name="Name" /></br></br>
+                <b>Email:</b>    <input type="text" name="Email" /></br></br>
+                <b>Phone:</b>    <input type="text" name="Phone" /></br></br>
+
+                <b>Reason for Inquiry:</b>     
+                <select name="Reason" style="color: black;">
+                    <option value="Select">Catering</option>
+                    <option value="Software">Private Party</option>
+                    <option value="Hardware">Feedback</option>
+                    <option value="Information">Other</option>
+                </select>
+
+                </br></br>
+
+                Additional Information:     <textarea name="AdditionalInfo"></textarea></br></br>
+                
+                Have you been to the restaurant?     
+                    <input type="radio" name="answer" value="No" checked/>No 
+                    <input type="radio" name="answer" value="Yes">Yes</input></br></br>
+                
+                <div>
+                Best days to contact you:        
+                    <input type="checkbox" name="Monday" value="read" />M
+                    <input type="checkbox" name="Tuesday" value="read" />T  
+                    <input type="checkbox" name="Wednesday" value="read" />W
+                    <input type="checkbox" name="Thursday" value="read" />Th 
+                    <input type="checkbox" name="Friday" value="read" />F
+                </div>
+
+                </br></br>
+
+                <input type="submit" value="  Send Request  " style="color: black;" />
+            
+            </div>
+
+            </br><hr></br>
+            
+            <!-- Contact Info -->
+            <center>
+                123 Fake Street, Cuyahoga Falls, OH 44221</br>
+                Tel: 555-1997
+            </center>
+
+        </body>
+
+    </html>
