@@ -13,8 +13,9 @@ public class ForAndTwentyBlackbirds {
 
     public static void main(String[] args) {
         int birdsInPie = 0;
-        for (int i=0; i < 20; i++) {
-                System.out.println("Blackbird #" + i + " goes into the pie!");
+        for (int i=0; i < 24; i++) {
+                System.out.println("Blackbird #" + (i + 1) + " goes into the pie!");
+                // Changed i to i+1 so that the correct number of birds is printed.
                 birdsInPie++;
         }
         
