@@ -40,7 +40,7 @@ public class LazyTeenager {
             if (yellingCounter == 16) {
                 break;
             } 
-        } while (probabilityToClean < randGenerator.nextInt(101));
+        } while (probabilityToClean < randGenerator.nextInt(100));
         
         if (yellingCounter == 16) {
             System.out.println("Clean your room!! That's IT, I'm doing it!!! YOU'RE GROUNDED AND I'M TAKING YOUR XBOX!");
