@@ -70,7 +70,7 @@ public class BirthStones {
         } 
         else 
         {
-            System.out.println("Invalid input!!!!!!!!!!!!!");
+            System.out.println("I think you must be confused, " + birthMonth + " doesn't match a month.");
         }    
     }
 }
