@@ -15,6 +15,7 @@ public class LovesMe {
             
         int petals = 34;
 
+        System.out.println("Well here goes nothing... ");
             
         while (petals > 0) {
             petals--;
