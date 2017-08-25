@@ -19,10 +19,25 @@ public class InterestCalculator {
         DecimalFormat twoPlaces = new DecimalFormat("0.00");
         
         float annualInterestRate, principal;
-        int years;
+        int years, freqIntRate, intChoice; 
         
         System.out.print("What is the annual interest rate (in %)? ");
         annualInterestRate = Float.parseFloat(readInput.nextLine());
+        System.out.println("How often is the interest compounded?\n1) daily\n2) monthly \n3) quarterly");
+        intChoice = readInput.nextInt();
+        readInput.nextLine();
+        
+        switch (intChoice) {
+            case 1: freqIntRate = 365;
+            break;
+            case 2: freqIntRate = 12;
+            break;
+            case 3: freqIntRate = 4;
+            break;
+            default: freqIntRate = 1;
+                System.out.println("Your choice is invalid. Yearly interest will be calculated.");
+        }
+ 
         System.out.print("What is the principal amount? $");
         principal = Float.parseFloat(readInput.nextLine());
         System.out.print("How many years will the money remain in the fund? ");
@@ -33,25 +48,24 @@ public class InterestCalculator {
         for (int i = 0; i < years; i++) {
             System.out.println("Year " + (i + 1));
             System.out.println("Principal at beginning of year: $" + twoPlaces.format(principal));
-            
-            float newPrincipal = calculateQuarterlyInterest(principal, annualInterestRate);
+            float newPrincipal = calculateCompoundInterest(principal, annualInterestRate, freqIntRate);
             principal = newPrincipal;
             System.out.println("");
         }
 
     }
     
-    public static float calculateQuarterlyInterest(float principal, float annualInterestRate) {
+    public static float calculateCompoundInterest(float principal, float annualInterestRate, int freqIntRate) {
             
-            int quarter = 0;
+            int period = 0;
             float yearlyInterest;
             float newPrincipal = principal;
             DecimalFormat twoPlaces = new DecimalFormat("0.00");
             
             do {
-                quarter++;
-                newPrincipal = (newPrincipal * (1 + ((annualInterestRate / 4)/ 100)));           
-            } while (quarter < 4);
+                period++;
+                newPrincipal = (newPrincipal * (1 + ((annualInterestRate / freqIntRate)/ 100)));           
+            } while (period < freqIntRate);
             
             yearlyInterest = newPrincipal - principal;
             System.out.println("Total amount of interest earned this year: $"
