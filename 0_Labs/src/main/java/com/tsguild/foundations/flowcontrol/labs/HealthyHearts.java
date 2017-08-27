@@ -4,7 +4,7 @@ package com.tsguild.foundations.flowcontrol.labs;
 // imports Scanner to HealthyHearts class
 import java.util.Scanner;
 /**
- *
+ * Finished
  * @author jeffc
  */
 public class HealthyHearts {
