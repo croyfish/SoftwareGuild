@@ -2,7 +2,7 @@
 package com.tsguild.foundations.flowcontrol.labs;
 
 /**
- * Finished
+ * Finished!
  * @author jeffc
  */
 public class SummativeSums {
