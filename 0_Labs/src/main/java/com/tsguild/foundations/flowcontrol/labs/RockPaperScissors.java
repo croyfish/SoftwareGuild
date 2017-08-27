@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.Random;
 
 /**
- *
+ * Finished
  * @author jeffc
  */
 public class RockPaperScissors {
