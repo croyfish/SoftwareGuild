@@ -9,7 +9,7 @@ package com.tsguild.foundations.flowcontrol.labs;
 import java.util.Random;
 import java.util.Scanner;
 /**
- *
+ * Finished
  * @author jeffc
  */
 public class DogGenetics {
