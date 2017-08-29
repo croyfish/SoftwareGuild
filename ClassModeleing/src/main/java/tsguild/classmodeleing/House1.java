@@ -6,40 +6,29 @@
 package tsguild.classmodeleing;
 
 /**
- *x coor
- * y coor
- * st. name
- * house num
- * state
- * 
- * search by num/street
- * find routes to
- * return lat/long of address
- * zoom in to house
- * find directions from house
  * 
  * @author jeffc
  */
 public class House1 {
-    private float xCoordinate;
-    private float yCoordinate;
+    private double xCoordinate;
+    private double yCoordinate;
     private String streetName;
     private String houseNum;
     private String state;
 
-    public float getxCoordinate() {
+    public double getxCoordinate() {
         return xCoordinate;
     }
 
-    public void setxCoordinate(float xCoordinate) {
+    public void setxCoordinate(double xCoordinate) {
         this.xCoordinate = xCoordinate;
     }
 
-    public float getyCoordinate() {
+    public double getyCoordinate() {
         return yCoordinate;
     }
 
-    public void setyCoordinate(float yCoordinate) {
+    public void setyCoordinate(double yCoordinate) {
         this.yCoordinate = yCoordinate;
     }
 
@@ -67,23 +56,23 @@ public class House1 {
         this.state = state;
     }
     
-    public double[] searchByAddress(String houseNum, String streetName) {
+    public boolean checkIfAddressValid(String houseNum, String streetName, String state) {
         
     }
     
-    public Route() findRoutesTo(int houseNum, String streetName) {
+    public Route() findRouteTo(double xCoordinate, double yCoordinate) {
    
     }
     
-    public double[] getCoordinates(int houseNum, String streetName) {
+    public double[] returnLatLongOfAddress(String houseNum, String streetName, String state) {
         
     }
     
-    public double[] zoomInToHouse(int houseNum, String streetName) {
-    
+    public void zoomInToHouse (double xCoordinate, double yCoordinate) {
+        
     }
     
-    public Route() findRoutesFrom(int houseNum, String streetName, String[] currentIntersection) {
-    
+    public Route() findDirectionsFromHouse (double xCoordinate, double yCoordinate, double destinationXCoordinate, double destinationYCoordinate) {
+        
     }
 }

@@ -16,9 +16,9 @@ package tsguild.classmodeleing;
 public class Airplane1 {
     private double latitudeCoordinate;
     private double longitudeCoordinate;
-    private double altitude;
-    private double direction;
-    private double speed;
+    private int altitude;
+    private int direction;
+    private int speed;
 
     public double getLatitudeCoordinate() {
         return latitudeCoordinate;
@@ -36,29 +36,37 @@ public class Airplane1 {
         this.longitudeCoordinate = longitudeCoordinate;
     }
 
-    public double getAltitude() {
+    public int getAltitude() {
         return altitude;
     }
 
-    public void setAltitude(double altitude) {
+    public void setAltitude(int altitude) {
         this.altitude = altitude;
     }
 
-    public double getDirection() {
+    public int getDirection() {
         return direction;
     }
 
-    public void setDirection(double direction) {
+    public void setDirection(int direction) {
         this.direction = direction;
     }
 
-    public double getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    public void instructToChangeAltitude(int amount) {
+        
+    }
     
+    public void instructToChangeDirection(int amount) {
+        
+    }
     
+    public String() reportCurrentWeather
 }

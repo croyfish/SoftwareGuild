@@ -6,11 +6,6 @@
 package tsguild.classmodeleing;
 
 /**
- *Length
- * Width
- * Height
- * num of Rooms
- * num of Floors
  * @author jeffc
  */
 public class House2 {
@@ -60,5 +55,26 @@ public class House2 {
         this.numberOfFloors = numberOfFloors;
     }
     
+    public void changeLength(double increase) {
+        
+    }
+    
+    public void changeWidth(double increase) {
+        
+    }
+    
+    public void createNewRooms(int num) {
+        
+    }
+    
+    public void deleteRoom(String roomName) {
+        
+    }
+    
+    public void addNewFloors(int num) {
+        
+    }
+    
+   
     
 }
