@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.tsguild.foundations.flowcontrol.labs;
+package refactoredRockPaperScissors;
 
 // Import Scanner and Random libraries to RockPaperScissors class.
 import java.util.Scanner;
@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class RockPaperScissors {
     
-    public static void main(String[] args) {
+    public void playRPS() {
       
         // Declare new objects to create random values
         // and read user console input.
