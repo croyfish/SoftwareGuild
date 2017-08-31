@@ -17,6 +17,7 @@ public class CapitalMap {
         capMapMeth.initializeCaptials();
         capMapMeth.instantiateCapitals();
         capMapMeth.printStateCapitalPairs();
+        capMapMeth.printStateCapitalPairsOver();
         
     }
 }

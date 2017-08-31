@@ -7,6 +7,7 @@ package StateCapitals2;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -156,9 +157,6 @@ public class CapitalMapMethods {
     public void printStateCapitalPairs() {
         System.out.println("STATE/CAPITAL PAIRS:");
         System.out.println("====================");
-        
-        
-        
 
             for (String stateName : capitalKeys) {
                 Capital capitalObject = new Capital();
@@ -169,10 +167,31 @@ public class CapitalMapMethods {
                             " sq mi");
                 System.out.println("");
             }
-        
-
-        
     }
     
-    
+        public void printStateCapitalPairsOver() {
+            Scanner readInput = new Scanner(System.in);
+            
+
+
+            System.out.print("What is your minimum population? ");
+            int minPop = readInput.nextInt();
+            readInput.nextLine();
+            
+            System.out.println("LISTING CAPITALS WITH BLAH BLAH BLAH");
+        
+        
+            for (String stateName : capitalKeys) {
+                Capital capitalObject = new Capital();
+                capitalObject = capitalObjects.get(stateName);
+                
+                if (capitalObject.getCapitalPopulation() > minPop) {
+                System.out.print(stateName + " - " + capitalObject.getCapitalName() + " | Pop "
+                    + capitalObject.getCapitalPopulation() + " | Area: " 
+                            + capitalObject.getCapitalSquareMileage() +
+                            " sq mi");
+                System.out.println("");
+                }
+            }
+    }
 }
