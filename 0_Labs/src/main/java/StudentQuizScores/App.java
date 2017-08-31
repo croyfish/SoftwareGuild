@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userIOClass;
-
+package StudentQuizScores;
 
 /**
  *
@@ -13,9 +12,8 @@ package userIOClass;
 public class App {
     public static void main(String[] args) {
         
-        UserIO myIO = new UserIOImpl();
-        
-      
+        Menu myMenu = new Menu();
+        myMenu.displayMenu();
         
     }
 }

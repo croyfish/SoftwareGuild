@@ -122,7 +122,7 @@ public class CapitalMapMethods {
         stateNumbers.put("Washington",47);        
         stateNumbers.put("West Virginia",48);        	
         stateNumbers.put("Wisconsin",49);        
-        stateNumbers.put("Wyoming ",50);
+        stateNumbers.put("Wyoming",50);
         
     }
     
@@ -149,6 +149,7 @@ public class CapitalMapMethods {
             myCapital.setCapitalName(capitals.get(currentCapital));
             stateIndex = stateNumbers.get(currentCapital);
             capitalObjects.put(currentCapital, myCapital);
+            System.out.println(myCapital);
             myCapital.setCapitalPopulation(populations[stateIndex - 1]);
             myCapital.setCapitalSquareMileage(squareAreas[stateIndex - 1]);
         }

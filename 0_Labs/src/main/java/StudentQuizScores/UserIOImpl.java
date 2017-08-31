@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userIOClass;
+package StudentQuizScores;
 
 import java.util.Scanner;
 /**
@@ -200,7 +200,7 @@ public class UserIOImpl implements UserIO {
 
         String result = "";
         print(prompt);
-        String userInput = sc.nextLine();
+        result = sc.nextLine();
         return result;
     }
     
