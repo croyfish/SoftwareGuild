@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userIOClass;
+package StateCapitals1;
 
 /**
  *
@@ -11,15 +11,7 @@ package userIOClass;
  */
 public class App {
     public static void main(String[] args) {
-        
-        UserIO myIO = new RealBadUserIO();
-        
-        myIO.print("Hello World.");
-        
-        int enteredInt = myIO.readInt("Please enter an int");
-        
-        myIO.print("You entered: " + enteredInt);
-        
-        
+        CapitalMap myCapitalMap = new CapitalMap();
+        myCapitalMap.meetSpecs();
     }
 }

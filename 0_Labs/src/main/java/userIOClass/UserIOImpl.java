@@ -5,11 +5,14 @@
  */
 package userIOClass;
 
+import java.util.Scanner;
 /**
  *
  * @author jeffc
  */
 public class UserIOImpl implements UserIO {
+    
+    private Scanner sc = new Scanner(System.in);
 
     @Override
     public void print(String message) {
@@ -38,7 +41,22 @@ public class UserIOImpl implements UserIO {
 
     @Override
     public int readInt(String prompt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean isValid = false;
+        
+        int result = 0;
+        
+        while (!isValid) {
+            print(prompt);
+            String userInput = sc.nextLine();
+            try {
+            result = Integer.parseInt(userInput);
+            isValid = true;
+            } catch (NumberFormatException ex) {
+                print("That is an invalid number. Please try again.");
+            }
+        }
+        
+        return result;
     }
 
     @Override
