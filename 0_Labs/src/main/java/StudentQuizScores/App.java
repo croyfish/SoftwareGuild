@@ -5,6 +5,8 @@
  */
 package StudentQuizScores;
 
+import java.io.IOException;
+
 /**
  *
  * @author jeffc
