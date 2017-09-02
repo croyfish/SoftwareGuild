@@ -24,18 +24,6 @@ public class Student {
         this.lastName = newLastName;
     }
     
-    
-    private void viewQuizScores() {
-        
-    }
-    
-    
-    private void viewAverageQuizScore () {
-        
-    }
-    
-   
-    
     public Map<Integer, Double> getQuizzes() {
         return quizzes;
     }
@@ -67,7 +55,5 @@ public class Student {
     public void setQuizKeys(Set<Integer> quizKeys) {
         this.quizKeys = quizKeys;
     }
-    
-    
-    
+ 
 }

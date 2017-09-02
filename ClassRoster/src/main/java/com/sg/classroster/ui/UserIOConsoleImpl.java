@@ -3,20 +3,41 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userIOClass;
+package com.sg.classroster.ui;
 
 import java.util.Scanner;
+
 /**
  *
  * @author jeffc
  */
-public class UserIOImpl implements UserIO {
-    
+public class UserIOConsoleImpl implements UserIO {
+
     private Scanner sc = new Scanner(System.in);
 
     @Override
     public void print(String message) {
         System.out.println(message);
+    }
+    
+    @Override
+    public void print(double message) {
+        System.out.println(String.valueOf(message));
+    }
+    
+    @Override
+    public void print(float message) {
+        System.out.println(String.valueOf(message));
+    }
+    
+    @Override
+    public void print(int message) {
+        System.out.println(String.valueOf(message));
+    }
+    
+    @Override
+    public void print(long message) {
+        System.out.println(String.valueOf(message));
     }
 
     @Override
@@ -129,9 +150,53 @@ public class UserIOImpl implements UserIO {
 
     @Override
     public int readInt(String prompt, int min, int max) {
-                boolean isValid = false;
+        boolean isValid = false;
         
         int result = 0;
+        
+        while (!isValid) {
+            print(prompt);
+            String userInput = sc.nextLine();
+            try {
+            result = Integer.parseInt(userInput);
+            isValid = true;
+            } catch (NumberFormatException ex) {
+                print("That is an invalid number. Please try again.");
+            }
+            if (result < min || result > max) {
+                isValid = false;
+                print("That number is out of range. Please try again.");
+            }
+        }
+        
+        return result;
+    }
+    
+    @Override
+    public Integer readInteger(String prompt) {
+        boolean isValid = false;
+        
+        Integer result = 0;
+        
+        while (!isValid) {
+            print(prompt);
+            String userInput = sc.nextLine();
+            try {
+            result = Integer.parseInt(userInput);
+            isValid = true;
+            } catch (NumberFormatException ex) {
+                print("That is an invalid number. Please try again.");
+            }
+        }
+        
+        return result;    
+    }
+    
+    @Override
+    public Integer readInteger(String prompt, int min, int max) {
+        boolean isValid = false;
+        
+        Integer result = 0;
         
         while (!isValid) {
             print(prompt);
@@ -202,5 +267,5 @@ public class UserIOImpl implements UserIO {
         String userInput = sc.nextLine();
         return userInput;
     }
-    
+        
 }

@@ -46,11 +46,7 @@ public class Menu {
             
             switch (userChoice) {
                 case 1: //View Student List
-                    IO.print("The Students are:");
-                    IO.print("=================");
-                    for (currentStudent : students) {
-                        System.out.println(currentStudent.getFirstName() + " " + currentStudent.getLastName());
-                    }
+                    classes.viewStudentList();
                     break;
                     
                 case 2: //Add New Student

@@ -5,7 +5,6 @@
  */
 package StudentQuizScores;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.IO;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -28,6 +27,7 @@ public class Classes {
     Student currentStudent;
     boolean has = false;
     int studentIndex = -1;
+
     
     public void readData() {
         try {
@@ -165,6 +165,42 @@ public class Classes {
             IO.print("");
         }        
     }
+    
+    public void viewAveQuizScore() {
+        firstName = IO.readString("Enter the first name: ");
+        lastName = IO.readString("Enter the last name: ");
+        has = hasStudent(firstName, lastName);
+        if (!has) {
+            IO.print("That name isn't there, goofball!");
+        } else {
+            studentIndex = getStudentIndex(firstName, lastName);
+            currentStudent = students.get(studentIndex);
+                        
+            System.out.println("The average quiz score for " + currentStudent.getFirstName() + " " + 
+                currentStudent.getLastName() + " is: ");
+            Set<Integer> quizKeys = currentStudent.getQuizKeys();
+                        
+            int numberOfQuizzes = 0;
+            double sumOfQuizzes = 0;
+                        
+            for (int index : quizKeys) {
+                numberOfQuizzes++;
+                sumOfQuizzes += currentStudent.quizzes.get(index);
+            }
+                        
+            System.out.println(sumOfQuizzes / numberOfQuizzes);
+        }        
+    }
+
+    public void viewStudentList() {
+        IO.print("The Students are:");
+        IO.print("=================");
+        for (Student currentStudent : students) {
+            System.out.println(currentStudent.getFirstName() + " " + currentStudent.getLastName());
+        }        
+        
+    }
+    
 }
 
 
