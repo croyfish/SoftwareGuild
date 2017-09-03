@@ -14,19 +14,12 @@ package tsguild.classmodeleing;
  * @author jeffc
  */
 public class IceCream1 {
-    private Recipe() recipe;
+
     private String type;
     private double batchTime;
     private double weight;
     private double batchTemp;
 
-    public int getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(int recipe) {
-        this.recipe = recipe;
-    }
 
     public String getType() {
         return type;

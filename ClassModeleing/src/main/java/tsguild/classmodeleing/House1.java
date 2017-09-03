@@ -56,23 +56,10 @@ public class House1 {
         this.state = state;
     }
     
-    public boolean checkIfAddressValid(String houseNum, String streetName, String state) {
-        
-    }
     
-    public Route() findRouteTo(double xCoordinate, double yCoordinate) {
-   
-    }
-    
-    public double[] returnLatLongOfAddress(String houseNum, String streetName, String state) {
-        
-    }
     
     public void zoomInToHouse (double xCoordinate, double yCoordinate) {
         
     }
     
-    public Route() findDirectionsFromHouse (double xCoordinate, double yCoordinate, double destinationXCoordinate, double destinationYCoordinate) {
-        
-    }
 }

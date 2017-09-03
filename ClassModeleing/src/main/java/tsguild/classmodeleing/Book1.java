@@ -14,7 +14,7 @@ package tsguild.classmodeleing;
  * @author jeffc
  */
 public class Book1 {
-    private int[] dateSubmitted;
+    private String dateSubmitted;
     private int pages;
     private double fileSize;
     private String fileType;

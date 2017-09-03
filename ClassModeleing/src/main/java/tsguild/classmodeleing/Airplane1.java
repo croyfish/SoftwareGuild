@@ -67,6 +67,5 @@ public class Airplane1 {
     public void instructToChangeDirection(int amount) {
         
     }
-    
-    public String() reportCurrentWeather
+
 }

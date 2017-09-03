@@ -16,13 +16,6 @@ public class Car1 {
     private String model;
     private double price;
 
-    public int getNumberInStock() {
-        return numberInStock;
-    }
-
-    public void setNumberInStock(int numberInStock) {
-        this.numberInStock = numberInStock;
-    }
 
     public String getColor() {
         return color;
