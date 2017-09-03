@@ -14,7 +14,7 @@ public class School1 {
     private String description;
     private int numberOfClassrooms;
     private double squareFootage;
-    private int studentCapacity;
+    private int addressCapacity;
     private Cafeteria cafeteria;
 
     public String getName() {
@@ -50,11 +50,11 @@ public class School1 {
     }
 
     public int getStudentCapacity() {
-        return studentCapacity;
+        return addressCapacity;
     }
 
-    public void setStudentCapacity(int studentCapacity) {
-        this.studentCapacity = studentCapacity;
+    public void setStudentCapacity(int addressCapacity) {
+        this.addressCapacity = addressCapacity;
     }
 
     public Cafeteria getCafeteria() {

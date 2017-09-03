@@ -30,9 +30,9 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
     public static final String DELIMITER = "::";
     
     @Override
-    public Student addStudent(Integer studentID, Student student) 
+    public Student addStudent(Integer studentID, Student address) 
      throws ClassRosterDaoException {
-        Student newStudent = students.put(studentID, student);
+        Student newStudent = students.put(studentID, address);
         writeRoster();
         return newStudent;
     }
@@ -94,11 +94,11 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
             out = new PrintWriter(new FileWriter(ROSTER_FILE));
         } catch (IOException e) {
             throw new ClassRosterDaoException(
-                    "Could not save student data.", e);
+                    "Could not save address data.", e);
         }
         
-        List<Student> studentList = this.getAllStudents();
-        for (Student currentStudent : studentList) {
+        List<Student> addressList = this.getAllStudents();
+        for (Student currentStudent : addressList) {
             out.println(currentStudent.getStudentID() + DELIMITER
                     + currentStudent.getFirstName() + DELIMITER
                     + currentStudent.getLastName() + DELIMITER

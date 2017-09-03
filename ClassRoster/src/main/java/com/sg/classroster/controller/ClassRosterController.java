@@ -83,8 +83,8 @@ public class ClassRosterController {
      throws ClassRosterDaoException {
         view.displayDisplayStudentBanner();
         Integer studentID = view.getStudentIDChoice();
-        Student student = dao.getStudent(studentID);
-        view.displayStudent(student);
+        Student address = dao.getStudent(studentID);
+        view.displayStudent(address);
     }
 
     private void removeStudent() 
@@ -98,8 +98,8 @@ public class ClassRosterController {
     private void listStudents()
      throws ClassRosterDaoException {
         view.displayDisplayAllBanner();
-        List<Student> studentList = dao.getAllStudents();
-        view.displayStudentList(studentList);
+        List<Student> addressList = dao.getAllStudents();
+        view.displayStudentList(addressList);
     }
     
     private void unknownCommand() {

@@ -44,7 +44,7 @@ public class ClassRosterView {
 
     public Student getNewStudentInfo() {
         
-        Integer studentID = io.readInt("Please enter Student ID");
+        Integer studentID = io.readInteger("Please enter Student ID");
         String firstName = io.readString("Please enter First Name");
         String lastName = io.readString("Please enter Last Name");
         String cohort = io.readString("Please enter Cohort");
@@ -63,8 +63,8 @@ public class ClassRosterView {
         io.readString("Student successfully created. Please hit enter to continue.");
     }
     
-    public void displayStudentList(List<Student> studentList) {
-        for (Student currentStudent : studentList) {
+    public void displayStudentList(List<Student> addressList) {
+        for (Student currentStudent : addressList) {
             io.print(currentStudent.getStudentID() + ": "
                 + currentStudent.getFirstName() + " "
                 + currentStudent.getLastName());
@@ -84,14 +84,14 @@ public class ClassRosterView {
         return io.readInt("Please enter the Student ID.");
     }
     
-    public void displayStudent(Student student) {
-        if (student != null) {
-            io.print(student.getStudentID());
-            io.print(student.getFirstName() + " " + student.getLastName());
-            io.print(student.getCohort());
+    public void displayStudent(Student address) {
+        if (address != null) {
+            io.print(address.getStudentID());
+            io.print(address.getFirstName() + " " + address.getLastName());
+            io.print(address.getCohort());
             io.print("");
         } else {
-            io.print("No such student.");
+            io.print("No such address.");
         }
         io.readString("Please hit enter to continue");
     }

@@ -16,14 +16,14 @@ import java.util.Random;
 public class Menu {
     
     UserIO IO = new UserIOImpl();
-    List<Student> students = new ArrayList<>();
+    List<Student> addresses = new ArrayList<>();
     Student currentStudent;
     Random randomizer = new Random();
     
     
     public void displayMenu() {
         
-        int userChoice = 0, studentIndex = -1;
+        int userChoice = 0, addressIndex = -1;
         String firstName, lastName;
         boolean has;
         Classes classes = new Classes();

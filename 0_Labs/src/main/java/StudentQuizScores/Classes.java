@@ -23,10 +23,10 @@ public class Classes {
     
     UserIO IO = new UserIOImpl();
     String firstName, lastName;
-    List<Student> students = new ArrayList<>();
+    List<Student> addresses = new ArrayList<>();
     Student currentStudent;
     boolean has = false;
-    int studentIndex = -1;
+    int addressIndex = -1;
 
     
     public void readData() {
@@ -46,7 +46,7 @@ public class Classes {
                 lastName = tokens[1];
                 
                 currentStudent = new Student(firstName, lastName);
-                students.add(currentStudent);
+                addresses.add(currentStudent);
                 for (int i = 2; i < tokens.length; i++) {
                     double currentScore = Double.parseDouble(tokens[i]);
                     currentStudent.quizzes.put(i-1, currentScore);
@@ -60,7 +60,7 @@ public class Classes {
     public void saveData() {
         try {
             PrintWriter out = new PrintWriter(new FileWriter("StudentQuizzes.txt"));
-            for (Student currentStudent : students) {
+            for (Student currentStudent : addresses) {
                 out.print(currentStudent.getFirstName());
                 out.print("::");
                 out.print(currentStudent.getLastName());
@@ -92,11 +92,11 @@ public class Classes {
             IO.print("That name is already there, ya dingus!");
         } else {
             Student newStudent = new Student(firstName, lastName);
-            students.add(newStudent);
+            addresses.add(newStudent);
             newStudent.quizzes.put(1, 95.23d);
             newStudent.quizzes.put(2, 77.98d);
             newStudent.quizzes.put(3, 86.17d);
-            IO.print("New student successfully added.");
+            IO.print("New address successfully added.");
         }        
     }
     
@@ -106,8 +106,8 @@ public class Classes {
         
         has = false;
             
-        for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getFirstName().equals(firstName) && students.get(i).getLastName().equals(lastName)) {
+        for (int i = 0; i < addresses.size(); i++) {
+            if (addresses.get(i).getFirstName().equals(firstName) && addresses.get(i).getLastName().equals(lastName)) {
                 has = true;
             }
         }
@@ -122,9 +122,9 @@ public class Classes {
         if (!has) {
             IO.print("That name isn't there, meathead!");
         } else {
-            studentIndex = getStudentIndex(firstName, lastName);
-            students.remove(studentIndex);
-            IO.print("New student successfully removed.");
+            addressIndex = getStudentIndex(firstName, lastName);
+            addresses.remove(addressIndex);
+            IO.print("New address successfully removed.");
         }        
     }
     
@@ -134,8 +134,8 @@ public class Classes {
         
         int index = 0;
         
-        for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getFirstName().equals(firstName) && students.get(i).getLastName().equals(lastName)) {
+        for (int i = 0; i < addresses.size(); i++) {
+            if (addresses.get(i).getFirstName().equals(firstName) && addresses.get(i).getLastName().equals(lastName)) {
                index = i;
             }
         }
@@ -150,8 +150,8 @@ public class Classes {
         if (!has) {
             IO.print("That name isn't there, goofball!");
         } else {
-            studentIndex = getStudentIndex(firstName, lastName);
-            currentStudent = students.get(studentIndex);
+            addressIndex = getStudentIndex(firstName, lastName);
+            currentStudent = addresses.get(addressIndex);
                         
             IO.print("");
             System.out.println("The quiz scores for " + currentStudent.getFirstName() 
@@ -173,8 +173,8 @@ public class Classes {
         if (!has) {
             IO.print("That name isn't there, goofball!");
         } else {
-            studentIndex = getStudentIndex(firstName, lastName);
-            currentStudent = students.get(studentIndex);
+            addressIndex = getStudentIndex(firstName, lastName);
+            currentStudent = addresses.get(addressIndex);
                         
             System.out.println("The average quiz score for " + currentStudent.getFirstName() + " " + 
                 currentStudent.getLastName() + " is: ");
@@ -195,7 +195,7 @@ public class Classes {
     public void viewStudentList() {
         IO.print("The Students are:");
         IO.print("=================");
-        for (Student currentStudent : students) {
+        for (Student currentStudent : addresses) {
             System.out.println(currentStudent.getFirstName() + " " + currentStudent.getLastName());
         }        
         

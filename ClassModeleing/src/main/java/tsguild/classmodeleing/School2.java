@@ -15,13 +15,13 @@ public class School2 {
     private String[] coursesOffered;
     private String sportsNickname;
     private String clubsOffered;
-    private Student[] studentRoster;
+    private Student[] addressRoster;
     
-    public void enrollStudent(Student student) {
+    public void enrollStudent(Student address) {
         
     }
 
-    public void unenrollStudent(Student student) {
+    public void unenrollStudent(Student address) {
                 
     }
     
@@ -66,11 +66,11 @@ public class School2 {
     }
 
     public Student[] getStudentRoster() {
-        return studentRoster;
+        return addressRoster;
     }
 
-    public void setStudentRoster(Student[] studentRoster) {
-        this.studentRoster = studentRoster;
+    public void setStudentRoster(Student[] addressRoster) {
+        this.addressRoster = addressRoster;
     }
     
     
