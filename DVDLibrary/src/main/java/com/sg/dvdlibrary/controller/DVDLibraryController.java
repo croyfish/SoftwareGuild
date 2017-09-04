@@ -5,6 +5,7 @@
  */
 package com.sg.dvdlibrary.controller;
 
+// import classes that will be referenced in Controller
 import com.sg.dvdlibrary.dao.*;
 import com.sg.dvdlibrary.dto.DVD;
 import com.sg.dvdlibrary.ui.*;
@@ -17,69 +18,85 @@ import java.util.List;
  */
 public class DVDLibraryController {
     
+    // Declare DAO and View objects to be passed in as parameters via dependency injection.
     DVDLibraryDao dao;
     DVDLibraryView view;
 
     
     public DVDLibraryController(DVDLibraryDao dao, DVDLibraryView view) {
+    // Instantiate DAO and View objects from parameters    
         this.dao  = dao;
         this.view = view;
     }
     
     public void run() {
-        
+        // User stays in Main Menu loop until keepGoing is false
         boolean keepGoing = true;
+        // Initialize menuSelection to zero (no choice)
         int menuSelection = 0;
+        // Try&Catch IOExceptions from DAO and translate to DaoExceptions
         try {
+            // Call method to unmarshal saved data via DAO
             initializeLibrary();
-            while(keepGoing) {
             
+            // Main Menu Loop
+            while(keepGoing) {
+                
+                // Call method to get menuSelection via view
                 menuSelection = getMenuSelection();
             
+                // Switch to direct user to appropriate method call
                 switch(menuSelection) {
-                    case 1:
+                    case 1: // 1. Add a DVD
                         createDVD();
                         break;
-                    case 2:
+                    case 2: // 2. Delete a DVD
                         removeDVD();
                         break;
-                    case 3:
+                    case 3: // 3. Edit a DVD
                         editDVD();
                         break;
-                    case 4:
+                    case 4: // 4. List all DVDs
                         listDVDs();
                         break;
-                    case 5:
+                    case 5: // 5. Display DVD information by SKU
                         viewDVD();
                         break;
-                    case 6:
+                    case 6: // 6. Search for DVD by Title
                         searchByTitle();
                         break;
-                    case 7:
+                    case 7: // 7. Exit
                         keepGoing = false;
                         break;
                     default:
+                        // If IO input validation fails, call unknown command method
                         unknownCommand();                
                 }
             
             }
+            // Leave the loop via Menu choice 7
             exitMessage();
+            // Call DAO method to marshal DVD object records
             dao.saveOnExit();
+            
         } catch (DVDLibraryDaoException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
 
-    
+    // Direct program flow to DAO to marshal saved data at program open
     private void initializeLibrary() 
      throws DVDLibraryDaoException {
         dao.initializeLibrary();
     }
     
+    // Direct program flow to view to print menu and return user's selection
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
     }
 
+    // Ask user if they are sure they want to perform this action and return
+    // a boolean to indicate user's intention (true = continue, false = back to Menu)
     private boolean verifyChoice() {
         boolean confirm = true;
         String answer = view.displayAreYouSureMessageAndGetAnswer();
@@ -92,80 +109,147 @@ public class DVDLibraryController {
         return confirm;
     }
     
+    private boolean verifyDoAgain() {
+        boolean confirm = true;
+        String answer = view.displayDoAgainMessageAndGetAnswer();
+        if (answer.equalsIgnoreCase("n")) {
+            confirm = false;
+        } else if (!answer.equalsIgnoreCase("y")) {
+            view.displayUnknownCommandBanner();
+            confirm = false;
+        }
+        return confirm;
+    }
+    
+    // Add a new DVD to library
     private void createDVD() 
      throws DVDLibraryDaoException {
-        view.displayCreateDVDBanner();
-        if (verifyChoice() == false) {
-         return;
-        }
-        String SKU = dao.getNewSKU();
-        DVD newDVD = view.getNewDVDInfo(SKU);
-        dao.addDVD(newDVD.getSKU(), newDVD);
-        view.displayCreateDVDSuccessBanner(SKU);
+        boolean doAgain = true;
+        // Stay in add DVD mode until user chooses to exit
+        while (doAgain == true) {
+            view.displayCreateDVDBanner();
+            // Check if user really wants to do this and return to Main Menu if not
+            if (verifyChoice() == false) {
+            return;
+            }
+            // Ask DAO for new SKU and return it as a string
+            String SKU = dao.getNewSKU();
+            // Instantiate new DVD object based on unique SKU
+            DVD newDVD = view.getNewDVDInfo(SKU);
+            // Tell DAO to add new DVD object to DVD Library HashMap
+            dao.addDVD(newDVD.getSKU(), newDVD);
+            view.displayCreateDVDSuccessBanner(SKU);
+            // Call local method to ask user to edit another DVD or not
+            doAgain  = verifyDoAgain();
+        }  
     }
 
+    // View a DVD in Library based on unique SKU
     private void viewDVD()
      throws DVDLibraryDaoException {
         view.displayDisplayDVDBanner();
+    // Direct view to ask user for SKU of DVD to view and return it as a String    
         String SKU = view.getSKUChoice();
+    // Direct to DAO to verify if SKU exists in library    
         if (dao.verifySKU(SKU) == false) {
             view.displayUnknownSKUBanner();
+            // If not, return to Main Menu
             return;
         }
-        DVD dvd = dao.getDVD(SKU);
-        view.displayDVD(dvd);
-    }
-
-    private void removeDVD() 
-     throws DVDLibraryDaoException {
-        view.displayRemoveDVDBanner();
-        String SKU = view.getSKUChoice();
-        if (dao.verifySKU(SKU) == false) {
-            view.displayUnknownSKUBanner();
-            return;
-        }
+        // If SKU exists, return corresponding DVD object
         DVD currentDVD = dao.getDVD(SKU);
-        view.displayDVD(currentDVD);        
-        if (verifyChoice() == false) {
-            return;
-        }     
-        dao.removeDVD(SKU);
-        view.displayRemoveSuccessBanner();
+        // Direct to view to display DVD info
+        view.displayDVD(currentDVD);
     }
     
+    // Delete DVD from Library based on unique SKU
+    private void removeDVD() 
+     throws DVDLibraryDaoException {
+        boolean doAgain = true;
+        // Stay in add DVD mode until user chooses to exit
+        while (doAgain == true) {
+            view.displayRemoveDVDBanner();
+            // Direct view to ask user for SKU of DVD to view and return it as a String   
+            String SKU = view.getSKUChoice();
+            // Direct to DAO to verify if SKU exists in library 
+            if (dao.verifySKU(SKU) == false) {
+                view.displayUnknownSKUBanner();
+                // If not, return to Main Menu
+                return;
+            }
+            // If SKU exists, return corresponding DVD object
+            DVD currentDVD = dao.getDVD(SKU);
+            // Direct to view to display DVD info
+            view.displayDVD(currentDVD);
+            // Check if user really wants to delete this DVD
+            if (verifyChoice() == false) {
+                return;
+            }
+            // Tell DAO to remove DVD object from HashMap
+            dao.removeDVD(SKU);
+            view.displayRemoveSuccessBanner();
+            // Call local method to ask user to edit another DVD or not
+            doAgain  = verifyDoAgain();
+            }             
+    }
+    
+    // Display list of all DVDs in Library
     private void listDVDs()
      throws DVDLibraryDaoException {
         view.displayDisplayAllBanner();
+        // Tell DAO to return an ArrayList of all DVD objects in library
         List<DVD> dvdList = dao.getAllDVDs();
+        // Tell view to display infor for all DVDs in ArrayList
         view.displayDVDList(dvdList);
     }
     
+    // Edit the fields of one DVD object in Library
     private void editDVD()
      throws DVDLibraryDaoException {
-        view.displayEditDVDBanner();
-        String SKU = view.getSKUChoice();
-        if (dao.verifySKU(SKU) == false) {
-            view.displayUnknownSKUBanner();
-            return;
-        }
-        DVD currentDVD = view.getNewDVDInfo(SKU);
-        view.displayDVD(currentDVD);
-        if (verifyChoice() == false) {
-            return;
-        }
-        dao.editDVD(SKU, currentDVD);
-        view.displayEditSuccessBanner();
+        boolean doAgain = true;
+        // Stay in edit mode until user wants to exit
+        while (doAgain == true) {
+            view.displayEditDVDBanner();
+            // Direct view to ask user for SKU of DVD to view and return it as a String 
+            String SKU = view.getSKUChoice();
+            // Direct to DAO to verify if SKU exists in library
+            if (dao.verifySKU(SKU) == false) {
+                view.displayUnknownSKUBanner();
+                // If not, return to Main Menu
+                return;
+            }
+            // If SKU exists, tell view to prompt user for updates to all of DVD's other fields
+            DVD currentDVD = view.getNewDVDInfo(SKU);
+            // Display user's entered info for current DVD
+            view.displayDVD(currentDVD);
+            // Check if user really wants to update DVD
+            if (verifyChoice() == false) {
+                // If no, return to Main Menu
+                return;
+            }
+            // If yes, tell DAO to edit the DVD object by updating its fields
+            dao.addDVD(SKU, currentDVD);
+            view.displayEditSuccessBanner();
+            // Call local method to ask user to edit another DVD or not
+            doAgain  = verifyDoAgain();
+            }        
     }
     
+    // Search for DVDs that match a specific title and display their info
     private void searchByTitle() 
      throws DVDLibraryDaoException {
         view.displaySearchByTitleBanner();
+        // Tell view to prompt user for title and return it as a String
         String title = view.getSearchTitleChoice();
+        // Tell DAO to search HashMap for DVDs with same title and return
+        // corresponding DVD objects as a list.
         List<DVD> titleResults = dao.getDVDsByTitle(title);
         view.displayDisplaySearchByTitleResultsBanner();
         if (titleResults.size() == 0) {
+            // Tell view to display message if no results found
             view.displayNoResultsBanner();
         }
+        // Tell view to display info for all DVDs in list
         view.displayDVDList(titleResults);
     }
     

@@ -14,12 +14,15 @@ import java.util.List;
  */
 public class DVDLibraryView {
     
+    // Declare local IO object
     private UserIO io;
     
+    // Initialize local IO to IO injected by App
     public DVDLibraryView(UserIO io) {
         this.io = io;
     }
     
+    // Print the main menu and return the user's selection
     public int printMenuAndGetSelection() {
         
         io.print("\nMain Menu");
@@ -31,6 +34,7 @@ public class DVDLibraryView {
         io.print("6. Search for DVD by Title");
         io.print("7. Exit");
         
+        // Limit the input to integers from 1-7
         int menuSelection = io.readInt("\nPlease select from the above choices", 1, 7);
         
         return(menuSelection);
@@ -43,9 +47,11 @@ public class DVDLibraryView {
     public void displayCreateDVDBanner() {
         io.print("\n**** Create DVD ****");
     }
-
+    
+    // Ask user to fill all fields except SKU of new (or edited) DVD object
     public DVD getNewDVDInfo(String SKU) {
         
+        // Read in fields
         String title = io.readString("\nPlease enter DVD title."); io.print("");
         String releaseDate = io.readString("Please enter the release date."); io.print("");
         String MPAARating = io.readString("Please enter the MPAA rating."); io.print("");
@@ -53,8 +59,10 @@ public class DVDLibraryView {
         String studio = io.readString("Please enter production studio."); io.print("");
         String userNote = io.readString("Please enter your movie rating or note."); io.print("");
         
+        // Instantiate new (or edited) DVD object
         DVD currentDVD = new DVD(SKU);
         
+        // Set new object's fields
         currentDVD.setTitle(title);
         currentDVD.setReleaseDate(releaseDate);
         currentDVD.setMPAARating(MPAARating);
@@ -71,17 +79,37 @@ public class DVDLibraryView {
         io.readString("Please hit enter to continue."); io.print("");
     }
     
+    // Display info one particular DVD
+    public void displayDVD(DVD dvd) {
+        // Call local method to print out fields
+        showDVDFields(dvd);
+        io.readString("Please hit enter to continue"); io.print("");
+    }    
+    
+    // Display all information for each DVD object in the list passed in
     public void displayDVDList(List<DVD> dvdList) {
+        // Extract objects from list one by one
         for (DVD dvd : dvdList) {
-            io.print("SKU: " + dvd.getSKU());
+            // Call local method to print out fields
+            showDVDFields(dvd);
+        }
+        io.readString("\nPlease hit enter to continue."); io.print("");
+    }
+    
+    // Print out all fields of information from a DVD object
+    private void showDVDFields(DVD currentDVD) {
+        DVD dvd = currentDVD;
+        if (dvd != null) {
+            io.print("\nSKU: " + dvd.getSKU());
             io.print("Title: " + dvd.getTitle());
             io.print("Release Date: " + dvd.getReleaseDate());
             io.print("MPAA Rating: " + dvd.getMPAARating());
             io.print("Director: " + dvd.getDirector());
             io.print("Studio: " + dvd.getStudio());
             io.print("My Ratings & Notes: " + dvd.getUserNote()); io.print("");
+        } else {
+            io.print("No such entry.");
         }
-        io.readString("\nPlease hit enter to continue."); io.print("");
     }
     
     public void displayDisplayAllBanner() {
@@ -104,41 +132,37 @@ public class DVDLibraryView {
         io.print("\n**** Edit DVD Information ****"); io.print("");
     }
     
+    // Ask user to confirm intent and return answer as a String
     public String displayAreYouSureMessageAndGetAnswer() {
         return io.readString("\nAre you sure you want to do this? (y/n)");
     }
     
-    public void displayEditSuccessBanner() {
-        io.readString("\nDVD Successfully Edited. Please hit enter to cointinue."); io.print("");
+    // Ask user to confirm intent and return answer as a String
+    public String displayDoAgainMessageAndGetAnswer() {
+        return io.readString("\nDo you want to perform this action again? (y/n)");
     }
     
+    // Pause and let user view success message before continuing
+    public void displayEditSuccessBanner() {
+        io.readString("\nDVD Successfully Edited. Please hit enter to continue."); io.print("");
+    }
+    
+    // Get the user's SKU choice to select a DVD object as the current one to
+    // perform operations on
     public String getSKUChoice() {
         return io.readString("Please enter the SKU.");
     }
     
+    // Get the user's title search choice and return it as a string
     public String getSearchTitleChoice() {
         return io.readString("Please enter the title you wish to search for.");
-    }
-    
-    public void displayDVD(DVD dvd) {
-        if (dvd != null) {
-            io.print("\nSKU: " + dvd.getSKU());
-            io.print("Title: " + dvd.getTitle());
-            io.print("Release Date: " + dvd.getReleaseDate());
-            io.print("MPAA Rating: " + dvd.getMPAARating());
-            io.print("Director: " + dvd.getDirector());
-            io.print("Studio: " + dvd.getStudio());
-            io.print("My Ratings & Notes: " + dvd.getUserNote()); io.print("");
-        } else {
-            io.print("No such entry.");
-        }
-        io.readString("Please hit enter to continue"); io.print("");
     }
     
     public void displayRemoveDVDBanner () {
         io.print("\n**** Remove DVD ****"); io.print("");
     }
     
+    // Pause and let user view success message before continuing
     public void displayRemoveSuccessBanner () {
         io.readString("\nDVD successfully removed. Please hit enter to continue."); io.print("");
     }
@@ -147,6 +171,7 @@ public class DVDLibraryView {
         io.print("\nGood Bye!!!");
     }
     
+    // Pause and let user view unsuccess message before continuing
     public void displayUnknownSKUBanner() {
         io.readString("\nUnknown SKU value. Please hit enter to continue.");io.print("");
     }
@@ -159,6 +184,7 @@ public class DVDLibraryView {
         io.print("\nUnknown Command!!!"); io.print("");
     }
     
+    // General method to display any error message passed in as a String
     public void displayErrorMessage(String errorMsg) {
         io.print("\n**** Error ****");
         io.print(errorMsg);

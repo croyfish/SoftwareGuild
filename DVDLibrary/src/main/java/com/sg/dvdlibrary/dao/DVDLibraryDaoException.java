@@ -9,12 +9,16 @@ package com.sg.dvdlibrary.dao;
  *
  * @author jeffc
  */
+
+// This class handles exceptions caused by the DAO
 public class DVDLibraryDaoException extends Exception{
     
+    // Revert to super-class's exception handling
     public DVDLibraryDaoException(String message) {
         super(message);
     }
     
+    // Revert to super-class's exception handling
     public DVDLibraryDaoException(String message, Throwable cause) {
         super(message, cause);
     }

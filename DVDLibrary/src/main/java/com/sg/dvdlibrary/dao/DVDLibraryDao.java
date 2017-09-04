@@ -17,9 +17,6 @@ public interface DVDLibraryDao {
     public DVD addDVD(String SKU, DVD dvd)
      throws DVDLibraryDaoException;
     
-    public DVD editDVD(String SKU, DVD dvd)
-     throws DVDLibraryDaoException;
-    
     public List<DVD> getAllDVDs()
      throws DVDLibraryDaoException;
     

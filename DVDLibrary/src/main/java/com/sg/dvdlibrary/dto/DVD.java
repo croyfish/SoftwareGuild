@@ -9,8 +9,11 @@ package com.sg.dvdlibrary.dto;
  *
  * @author jeffc
  */
+
+// DVD object that holds all of the program's data and acts as the only type of DTO
 public class DVD {
     
+    // Fields for DVD object
     private String SKU;
     private String title;
     private String releaseDate;
@@ -19,10 +22,12 @@ public class DVD {
     private String studio;
     private String userNote;
 
+    // Constructor for DVD object -- requires a unique SKU
     public DVD(String SKU) {
         this.SKU = SKU;
     }
 
+    // SKU for each DVD object is read-only, because it is the unique identifier
     public String getSKU() {
         return SKU;
     }
@@ -35,7 +40,6 @@ public class DVD {
         this.title = title;
     }
 
-    
     public String getReleaseDate() {
         return releaseDate;
     }
