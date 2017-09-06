@@ -15,15 +15,15 @@ import java.util.List;
 public interface ClassRosterDao {
     
     public Student addStudent(Integer studentID, Student student)
-     throws ClassRosterDaoException;
+     throws ClassRosterPersistenceException;
     
     public List<Student> getAllStudents()
-     throws ClassRosterDaoException;
+     throws ClassRosterPersistenceException;
     
     public Student getStudent(Integer studentID)
-     throws ClassRosterDaoException;
+     throws ClassRosterPersistenceException;
     
     public Student removeStudent(Integer studentID)
-     throws ClassRosterDaoException;
+     throws ClassRosterPersistenceException;
     
 }
