@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.classroster.dao;
+package com.sg.classroster.service;
+import com.sg.classroster.dao.ClassRosterAuditDao;
+import com.sg.classroster.dao.ClassRosterDao;
+import com.sg.classroster.dao.ClassRosterPersistenceException;
 import com.sg.classroster.dto.Student;
-import com.sg.classroster.service.ClassRosterDataValidationException;
-import com.sg.classroster.service.ClassRosterDuplicateIDException;
-import com.sg.classroster.service.ClassRosterServiceLayer;
 import java.util.List;
 
 /**

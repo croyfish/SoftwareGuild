@@ -10,7 +10,7 @@ import com.sg.classroster.dao.ClassRosterAuditDao;
 import com.sg.classroster.dao.ClassRosterAuditDaoFileImpl;
 import com.sg.classroster.dao.ClassRosterDao;
 import com.sg.classroster.dao.ClassRosterDaoFileImpl;
-import com.sg.classroster.dao.ClassRosterServiceLayerImpl;
+import com.sg.classroster.service.ClassRosterServiceLayerImpl;
 import com.sg.classroster.service.ClassRosterServiceLayer;
 import com.sg.classroster.ui.ClassRosterView;
 import com.sg.classroster.ui.UserIO;

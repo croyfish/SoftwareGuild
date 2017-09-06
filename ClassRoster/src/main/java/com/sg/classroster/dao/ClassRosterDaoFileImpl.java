@@ -30,9 +30,9 @@ public class ClassRosterDaoFileImpl implements ClassRosterDao {
     public static final String DELIMITER = "::";
     
     @Override
-    public Student addStudent(Integer studentID, Student address) 
+    public Student addStudent(Integer studentID, Student student) 
      throws ClassRosterPersistenceException {
-        Student newStudent = students.put(studentID, address);
+        Student newStudent = students.put(studentID, student);
         writeRoster();
         return newStudent;
     }
