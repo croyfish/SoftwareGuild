@@ -5,8 +5,12 @@
  */
 package com.sg.addressbook.dao;
 
+import com.sg.addressbook.dto.Address;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,7 +36,11 @@ public class AddressBookDaoTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        List<Address> addressList = dao.getAllAddresses();
+        for (Address address : addressList) {
+        dao.removeAddress(address.getLastName());        
+        }
     }
     
     @After
@@ -43,7 +51,19 @@ public class AddressBookDaoTest {
      * Test of addAddress method, of class AddressBookDao.
      */
     @Test
-    public void testAddAddress() throws Exception {
+    public void testAddGetAddress() throws Exception {
+        Address address = new Address("Smith");
+        address.setFirstName("Joe");
+        address.setStreetAddress("123 Fake Street");
+        address.setCity("Faketon");
+        address.setState("Fakington");
+        address.setZipCode(12345);
+  
+        dao.addAddress(address.getLastName(), address);
+        
+        Address fromDao = dao.getAddress(address.getLastName());
+        
+        assertEquals(address, fromDao);        
     }
 
     /**
@@ -51,20 +71,64 @@ public class AddressBookDaoTest {
      */
     @Test
     public void testGetAllAddresses() throws Exception {
+        
+        Address address1 = new Address("Smith");
+        address1.setFirstName("Joe");
+        address1.setStreetAddress("123 Fake Street");
+        address1.setCity("Faketon");
+        address1.setState("Fakington");
+        address1.setZipCode(12345);
+  
+        dao.addAddress(address1.getLastName(), address1);
+        
+        Address address2 = new Address("Smithers");
+        address2.setFirstName("Joe");
+        address2.setStreetAddress("123 Fake Street");
+        address2.setCity("Faketon");
+        address2.setState("Fakington");
+        address2.setZipCode(12345);
+  
+        dao.addAddress(address2.getLastName(), address2);
+        
+        assertEquals(2, dao.getAllAddresses().size());        
     }
 
-    /**
-     * Test of getAddress method, of class AddressBookDao.
-     */
-    @Test
-    public void testGetAddress() throws Exception {
-    }
 
     /**
      * Test of removeAddress method, of class AddressBookDao.
      */
     @Test
     public void testRemoveAddress() throws Exception {
+        
+        Address address1 = new Address("Smith");
+        address1.setFirstName("Joe");
+        address1.setStreetAddress("123 Fake Street");
+        address1.setCity("Faketon");
+        address1.setState("Fakington");
+        address1.setZipCode(12345);
+  
+        dao.addAddress(address1.getLastName(), address1);
+        
+        Address address2 = new Address("Smithers");
+        address2.setFirstName("Joe");
+        address2.setStreetAddress("123 Fake Street");
+        address2.setCity("Faketon");
+        address2.setState("Fakington");
+        address2.setZipCode(12345);
+  
+        dao.addAddress(address2.getLastName(), address2);
+        
+        dao.removeAddress(address1.getLastName());
+        
+        assertEquals(1, dao.getAllAddresses().size());
+        
+        assertNull(dao.getAddress(address1.getLastName()));
+        
+        dao.removeAddress(address2.getLastName());
+        
+        assertEquals(0, dao.getAllAddresses().size());
+        
+        assertNull(dao.getAddress(address2.getLastName()));        
     }
 
     /**
