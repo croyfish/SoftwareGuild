@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -187,13 +188,46 @@ public class DVDLibraryDaoTest {
     @Test
     public void testVerifySKU() throws Exception {
         
+        String SKU = "DL1";
+        DVD dvd = new DVD(SKU);
+        dvd.setTitle("Title");
+        dvd.setReleaseDate("ReleaseDate");
+        dvd.setMPAARating("MPAARating");
+        dvd.setDirector("Director");       
+        dvd.setStudio("Studio");
+        dvd.setUserNote("UserNote");
+        
+        dao.addDVD(dvd.getSKU(), dvd);
+        
+        DVD fromDAO = dao.getDVD(SKU);
+        
+        SKU = fromDAO.getSKU();
+                       
+        assertTrue(dao.verifySKU(SKU));
     }
 
     /**
      * Test of getNewSKU method, of class DVDLibraryDao.
      */
     @Test
-    public void testGetNewSKU() {
+    public void testGetNewSKU() throws Exception {
+        
+        DVD dvd1 = new DVD("DL1");
+        dvd1.setTitle("Title");
+        dvd1.setReleaseDate("ReleaseDate");
+        dvd1.setMPAARating("MPAARating");
+        dvd1.setDirector("Director");       
+        dvd1.setStudio("Studio");
+        dvd1.setUserNote("UserNote");
+        
+        dao.addDVD(dvd1.getSKU(), dvd1);
+        
+        assertEquals("DL1", dao.getNewSKU());
+        assertEquals("DL2", dao.getNewSKU());
+        
+
+        
+        
         
     }
 
