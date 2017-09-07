@@ -77,7 +77,7 @@ public class DVDLibraryController {
             // Call DAO method to marshal DVD object records
             dao.saveOnExit();
             
-        } catch (DVDLibraryDaoException e) {
+        } catch (DVDLibraryPersistenceException e) {
             view.displayErrorMessage(e.getMessage());
         }
     }
@@ -115,7 +115,7 @@ public class DVDLibraryController {
     
     // Add a new DVD to library
     private void createDVD() 
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         boolean doAgain = true;
         // Stay in add DVD mode until user chooses to exit
         while (doAgain == true) {
@@ -138,7 +138,7 @@ public class DVDLibraryController {
 
     // View a DVD in Library based on unique SKU
     private void viewDVD()
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         view.displayDisplayDVDBanner();
     // Direct view to ask user for SKU of DVD to view and return it as a String    
         String SKU = view.getSKUChoice();
@@ -156,7 +156,7 @@ public class DVDLibraryController {
     
     // Delete DVD from Library based on unique SKU
     private void removeDVD() 
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         boolean doAgain = true;
         // Stay in add DVD mode until user chooses to exit
         while (doAgain == true) {
@@ -187,7 +187,7 @@ public class DVDLibraryController {
     
     // Display list of all DVDs in Library
     private void listDVDs()
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         view.displayDisplayAllBanner();
         // Tell DAO to return an ArrayList of all DVD objects in library
         List<DVD> dvdList = dao.getAllDVDs();
@@ -197,7 +197,7 @@ public class DVDLibraryController {
     
     // Edit the fields of one DVD object in Library
     private void editDVD()
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         boolean doAgain = true;
         // Stay in edit mode until user wants to exit
         while (doAgain == true) {
@@ -229,7 +229,7 @@ public class DVDLibraryController {
     
     // Search for DVDs that match a specific title and display their info
     private void searchByTitle() 
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         view.displaySearchByTitleBanner();
         // Tell view to prompt user for title and return it as a String
         String title = view.getSearchTitleChoice();

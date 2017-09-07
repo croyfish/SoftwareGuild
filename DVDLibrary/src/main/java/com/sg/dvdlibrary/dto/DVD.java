@@ -5,6 +5,7 @@
  */
 package com.sg.dvdlibrary.dto;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -18,7 +19,7 @@ public class DVD {
     // Fields for DVD object
     private String SKU;
     private String title;
-    private String releaseDate;
+    private LocalDate releaseDate;
     private String MPAARating;
     private String director;
     private String studio;
@@ -42,11 +43,11 @@ public class DVD {
         this.title = title;
     }
 
-    public String getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
     

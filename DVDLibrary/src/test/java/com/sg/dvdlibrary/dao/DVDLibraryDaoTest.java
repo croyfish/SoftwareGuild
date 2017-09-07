@@ -6,6 +6,7 @@
 package com.sg.dvdlibrary.dao;
 
 import com.sg.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -54,7 +55,7 @@ public class DVDLibraryDaoTest {
     public void testAddGetDVD() throws Exception {
         DVD dvd = new DVD("DL1");
         dvd.setTitle("Title");
-        dvd.setReleaseDate("ReleaseDate");
+        dvd.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd.setMPAARating("MPAARating");
         dvd.setDirector("Director");       
         dvd.setStudio("Studio");
@@ -76,7 +77,7 @@ public class DVDLibraryDaoTest {
 
         DVD dvd1 = new DVD("DL1");
         dvd1.setTitle("Title");
-        dvd1.setReleaseDate("ReleaseDate");
+        dvd1.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd1.setMPAARating("MPAARating");
         dvd1.setDirector("Director");       
         dvd1.setStudio("Studio");
@@ -86,7 +87,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd2 = new DVD("DL2");
         dvd2.setTitle("Title");
-        dvd2.setReleaseDate("ReleaseDate");
+        dvd2.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd2.setMPAARating("MPAARating");
         dvd2.setDirector("Director");       
         dvd2.setStudio("Studio");
@@ -109,7 +110,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd1 = new DVD("DL1");
         dvd1.setTitle("Title");
-        dvd1.setReleaseDate("ReleaseDate");
+        dvd1.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd1.setMPAARating("MPAARating");
         dvd1.setDirector("Director");       
         dvd1.setStudio("Studio");
@@ -119,7 +120,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd2 = new DVD("DL2");
         dvd2.setTitle("Title");
-        dvd2.setReleaseDate("ReleaseDate");
+        dvd2.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd2.setMPAARating("MPAARating");
         dvd2.setDirector("Director");       
         dvd2.setStudio("Studio");
@@ -150,7 +151,7 @@ public class DVDLibraryDaoTest {
     
         DVD dvd1 = new DVD("DL1");
         dvd1.setTitle("Title");
-        dvd1.setReleaseDate("ReleaseDate");
+        dvd1.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd1.setMPAARating("MPAARating");
         dvd1.setDirector("Director");       
         dvd1.setStudio("Studio");
@@ -160,7 +161,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd2 = new DVD("DL2");
         dvd2.setTitle("Title");
-        dvd2.setReleaseDate("ReleaseDate");
+        dvd2.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd2.setMPAARating("MPAARating");
         dvd2.setDirector("Director");       
         dvd2.setStudio("Studio");
@@ -170,7 +171,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd3 = new DVD("DL3");
         dvd3.setTitle("Not Title");
-        dvd3.setReleaseDate("ReleaseDate");
+        dvd3.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd3.setMPAARating("MPAARating");
         dvd3.setDirector("Director");       
         dvd3.setStudio("Studio");
@@ -191,7 +192,7 @@ public class DVDLibraryDaoTest {
         String SKU = "DL1";
         DVD dvd = new DVD(SKU);
         dvd.setTitle("Title");
-        dvd.setReleaseDate("ReleaseDate");
+        dvd.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd.setMPAARating("MPAARating");
         dvd.setDirector("Director");       
         dvd.setStudio("Studio");
@@ -214,7 +215,7 @@ public class DVDLibraryDaoTest {
         
         DVD dvd1 = new DVD("DL1");
         dvd1.setTitle("Title");
-        dvd1.setReleaseDate("ReleaseDate");
+        dvd1.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd1.setMPAARating("MPAARating");
         dvd1.setDirector("Director");       
         dvd1.setStudio("Studio");

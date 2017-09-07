@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,27 +43,27 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
     @Override // Add a new DVD object to the dvds HashMap
     public DVD addDVD(String SKU, DVD dvd) 
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         DVD currentDVD = dvds.put(SKU, dvd);
         return currentDVD;
     }
 
     @Override // Returns an ArrayList of all DVD object values in dvds HashMap
     public List<DVD> getAllDVDs() 
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         return new ArrayList(dvds.values());
     }
 
     @Override // Returns a DVD object from dvds Hashmap based on SKU key
     public DVD getDVD(String SKU) 
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         return dvds.get(SKU);
     }
 
     @Override // removes a DVD object and its SKU key from dvds HashMap based
               // on passed in SKU
     public DVD removeDVD(String SKU) 
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         DVD removedDVD = dvds.remove(SKU);
         return removedDVD;
     }
@@ -70,7 +71,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     @Override // Builds an ArrayList of DVD search results by title
               // in dvds HashMap and returns it
     public List<DVD> getDVDsByTitle(String title)
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         // Instantiate search result list
         List<DVD> dvdSearchResults = new ArrayList<>();
         // Search through dvds HashMap and DVD objects with correct title to ArrayList
@@ -98,7 +99,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     
     @Override // Calls the private method to marshal DVD object data to data file
     public void saveOnExit() 
-     throws DVDLibraryDaoException {
+     throws DVDLibraryPersistenceException {
         writeLibrary();
     }
     
@@ -139,7 +140,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
             DVD currentDVD = new DVD(currentTokens[0]);
             // Set all DVD object fields from remaining tokens
             currentDVD.setTitle(currentTokens[1]);
-            currentDVD.setReleaseDate(currentTokens[2]);
+            currentDVD.setReleaseDate(LocalDate.parse(currentTokens[2]));
             currentDVD.setMPAARating(currentTokens[3]);
             currentDVD.setDirector(currentTokens[4]);
             currentDVD.setStudio(currentTokens[5]);
@@ -153,7 +154,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     }
     
     // Marshals data from student object fields to data file
-    private void writeLibrary() throws DVDLibraryDaoException {
+    private void writeLibrary() throws DVDLibraryPersistenceException {
         PrintWriter out;
         
         // Tries&Catches IOException and translates it to DaoException
@@ -161,7 +162,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         try {
             out = new PrintWriter(new FileWriter(ADDRESS_FILE));
         } catch (IOException e) {
-            throw new DVDLibraryDaoException(
+            throw new DVDLibraryPersistenceException(
                     "Could not save dvd data.", e);
         }
         // First line printed to file is current value of SKU generator

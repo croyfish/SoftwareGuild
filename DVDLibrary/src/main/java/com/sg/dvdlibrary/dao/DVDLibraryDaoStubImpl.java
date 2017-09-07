@@ -6,6 +6,8 @@
 package com.sg.dvdlibrary.dao;
 
 import com.sg.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class DVDLibraryDaoStubImpl implements DVDLibraryDao {
     public DVDLibraryDaoStubImpl() {
         dvd1 = new DVD("DL1");
         dvd1.setTitle("Happy Days");
-        dvd1.setReleaseDate("June 1972");
+        dvd1.setReleaseDate(LocalDate.parse("2010-02-07"));
         dvd1.setMPAARating("PG-27");
         dvd1.setDirector("The Fonz");
         dvd1.setStudio("Hollywood");
@@ -32,7 +34,7 @@ public class DVDLibraryDaoStubImpl implements DVDLibraryDao {
         
         dvd2 = new DVD("DL2");
         dvd2.setTitle("Happy Days");
-        dvd2.setReleaseDate("June 1975");
+        dvd2.setReleaseDate(LocalDate.parse("2010-02-07"));
         dvd2.setMPAARating("PG-29");
         dvd2.setDirector("The Fonzerelli");
         dvd2.setStudio("Hollywood, Los Angeles");
@@ -42,7 +44,7 @@ public class DVDLibraryDaoStubImpl implements DVDLibraryDao {
 
         dvd3 = new DVD("DL3");
         dvd3.setTitle("Unhappy Days");
-        dvd3.setReleaseDate("June 1979");
+        dvd3.setReleaseDate(LocalDate.parse("2010-02-07"));
         dvd3.setMPAARating("PG-33");
         dvd3.setDirector("The Fonzerellieliiili");
         dvd3.setStudio("Hollywood, Los Angeles, CA");

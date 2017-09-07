@@ -5,6 +5,8 @@
  */
 package com.sg.dvdlibrary.ui;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 /**
@@ -266,6 +268,24 @@ public class UserIOConsoleImpl implements UserIO {
         print(prompt);
         String userInput = sc.nextLine();
         return userInput;
+    }
+    
+    @Override
+    public LocalDate readLocalDate(String prompt) {
+        
+
+        LocalDate ld = LocalDate.now();
+        boolean dateIsValid = false;
+        while (!dateIsValid) {
+            print(prompt);
+            try {
+                ld = LocalDate.parse(sc.nextLine());
+                dateIsValid = true;
+            } catch (Exception e) {
+                print("Your date is not a valid date (yyyy-MM-dd). Please try again.");
+            }
+        }
+        return ld;
     }
         
 }

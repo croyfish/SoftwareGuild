@@ -6,6 +6,7 @@
 package com.sg.dvdlibrary.ui;
 
 import com.sg.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -53,7 +54,7 @@ public class DVDLibraryView {
         
         // Read in fields
         String title = io.readString("\nPlease enter DVD title."); io.print("");
-        String releaseDate = io.readString("Please enter the release date."); io.print("");
+        LocalDate releaseDate = io.readLocalDate("Please enter the release date."); io.print("");
         String MPAARating = io.readString("Please enter the MPAA rating."); io.print("");
         String director = io.readString("Please enter director's name."); io.print("");
         String studio = io.readString("Please enter production studio."); io.print("");
@@ -102,7 +103,7 @@ public class DVDLibraryView {
         if (dvd != null) {
             io.print("\nSKU: " + dvd.getSKU());
             io.print("Title: " + dvd.getTitle());
-            io.print("Release Date: " + dvd.getReleaseDate());
+            io.print("Release Date: " + dvd.getReleaseDate().toString());
             io.print("MPAA Rating: " + dvd.getMPAARating());
             io.print("Director: " + dvd.getDirector());
             io.print("Studio: " + dvd.getStudio());

@@ -8,6 +8,8 @@ package com.sg.dvdlibrary.service;
 import com.sg.dvdlibrary.dao.DVDLibraryDao;
 import com.sg.dvdlibrary.dao.DVDLibraryDaoStubImpl;
 import com.sg.dvdlibrary.dto.DVD;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -60,7 +62,7 @@ public class DVDLibraryServiceLayerTest {
         String SKU = service.getNewSKU();
         DVD dvd = new DVD(SKU);
         dvd.setTitle("My New Movie");
-        dvd.setReleaseDate("My Release Date");
+        dvd.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd.setMPAARating("My Rating");
         dvd.setDirector("My Director");
         dvd.setStudio("Studio");
@@ -74,7 +76,7 @@ public class DVDLibraryServiceLayerTest {
         String SKU = service.getNewSKU();
         DVD dvd = new DVD(SKU);
         dvd.setTitle("My New Movie");
-        dvd.setReleaseDate("My Release Date");
+        dvd.setReleaseDate(LocalDate.parse("1998-03-05"));
         dvd.setMPAARating("My Rating");
         dvd.setDirector("My Director");
         dvd.setStudio("");
