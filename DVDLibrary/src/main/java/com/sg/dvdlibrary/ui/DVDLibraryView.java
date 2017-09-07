@@ -54,7 +54,7 @@ public class DVDLibraryView {
         
         // Read in fields
         String title = io.readString("\nPlease enter DVD title."); io.print("");
-        LocalDate releaseDate = io.readLocalDate("Please enter the release date."); io.print("");
+        LocalDate releaseDate = io.readLocalDate("Please enter the release date (yyyy-MM-dd)."); io.print("");
         String MPAARating = io.readString("Please enter the MPAA rating."); io.print("");
         String director = io.readString("Please enter director's name."); io.print("");
         String studio = io.readString("Please enter production studio."); io.print("");

@@ -6,7 +6,8 @@
 package com.tsguild.foundations.flowcontrol.labs;
 
 import java.util.Scanner;
-import java.lang.Math;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 /**
  *
@@ -18,11 +19,11 @@ public class InterestCalculator {
         Scanner readInput = new Scanner(System.in);
         DecimalFormat twoPlaces = new DecimalFormat("0.00");
         
-        float annualInterestRate, principal;
-        int years, freqIntRate, intChoice; 
+        BigDecimal annualInterestRate, principal; 
+        int years, intChoice, freqIntRate; 
         
         System.out.print("What is the annual interest rate (in %)? ");
-        annualInterestRate = Float.parseFloat(readInput.nextLine());
+        annualInterestRate = new BigDecimal(readInput.nextLine());
         System.out.println("How often is the interest compounded?\n1) daily\n2) monthly \n3) quarterly");
         intChoice = readInput.nextInt();
         readInput.nextLine();
@@ -39,7 +40,7 @@ public class InterestCalculator {
         }
  
         System.out.print("What is the principal amount? $");
-        principal = Float.parseFloat(readInput.nextLine());
+        principal = new BigDecimal(readInput.nextLine());
         System.out.print("How many years will the money remain in the fund? ");
         years = readInput.nextInt();
         readInput.nextLine();
@@ -48,32 +49,38 @@ public class InterestCalculator {
         for (int i = 0; i < years; i++) {
             System.out.println("Year " + (i + 1));
             System.out.println("Principal at beginning of year: $" + twoPlaces.format(principal));
-            float newPrincipal = calculateCompoundInterest(principal, annualInterestRate, freqIntRate);
+            BigDecimal newPrincipal = new BigDecimal(calculateCompoundInterest(principal.toString(), annualInterestRate.toString(), freqIntRate));
             principal = newPrincipal;
             System.out.println("");
         }
 
     }
     
-    public static float calculateCompoundInterest(float principal, float annualInterestRate, int freqIntRate) {
+    public static String calculateCompoundInterest(String principal, String annualInterestRate, int freqIntRate) {
             
             int period = 0;
-            float yearlyInterest;
-            float newPrincipal = principal;
+            BigDecimal yearlyInterest;
+            BigDecimal newPrincipal = new BigDecimal(principal);
+            BigDecimal annualIR = new BigDecimal(annualInterestRate);
             DecimalFormat twoPlaces = new DecimalFormat("0.00");
+            
+            
             
             do {
                 period++;
-                newPrincipal = (newPrincipal * (1 + ((annualInterestRate / freqIntRate)/ 100)));           
+                BigDecimal temp = annualIR.divide(new BigDecimal(freqIntRate), 10, RoundingMode.HALF_UP);
+                temp = temp.divide(new BigDecimal(100), 10, RoundingMode.HALF_UP);
+                temp = temp.add(new BigDecimal(1));
+                newPrincipal = newPrincipal.multiply(temp);         
             } while (period < freqIntRate);
             
-            yearlyInterest = newPrincipal - principal;
+            yearlyInterest = newPrincipal.subtract(new BigDecimal(principal));
             System.out.println("Total amount of interest earned this year: $"
                     + twoPlaces.format(yearlyInterest));
             
             System.out.println("Principal at the end of the year: $" 
                     + twoPlaces.format(newPrincipal));
-            return newPrincipal;
+            return newPrincipal.toString();
             
     }
     
