@@ -5,6 +5,8 @@
  */
 package com.sg.dvdlibrary.dto;
 
+import java.util.Objects;
+
 /**
  *
  * @author jeffc
@@ -79,4 +81,55 @@ public class DVD {
     public void setUserNote(String userNote) {
         this.userNote = userNote;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.SKU);
+        hash = 97 * hash + Objects.hashCode(this.title);
+        hash = 97 * hash + Objects.hashCode(this.releaseDate);
+        hash = 97 * hash + Objects.hashCode(this.MPAARating);
+        hash = 97 * hash + Objects.hashCode(this.director);
+        hash = 97 * hash + Objects.hashCode(this.studio);
+        hash = 97 * hash + Objects.hashCode(this.userNote);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DVD other = (DVD) obj;
+        if (!Objects.equals(this.SKU, other.SKU)) {
+            return false;
+        }
+        if (!Objects.equals(this.title, other.title)) {
+            return false;
+        }
+        if (!Objects.equals(this.releaseDate, other.releaseDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.MPAARating, other.MPAARating)) {
+            return false;
+        }
+        if (!Objects.equals(this.director, other.director)) {
+            return false;
+        }
+        if (!Objects.equals(this.studio, other.studio)) {
+            return false;
+        }
+        if (!Objects.equals(this.userNote, other.userNote)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

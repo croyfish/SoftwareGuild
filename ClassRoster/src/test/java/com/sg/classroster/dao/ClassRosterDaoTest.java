@@ -56,6 +56,8 @@ public class ClassRosterDaoTest {
         student.setLastName("Smith");
         student.setCohort("Java May 2001");
         
+        
+        
         dao.addStudent(student.getStudentID(), student);
         
         Student fromDao = dao.getStudent(student.getStudentID());
