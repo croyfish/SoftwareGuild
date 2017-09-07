@@ -18,7 +18,7 @@ public class ClassRosterServiceLayerImpl implements
         ClassRosterServiceLayer {
     
     private ClassRosterAuditDao auditDao;
-    ClassRosterDao dao;
+    private ClassRosterDao dao;
     
     public ClassRosterServiceLayerImpl(ClassRosterDao dao, ClassRosterAuditDao auditDao) {
         this.dao = dao;

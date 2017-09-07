@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.dvdlibrary.dao;
+package com.sg.dvdlibrary.service;
 
+import com.sg.dvdlibrary.dao.DVDLibraryPersistenceException;
 import com.sg.dvdlibrary.dto.DVD;
 import java.util.List;
 
@@ -12,10 +13,11 @@ import java.util.List;
  *
  * @author jeffc
  */
-public interface DVDLibraryDao {
+public interface DVDLibraryServiceLayer {
     
     public DVD addDVD(String SKU, DVD dvd)
-     throws DVDLibraryPersistenceException;
+     throws DVDLibraryDataValidationException,
+            DVDLibraryPersistenceException;
     
     public List<DVD> getAllDVDs()
      throws DVDLibraryPersistenceException;

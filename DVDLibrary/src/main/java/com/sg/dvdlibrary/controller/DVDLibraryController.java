@@ -36,8 +36,6 @@ public class DVDLibraryController {
         int menuSelection = 0;
         // Try&Catch IOExceptions from DAO and translate to DaoExceptions
         try {
-            // Call method to unmarshal saved data via DAO
-            initializeLibrary();
             
             // Main Menu Loop
             while(keepGoing) {
@@ -82,12 +80,6 @@ public class DVDLibraryController {
         } catch (DVDLibraryDaoException e) {
             view.displayErrorMessage(e.getMessage());
         }
-    }
-
-    // Direct program flow to DAO to marshal saved data at program open
-    private void initializeLibrary() 
-     throws DVDLibraryDaoException {
-        dao.initializeLibrary();
     }
     
     // Direct program flow to view to print menu and return user's selection

@@ -34,8 +34,8 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     // Initialize integer to count and generate unique SKU codes
     private Integer nextSKU = 0;
     
-    @Override // Call private DAO method to unmarshal data from file to dvds HashMap
-    public void initializeLibrary()
+    // Construct DVDLibraryDaoFileImpl object and unmarshal data from file to dvds HashMap
+    public void DVDLibraryDaoFileImpl()
      throws DVDLibraryDaoException {
         loadLibrary();
     }
