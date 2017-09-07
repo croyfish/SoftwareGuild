@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.enums;
+package MathOperators;
 
 /**
  *
  * @author jeffc
  */
-public enum Days {
-    SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+public enum MathOperators {
+    ADD, SUBTRACT, MULTIPLY, DIVIDE
 }
