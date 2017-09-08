@@ -9,6 +9,9 @@ package com.sg.dvdlibrary;
 import com.sg.dvdlibrary.controller.DVDLibraryController;
 import com.sg.dvdlibrary.dao.DVDLibraryDao;
 import com.sg.dvdlibrary.dao.DVDLibraryDaoFileImpl;
+import com.sg.dvdlibrary.service.DVDLibraryDataValidationException;
+import com.sg.dvdlibrary.service.DVDLibraryServiceLayer;
+import com.sg.dvdlibrary.service.DVDLibraryServiceLayerImpl;
 import com.sg.dvdlibrary.ui.DVDLibraryView;
 import com.sg.dvdlibrary.ui.UserIO;
 import com.sg.dvdlibrary.ui.UserIOConsoleImpl;
@@ -19,7 +22,7 @@ import com.sg.dvdlibrary.ui.UserIOConsoleImpl;
  */
 public class App {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DVDLibraryDataValidationException {
         
         // Instantiate UserIO interface implementation
         UserIO myIO = new UserIOConsoleImpl();
@@ -27,8 +30,10 @@ public class App {
         DVDLibraryView myView = new DVDLibraryView(myIO);
         // Instantiate DAO interface implementation
         DVDLibraryDao myDao = new DVDLibraryDaoFileImpl();
+        // Instantiate ServiceLayer interface implementation
+        DVDLibraryServiceLayer myService = new DVDLibraryServiceLayerImpl(myDao);
         // Pass DAO implementation to controller
-        DVDLibraryController controller = new DVDLibraryController(myDao, myView);
+        DVDLibraryController controller = new DVDLibraryController(myService, myView);
         // Start the controller
         controller.run();
     }
