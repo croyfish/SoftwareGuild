@@ -115,7 +115,7 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     }
 
     @Override
-    public Item getItem(String SKU) {
+    public Item getItem(String SKU) throws VendingMachineDataValidationException {
         return items.get(SKU);
     }
 

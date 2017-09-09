@@ -5,6 +5,8 @@
  */
 package com.sg.vendingmachine.service;
 
+import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
+import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
 import com.sg.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,19 +17,23 @@ import java.util.List;
  */
 public interface VendingMachineService {
     
-    public List<Item> getAllItemsFromDAO();
+    public List<Item> getAllItemsFromDAO()
+     throws VendingMachineFilePersistenceException;
     
-    public Item getItemFromDAO(String SKU);
+    public Item getItemFromDAO(String SKU)
+     throws VendingMachineDataValidationException;
     
     public void setMoneyEnteredInDAO(BigDecimal money);
     
     public BigDecimal getMoneyEnteredFromDAO();
     
-    public BigDecimal addMoneyEnteredToDAO(BigDecimal money);
+    public void addMoneyEnteredToDAO(BigDecimal money);
     
     public Change calculateChange();
     
-    public Item purchaseItem(String SKU);
+    public Item purchaseItem(String SKU)
+     throws VendingMachineDataValidationException;
     
-    public void saveOnExit();
+    public void saveOnExit()
+     throws VendingMachineFilePersistenceException;
 }

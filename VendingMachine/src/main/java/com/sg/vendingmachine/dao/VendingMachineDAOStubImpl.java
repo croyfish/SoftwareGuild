@@ -16,9 +16,9 @@ import java.util.List;
  */
 public class VendingMachineDAOStubImpl implements VendingMachineDAO {
 
-    Item item1, item2, item3;
-    List<Item> ItemList = new ArrayList<>();
-    BigDecimal moneyEntered = new BigDecimal("0");
+    private Item item1, item2, item3;
+    private List<Item> ItemList = new ArrayList<>();
+    private BigDecimal moneyEntered;
     
     public VendingMachineDAOStubImpl() {
         item1 = new Item("A1");
@@ -28,17 +28,17 @@ public class VendingMachineDAOStubImpl implements VendingMachineDAO {
         
         ItemList.add(item1);
         
-        item1 = new Item("A2");
-        item1.setName("Candy2");
-        item1.setPrice(new BigDecimal("0.17"));
-        item1.setInStock(0);
+        item2 = new Item("A2");
+        item2.setName("Candy2");
+        item2.setPrice(new BigDecimal("0.17"));
+        item2.setInStock(0);
         
         ItemList.add(item2);
         
-        item1 = new Item("A3");
-        item1.setName("Candy3");
-        item1.setPrice(new BigDecimal("0.39"));
-        item1.setInStock(0);
+        item3 = new Item("A3");
+        item3.setName("Candy3");
+        item3.setPrice(new BigDecimal("0.39"));
+        item3.setInStock(0);
 
         ItemList.add(item3);
     }
@@ -49,13 +49,19 @@ public class VendingMachineDAOStubImpl implements VendingMachineDAO {
     }
 
     @Override
-    public Item getItem(String SKU) {
-        for (Item currentItem : ItemList) {
-            if(SKU.equals(currentItem.getSKU())) {
-            return currentItem;
-            } 
+    public Item getItem(String SKU) throws VendingMachineDataValidationException {
+        try {
+            Item selectedItem = null;
+            for (Item currentItem : ItemList) {
+                if(SKU.equals(currentItem.getSKU())) {
+                selectedItem = currentItem;
+                } 
+            }
+            return selectedItem;
+        } catch (NullPointerException e) {
+            System.out.println("Data Validation Exception has been thrown.");
+            return null;
         }
-        return null;      
     }
 
     @Override

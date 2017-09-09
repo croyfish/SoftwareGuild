@@ -7,6 +7,7 @@ package com.sg.vendingmachine.service;
 
 import com.sg.vendingmachine.dao.VendingMachineDAO;
 import com.sg.vendingmachine.dao.VendingMachineDAOStubImpl;
+import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import org.junit.After;
@@ -14,6 +15,7 @@ import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -52,7 +54,7 @@ public class VendingMachineServiceTest {
      * Test of getAllItemsFromDAO method, of class VendingMachineService.
      */
     @Test
-    public void testGetAllItemsFromDAO() {
+    public void testGetAllItemsFromDAO() throws Exception {
         assertEquals(3, service.getAllItemsFromDAO().size());
     }
 
@@ -60,11 +62,15 @@ public class VendingMachineServiceTest {
      * Test of getItemFromDAO method, of class VendingMachineService.
      */
     @Test
-    public void testGetItemFromDAO() {
+    public void testGetItemFromDAO() throws Exception {
         Item item = service.getItemFromDAO("A1");
         assertNotNull(item);
-        item = service.getItemFromDAO("B1");
-        assertNull(item);
+        try {
+            item = service.getItemFromDAO("B1");
+            assertNull(item);
+        } catch (VendingMachineDataValidationException e) {
+            fail("ClassRosterDataValidationException was encountered.");
+        }
         
     }
 
@@ -72,7 +78,7 @@ public class VendingMachineServiceTest {
      * Test of setMoneyEnteredInDAO method, of class VendingMachineService.
      */
     @Test
-    public void testSetandGetMoneyEnteredInDAO() {
+    public void testSetandGetMoneyEnteredInDAO() throws Exception {
         service.setMoneyEnteredInDAO(new BigDecimal("0"));
         assertEquals("0", service.getMoneyEnteredFromDAO().toString());
         service.setMoneyEnteredInDAO(new BigDecimal("12345.67"));
@@ -96,7 +102,7 @@ public class VendingMachineServiceTest {
         service.addMoneyEnteredToDAO(new BigDecimal("0"));
         assertEquals("12345.67", service.getMoneyEnteredFromDAO().toString());
         service.addMoneyEnteredToDAO(new BigDecimal("0.01"));
-        assertEquals("12345.58", service.getMoneyEnteredFromDAO().toString());    
+        assertEquals("12345.68", service.getMoneyEnteredFromDAO().toString());    
     }
 
     /**
@@ -129,38 +135,51 @@ public class VendingMachineServiceTest {
         service.setMoneyEnteredInDAO(new BigDecimal("0"));
         Change change3 = service.calculateChange();
         quarters = 0;
-        assertEquals(quarters, change1.getQuarters());
+        assertEquals(quarters, change3.getQuarters());
         nickels = 0;
-        assertEquals(nickels, change2.getNickels());         
+        assertEquals(nickels, change3.getNickels());         
         dimes = 0;
-        assertEquals(dimes, change1.getDimes());
+        assertEquals(dimes, change3.getDimes());
         pennies = 0;
-        assertEquals(pennies, change1.getPennies());
+        assertEquals(pennies, change3.getPennies());
     }
 
     /**
      * Test of purchaseItem method, of class VendingMachineService.
      */
     @Test
-    public void testPurchaseItem() {
-         service.setMoneyEnteredInDAO(new BigDecimal("0.14"));
-         Item item1 = service.purchaseItem("A1");
-         assertNull(item1.getName());
+    public void testPurchaseItem() throws Exception {
+
          service.setMoneyEnteredInDAO(new BigDecimal("0.26"));
          Item item2 = service.purchaseItem("A2");
          assertEquals("Candy2", item2.getName());
-         assertEquals("0", service.getMoneyEnteredFromDAO().toString());
-         service.setMoneyEnteredInDAO(new BigDecimal("0.38"));
-         Item item3 = service.purchaseItem("A3");
-         assertNull(item3.getName());
-         assertEquals("0.38", service.getMoneyEnteredFromDAO().toString());   
+         assertEquals("0.09", service.getMoneyEnteredFromDAO().toString());
+         
+         try {
+            service.setMoneyEnteredInDAO(new BigDecimal("0.04"));
+            Item item1 = service.purchaseItem("A1");
+            assertNull(item1.getName());
+            fail ("Expected Null Pointer Excepion Not Encountered.");
+         } catch (NullPointerException e) {
+             
+         }
+
+         try {
+            service.setMoneyEnteredInDAO(new BigDecimal("0.38"));
+            Item item3 = service.purchaseItem("A3");
+            assertNull(item3.getName());
+            fail ("Expected Null Pointer Excepion Not Encountered.");
+         } catch (NullPointerException e) {
+         assertEquals("0.38", service.getMoneyEnteredFromDAO().toString());
+         }
+
     }
 
     /**
      * Test of saveOnExit method, of class VendingMachineService.
      */
     @Test
-    public void testSaveOnExit() {
+    public void testSaveOnExit() throws Exception {
         service.saveOnExit();
     }
     
