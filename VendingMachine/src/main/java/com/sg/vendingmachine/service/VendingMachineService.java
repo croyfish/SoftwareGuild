@@ -17,15 +17,15 @@ public interface VendingMachineService {
     
     public List<Item> getAllItemsFromDAO();
     
-    public Item getItemFromDAO();
+    public Item getItemFromDAO(String SKU);
     
-    public void setMoneyEnteredInDAO();
+    public void setMoneyEnteredInDAO(BigDecimal money);
     
     public BigDecimal getMoneyEnteredFromDAO();
     
-    public BigDecimal addMoneyEnteredToDAO();
+    public BigDecimal addMoneyEnteredToDAO(BigDecimal money);
     
-    public Change calculateChange(BigDecimal currentMoney);
+    public Change calculateChange();
     
     public Item purchaseItem(String SKU);
     
