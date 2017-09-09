@@ -26,7 +26,7 @@ public class DVDLibraryController {
 
     
     public DVDLibraryController(DVDLibraryServiceLayer service, DVDLibraryView view) {
-    // Instantiate DAO and View objects from parameters    
+    // Instantiate Service and View objects from parameters    
         this.service  = service;
         this.view = view;
     }
