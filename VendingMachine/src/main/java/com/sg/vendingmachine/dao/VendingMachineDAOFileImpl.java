@@ -90,7 +90,7 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
 
     @Override
     public Item getItem(String SKU) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return items.get(SKU);
     }
 
     @Override
