@@ -21,8 +21,12 @@ public interface VendingMachineDAO {
     
     public BigDecimal getMoneyEntered();
     
+    public void setMoneyEntered(BigDecimal money);
+    
     public void addMoney(BigDecimal money);
     
     public void writeInventory();
+    
+    public Integer getNumberOfSlotsInMachine();
     
 }
