@@ -1,0 +1,9 @@
+A1::Clark Bar::0.45::12
+A2::Mounds Bar::0.60::12
+A3::Almond Joy::0.75::12
+B1::Snickers::0.65::12
+B2::Kit Kat::0.30::12
+B3::Twix::0.40::12
+C1::Nutty Bars::0.35::12
+C2::Hershey's::0.25::12
+C3::Butterfingers::0.75::12

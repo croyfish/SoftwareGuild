@@ -6,18 +6,86 @@
 package com.sg.vendingmachine.dao;
 
 import com.sg.vendingmachine.dto.Item;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  *
  * @author jeffc
  */
 public class VendingMachineDAOFileImpl implements VendingMachineDAO {
+    
+    private Map<String, Item> items = new HashMap<>();
+    private static final String INVENTORY_FILE = "inventory.txt";
+    private static final String DELIMITER = "::";
+    private BigDecimal moneyEntered;
+    private static final Integer NUM_ROWS = 3;
+    private static final Integer NUM_COLUMNS = 3;
+    
+    public VendingMachineDAOFileImpl() throws VendingMachineFilePersistenceException {
+        System.out.println("We got Here!");
+        readInventory();
+    }
+    
+    private void readInventory() throws VendingMachineFilePersistenceException {
+        Scanner scanner;
+        
+        // Tries&Catches FileNotFoundException and translates it to DaoException
+        // to maintain loose coupling between program layers
+        try {
+            scanner = new Scanner(
+                    new BufferedReader(
+                            new FileReader(INVENTORY_FILE)));
+        } catch (FileNotFoundException e) {
+            throw new VendingMachineFilePersistenceException(
+                "-_- Could not load roster data into memory.", e);
+        }
+        
+        // Declares a string to hold the data file data line by line
+        String currentLine;
+        // Declares a string array to hold data field data as tokens
+        String[] currentTokens;
+        // Reads in each existing line of data file, which represents a DVD object, 
+        // and splits string into tokens representing each individual field of an object
+        while (scanner.hasNextLine()) {
+            currentLine = scanner.nextLine();
+            // Splits string to tokens and throws away delimiters
+            currentTokens = currentLine.split(DELIMITER);
+            // Create new Item object based on unique SKU
+            Item currentItem = new Item(currentTokens[0]);
+            // Set all Item object fields from remaining tokens
+            currentItem.setName(currentTokens[1]);
+            currentItem.setPrice(new BigDecimal(currentTokens[2]));
+            currentItem.setInStock(Integer.parseInt(currentTokens[3]));
+
+            // Add new DVD object to HashMap
+            items.put(currentItem.getSKU(), currentItem);
+        }
+        // Close the scanner stream
+        scanner.close();
+                
+    }
 
     @Override
-    public List getAllItems() {
+    public void writeInventory() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public Integer getNumberOfSlotsInMachine() {
+        return (NUM_ROWS * NUM_COLUMNS);
+    }    
+    
+    @Override
+    public List<Item> getAllItems() throws VendingMachineFilePersistenceException {
+        return new ArrayList(items.values());
     }
 
     @Override
@@ -35,20 +103,12 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void writeInventory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public Integer getNumberOfSlotsInMachine() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public void setMoneyEntered(BigDecimal money) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-     
-    
+
 }

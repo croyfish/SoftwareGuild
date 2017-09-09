@@ -21,10 +21,11 @@ import static org.junit.Assert.*;
  */
 public class VendingMachineDAOTest {
     
-    VendingMachineDAO dao = new VendingMachineDAOFileImpl();
+    VendingMachineDAO dao;
     
     
-    public VendingMachineDAOTest() {
+    public VendingMachineDAOTest() throws VendingMachineFilePersistenceException {
+        this.dao = new VendingMachineDAOFileImpl();
     }
     
     @BeforeClass
@@ -36,7 +37,7 @@ public class VendingMachineDAOTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         List<Item> itemList = dao.getAllItems();
         for (Item item : itemList) {
             item.setInStock(2);
@@ -47,21 +48,11 @@ public class VendingMachineDAOTest {
     public void tearDown() {
     }
 
-    @Test
-    public void testGetNumberOfSlotsInMachine() {
-        List<Item> itemList = dao.getAllItems();
-        Integer numItems = itemList.size();
-        Integer numSlots = dao.getNumberOfSlotsInMachine();
-        assertNotNull(numSlots);
-        assertEquals(numItems, numSlots);
-    }
-    
-    
-    /**
+        /**
      * Test of getAllItems method, of class VendingMachineDAO.
      */
     @Test
-    public void testGetAllItems() {
+    public void testGetAllItems() throws Exception {
         List<Item> itemList = dao.getAllItems();
         Integer numItems = itemList.size();
         Integer numSlots = dao.getNumberOfSlotsInMachine();
@@ -71,12 +62,22 @@ public class VendingMachineDAOTest {
             assertNotNull(item);
         }
     }
+    
+    @Test
+    public void testGetNumberOfSlotsInMachine() throws Exception {
+        List<Item> itemList = dao.getAllItems();
+        Integer numItems = itemList.size();
+        Integer numSlots = dao.getNumberOfSlotsInMachine();
+        assertNotNull(numSlots);
+        assertEquals(numItems, numSlots);
+    }
+    
 
     /**
      * Test of getItem method, of class VendingMachineDAO.
      */
     @Test
-    public void testGetItem() {
+    public void testGetItem() throws Exception {
         Item itemA1 = dao.getItem("A1");
         assertNotNull(itemA1);
         List<Item> itemList = dao.getAllItems();
@@ -136,15 +137,4 @@ public class VendingMachineDAOTest {
         assertEquals("12345.40", dao.getMoneyEntered().toString());
         
     }
-    
-    
-
-
-
-
-
-
-    
-
-    
 }

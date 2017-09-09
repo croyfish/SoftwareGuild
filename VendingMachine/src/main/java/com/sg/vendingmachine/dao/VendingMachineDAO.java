@@ -15,7 +15,8 @@ import java.util.List;
  */
 public interface VendingMachineDAO {
     
-    public List getAllItems();
+    public List<Item> getAllItems()
+     throws VendingMachineFilePersistenceException;
     
     public Item getItem(String SKU);
     
