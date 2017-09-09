@@ -94,8 +94,14 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     }
 
     @Override
+    public void setMoneyEntered(BigDecimal money) {
+        this.moneyEntered = money;
+    }
+
+    
+    @Override
     public BigDecimal getMoneyEntered() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return moneyEntered;
     }
 
     @Override
@@ -106,9 +112,5 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
 
 
 
-    @Override
-    public void setMoneyEntered(BigDecimal money) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

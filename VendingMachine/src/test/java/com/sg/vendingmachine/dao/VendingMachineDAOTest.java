@@ -97,19 +97,19 @@ public class VendingMachineDAOTest {
     @Test
     public void testSetMoneyAndGetMoneyEntered() {
         
-        dao.setMoneyEntered(new BigDecimal(0));
+        dao.setMoneyEntered(new BigDecimal("0"));
         assertEquals("0", dao.getMoneyEntered().toString());
         
-        dao.setMoneyEntered(new BigDecimal(0.05));
+        dao.setMoneyEntered(new BigDecimal("0.05"));
         assertEquals("0.05", dao.getMoneyEntered().toString());
         
-        dao.setMoneyEntered(new BigDecimal(0.1));
+        dao.setMoneyEntered(new BigDecimal("0.1"));
         assertEquals("0.1", dao.getMoneyEntered().toString());
         
-        dao.setMoneyEntered(new BigDecimal(0.25));
+        dao.setMoneyEntered(new BigDecimal("0.25"));
         assertEquals("0.25", dao.getMoneyEntered().toString());
         
-        dao.setMoneyEntered(new BigDecimal(12345));
+        dao.setMoneyEntered(new BigDecimal("12345"));
         assertEquals("12345", dao.getMoneyEntered().toString());
         
     }
@@ -121,19 +121,19 @@ public class VendingMachineDAOTest {
     @Test
     public void addMoneyEntered() {
         
-        dao.setMoneyEntered(new BigDecimal(0));
+        dao.setMoneyEntered(new BigDecimal("0"));
         assertEquals("0", dao.getMoneyEntered().toString());
         
-        dao.addMoney(new BigDecimal(0.05));
+        dao.addMoney(new BigDecimal("0.05"));
         assertEquals("0.05", dao.getMoneyEntered().toString());
         
-        dao.addMoney(new BigDecimal(0.1));
+        dao.addMoney(new BigDecimal("0.1"));
         assertEquals("0.15", dao.getMoneyEntered().toString());
         
-        dao.addMoney(new BigDecimal(0.25));
+        dao.addMoney(new BigDecimal("0.25"));
         assertEquals("0.40", dao.getMoneyEntered().toString());
         
-        dao.addMoney(new BigDecimal(12345));
+        dao.addMoney(new BigDecimal("12345"));
         assertEquals("12345.40", dao.getMoneyEntered().toString());
         
     }
