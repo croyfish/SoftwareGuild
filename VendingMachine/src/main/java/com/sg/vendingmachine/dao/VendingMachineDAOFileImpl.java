@@ -106,7 +106,7 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
 
     @Override
     public void addMoney(BigDecimal money) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        moneyEntered = new BigDecimal(money.add(moneyEntered).toString());
     }
 
 
