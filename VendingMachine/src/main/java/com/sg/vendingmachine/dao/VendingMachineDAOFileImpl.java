@@ -9,6 +9,9 @@ import com.sg.vendingmachine.dto.Item;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +33,6 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     private static final Integer NUM_COLUMNS = 3;
     
     public VendingMachineDAOFileImpl() throws VendingMachineFilePersistenceException {
-        System.out.println("We got Here!");
         readInventory();
     }
     
@@ -74,8 +76,32 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     }
 
     @Override
-    public void writeInventory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void writeInventory() throws VendingMachineFilePersistenceException {
+                PrintWriter out;
+        
+        // Tries&Catches IOException and translates it to DaoException
+        // to maintain loose coupling between program layers
+        try {
+            out = new PrintWriter(new FileWriter(INVENTORY_FILE));
+        } catch (IOException e) {
+            throw new VendingMachineFilePersistenceException(
+                    "Could not save dvd data.", e);
+        }
+
+        // Get Arraylist of all DVD objects in dvds HashMap
+        List<Item> itemList = this.getAllItems();
+        // Get fields from all DVD objects in list and write them to lines of
+        // data file with each field separated by delimiter.
+        for (Item currentItem : itemList) {
+            out.println(currentItem.getSKU() + DELIMITER
+                    + currentItem.getName() + DELIMITER
+                    + currentItem.getPrice().toString() + DELIMITER
+                    + currentItem.getInStock().toString());
+            // Force PrintWriter to finish writing file
+            out.flush();
+        }
+        // Close data stream
+        out.close();
     }
     
     @Override
@@ -98,7 +124,6 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
         this.moneyEntered = money;
     }
 
-    
     @Override
     public BigDecimal getMoneyEntered() {
         return moneyEntered;

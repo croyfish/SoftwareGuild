@@ -26,7 +26,8 @@ public interface VendingMachineDAO {
     
     public void addMoney(BigDecimal money);
     
-    public void writeInventory();
+    public void writeInventory()
+     throws VendingMachineFilePersistenceException;
     
     public Integer getNumberOfSlotsInMachine();
     
