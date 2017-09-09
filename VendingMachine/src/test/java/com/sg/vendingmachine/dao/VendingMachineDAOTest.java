@@ -119,7 +119,7 @@ public class VendingMachineDAOTest {
      */
     
     @Test
-    public void addMoneyEntered() {
+    public void testAddMoneyEntered() {
         
         dao.setMoneyEntered(new BigDecimal("0"));
         assertEquals("0", dao.getMoneyEntered().toString());
