@@ -48,7 +48,7 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
                             new FileReader(INVENTORY_FILE)));
         } catch (FileNotFoundException e) {
             throw new VendingMachineFilePersistenceException(
-                "-_- Could not load roster data into memory.", e);
+                "-_- Could not load inventory data into memory.", e);
         }
         
         // Declares a string to hold the data file data line by line

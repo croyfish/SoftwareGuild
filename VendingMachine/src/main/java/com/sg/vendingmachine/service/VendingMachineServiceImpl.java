@@ -62,25 +62,21 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         quarters = quarters.setScale(0, RoundingMode.FLOOR);
         money = money.subtract(quarters.multiply(new BigDecimal("0.25")));
         userChange.setQuarters(quarters.intValue());
-        System.out.println(money.toString());
         
         BigDecimal dimes = money.divide(new BigDecimal("0.1"));
         dimes = dimes.setScale(0, RoundingMode.FLOOR);
         money = money.subtract(dimes.multiply(new BigDecimal("0.1")));
         userChange.setDimes(dimes.intValue());
-        System.out.println(money.toString());
         
         BigDecimal nickels = money.divide(new BigDecimal("0.05"));
         nickels = nickels.setScale(0, RoundingMode.FLOOR);
         money = money.subtract(nickels.multiply(new BigDecimal("0.05")));
         userChange.setNickels(nickels.intValue());
-        System.out.println(money.toString());
         
         BigDecimal pennies = money.divide(new BigDecimal("0.01"));
         pennies = pennies.setScale(0, RoundingMode.FLOOR);
         money = money.subtract(pennies.multiply(new BigDecimal("0.01")));
         userChange.setPennies(pennies.intValue());
-        System.out.println(money.toString());
         
         return userChange;
     }
@@ -90,8 +86,6 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         Item selectedItem = dao.getItem(SKU);
         BigDecimal money = dao.getMoneyEntered();
         BigDecimal price = selectedItem.getPrice();
-        System.out.println(money.intValue());
-        System.out.println(price.intValue());
         if (money.compareTo(price) == 1) {        
         money = money.subtract(price);
         dao.setMoneyEntered(money);
@@ -102,22 +96,22 @@ public class VendingMachineServiceImpl implements VendingMachineService {
 
     @Override
     public void depositCoin(int coinType) {
-        String moneyAdded = "0";
+        String moneyAdded = "0.00";
         switch (coinType) {
             case 1:
                 moneyAdded = "0.01";
-                return;
+                break;
             case 2:
                 moneyAdded = "0.05";
-                return;
+                break;
             case 3:
-                moneyAdded = "0.1";
-                return;
+                moneyAdded = "0.10";
+                break;
             case 4:
                 moneyAdded = "0.25";
-                return;
+                break;
             default:
-                moneyAdded = "0";
+                moneyAdded = "0.00";
         }
         dao.addMoney(new BigDecimal(moneyAdded));
     }

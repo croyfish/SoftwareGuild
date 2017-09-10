@@ -175,6 +175,21 @@ public class VendingMachineServiceTest {
 
     }
 
+    @Test
+    public void testDepositCoin() throws Exception {
+        service.setMoneyEnteredInDAO(new BigDecimal("0"));        
+        service.depositCoin(4);
+        assertEquals("0.25", service.getMoneyEnteredFromDAO().toString());
+        service.depositCoin(3);
+        assertEquals("0.35", service.getMoneyEnteredFromDAO().toString());
+        service.depositCoin(2);
+        assertEquals("0.40", service.getMoneyEnteredFromDAO().toString());
+        service.depositCoin(1);
+        assertEquals("0.41", service.getMoneyEnteredFromDAO().toString());
+        service.depositCoin(0);
+        assertEquals("0.41", service.getMoneyEnteredFromDAO().toString());        
+    }
+    
     /**
      * Test of saveOnExit method, of class VendingMachineService.
      */
