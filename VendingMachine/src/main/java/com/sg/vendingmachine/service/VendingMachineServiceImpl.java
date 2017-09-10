@@ -101,6 +101,28 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     }
 
     @Override
+    public void depositCoin(int coinType) {
+        String moneyAdded = "0";
+        switch (coinType) {
+            case 1:
+                moneyAdded = "0.01";
+                return;
+            case 2:
+                moneyAdded = "0.05";
+                return;
+            case 3:
+                moneyAdded = "0.1";
+                return;
+            case 4:
+                moneyAdded = "0.25";
+                return;
+            default:
+                moneyAdded = "0";
+        }
+        dao.addMoney(new BigDecimal(moneyAdded));
+    }
+    
+    @Override
     public void saveOnExit() throws VendingMachineFilePersistenceException {
         dao.writeInventory();
     }

@@ -7,9 +7,11 @@ package com.sg.vendingmachine.controller;
 
 import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
+import com.sg.vendingmachine.dto.Item;
 import com.sg.vendingmachine.service.Change;
 import com.sg.vendingmachine.service.VendingMachineService;
 import com.sg.vendingmachine.ui.VendingMachineView;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -63,17 +65,23 @@ public class VendingMachineController {
     }
         
     private int getMenuSelection() throws VendingMachineFilePersistenceException {
-        List Items = service.getAllItemsFromDAO();
-        view.printInventory(Items);
+        List<Item> items = service.getAllItemsFromDAO();
+        view.printInventory(items);
+        BigDecimal money = service.getMoneyEnteredFromDAO();
+        view.printCurrentBalance(money);
         return view.printMainMenuAndGetSelection();
     }
     
     private void addMoney() {
-        view.printAddMoneyMenuAndGetSelection();    
+        int coinType = view.printAddMoneyMenuAndGetSelection();
+        if (coinType != 0) {
+            service.depositCoin(coinType);
+        }
     }
     
-    private void purchaseAnItem() {
-        view.askAndGetItemSelection();
+    private void purchaseAnItem() throws VendingMachineDataValidationException {
+        String SKU = view.askAndGetItemSelection();
+        service.getItemFromDAO(SKU);
     }
     
     private void getChange() {

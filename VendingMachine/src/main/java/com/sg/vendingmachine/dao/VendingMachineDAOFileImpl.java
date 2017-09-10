@@ -34,6 +34,7 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     
     public VendingMachineDAOFileImpl() throws VendingMachineFilePersistenceException {
         readInventory();
+        moneyEntered = new BigDecimal("0");
     }
     
     private void readInventory() throws VendingMachineFilePersistenceException {

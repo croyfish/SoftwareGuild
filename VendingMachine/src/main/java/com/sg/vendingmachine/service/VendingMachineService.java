@@ -34,6 +34,8 @@ public interface VendingMachineService {
     public Item purchaseItem(String SKU)
      throws VendingMachineDataValidationException;
     
+    public void depositCoin(int coinType);
+    
     public void saveOnExit()
      throws VendingMachineFilePersistenceException;
 }
