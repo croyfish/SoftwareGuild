@@ -7,8 +7,9 @@ package com.sg.vendingmachine.service;
 
 import com.sg.vendingmachine.dao.VendingMachineDAO;
 import com.sg.vendingmachine.dao.VendingMachineDAOStubImpl;
-import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dto.Item;
+import com.sg.vendingmachine.ui.UserIO;
+import com.sg.vendingmachine.ui.UserIOConsoleImpl;
 import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,6 +28,7 @@ import org.junit.Test;
 public class VendingMachineServiceTest {
     
     private VendingMachineService service;
+    private UserIO io = new UserIOConsoleImpl();
     
     public VendingMachineServiceTest() {
         VendingMachineDAO dao = new VendingMachineDAOStubImpl();
@@ -63,13 +65,14 @@ public class VendingMachineServiceTest {
      */
     @Test
     public void testGetItemFromDAO() throws Exception {
+        service.setMoneyEnteredInDAO(new BigDecimal("0.15"));
         Item item = service.getItemFromDAO("A1");
         assertNotNull(item);
         try {
             item = service.getItemFromDAO("B1");
             assertNull(item);
-        } catch (VendingMachineDataValidationException e) {
-            fail("ClassRosterDataValidationException was encountered.");
+        } catch (NullPointerException e) {
+            io.print("NullPointerException was encountered.");
         }
         
     }

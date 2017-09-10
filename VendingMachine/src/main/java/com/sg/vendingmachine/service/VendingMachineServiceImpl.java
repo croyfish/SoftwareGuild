@@ -34,7 +34,14 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     @Override
     public Item getItemFromDAO(String SKU) 
      throws VendingMachineDataValidationException {
-        return dao.getItem(SKU);
+        BigDecimal money = dao.getMoneyEntered();
+        Item selectedItem = dao.getItem(SKU);
+        BigDecimal price = selectedItem.getPrice();
+        if (money.compareTo(price) == 1) {
+            dao.setMoneyEntered(money.subtract(price));
+            return dao.getItem(SKU);
+        }
+        return null;      
     }
 
     @Override
@@ -57,6 +64,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         
         Change userChange = new Change();
         BigDecimal money = dao.getMoneyEntered();
+        dao.setMoneyEntered(new BigDecimal("0.00"));
         
         BigDecimal quarters = money.divide(new BigDecimal("0.25"));
         quarters = quarters.setScale(0, RoundingMode.FLOOR);

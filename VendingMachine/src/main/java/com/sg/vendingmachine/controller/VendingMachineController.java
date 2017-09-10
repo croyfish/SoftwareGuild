@@ -65,6 +65,7 @@ public class VendingMachineController {
     }
         
     private int getMenuSelection() throws VendingMachineFilePersistenceException {
+        view.clearScreen();
         List<Item> items = service.getAllItemsFromDAO();
         view.printInventory(items);
         BigDecimal money = service.getMoneyEnteredFromDAO();
@@ -81,7 +82,14 @@ public class VendingMachineController {
     
     private void purchaseAnItem() throws VendingMachineDataValidationException {
         String SKU = view.askAndGetItemSelection();
-        service.getItemFromDAO(SKU);
+        try {
+            Item purchasedItem = service.getItemFromDAO(SKU);
+            view.displayItemPurchaseSuccessBanner(purchasedItem);
+            getChange();
+        } catch (VendingMachineDataValidationException e) {
+            view.displayErrorMessage("You don't have enough money for that item.");
+            view.pressEnter();
+        }    
     }
     
     private void getChange() {
