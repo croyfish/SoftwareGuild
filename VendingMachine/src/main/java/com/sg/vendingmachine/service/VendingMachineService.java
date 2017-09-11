@@ -5,6 +5,7 @@
  */
 package com.sg.vendingmachine.service;
 
+import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
 import com.sg.vendingmachine.dto.Item;

@@ -5,6 +5,7 @@
  */
 package com.sg.vendingmachine.service;
 
+import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dao.VendingMachineDAO;
 import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
@@ -37,8 +38,10 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         BigDecimal money = dao.getMoneyEntered();
         Item selectedItem = dao.getItem(SKU);
         BigDecimal price = selectedItem.getPrice();
-        if (money.compareTo(price) == 1) {
+        Integer leftInStock = selectedItem.getInStock();
+        if (money.compareTo(price) == 1 && leftInStock > 0) {
             dao.setMoneyEntered(money.subtract(price));
+            selectedItem.setInStock(leftInStock - 1);
             return dao.getItem(SKU);
         }
         return null;      

@@ -24,21 +24,21 @@ public class VendingMachineDAOStubImpl implements VendingMachineDAO {
         item1 = new Item("A1");
         item1.setName("Candy1");
         item1.setPrice(new BigDecimal("0.05"));
-        item1.setInStock(0);
+        item1.setInStock(1);
         
         ItemList.add(item1);
         
         item2 = new Item("A2");
         item2.setName("Candy2");
         item2.setPrice(new BigDecimal("0.17"));
-        item2.setInStock(0);
+        item2.setInStock(1);
         
         ItemList.add(item2);
         
         item3 = new Item("A3");
         item3.setName("Candy3");
         item3.setPrice(new BigDecimal("0.39"));
-        item3.setInStock(0);
+        item3.setInStock(1);
 
         ItemList.add(item3);
     }

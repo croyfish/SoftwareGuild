@@ -74,12 +74,12 @@ public class UserIOConsoleImpl implements UserIO {
             try {
             result = Double.parseDouble(userInput);
             isValid = true;
-            } catch (NumberFormatException ex) {
-                print("That is an invalid number. Please try again.");
-            }
             if (result < min || result > max) {
                 isValid = false;
                 print("That number is out of range. Please try again.");
+            }            
+            } catch (NumberFormatException ex) {
+                print("That is an invalid number. Please try again.");
             }
         }
         
@@ -118,13 +118,14 @@ public class UserIOConsoleImpl implements UserIO {
             try {
             result = Float.parseFloat(userInput);
             isValid = true;
-            } catch (NumberFormatException ex) {
-                print("That is an invalid number. Please try again.");
-            }
             if (result < min || result > max) {
                 isValid = false;
                 print("That number is out of range. Please try again.");
             }
+            } catch (NumberFormatException ex) {
+                print("That is an invalid number. Please try again.");
+            }
+
         }
         
         return result;
@@ -162,13 +163,14 @@ public class UserIOConsoleImpl implements UserIO {
             try {
             result = Integer.parseInt(userInput);
             isValid = true;
+                if (result < min || result > max) {
+                    isValid = false;
+                    print("That number is out of range. Please try again.");
+                }                        
             } catch (NumberFormatException ex) {
                 print("That is an invalid number. Please try again.");
             }
-            if (result < min || result > max) {
-                isValid = false;
-                print("That number is out of range. Please try again.");
-            }
+
         }
         
         return result;
@@ -250,12 +252,12 @@ public class UserIOConsoleImpl implements UserIO {
             try {
             result = Long.parseLong(userInput);
             isValid = true;
-            } catch (NumberFormatException ex) {
-                print("That is an invalid number. Please try again.");
-            }
             if (result < min || result > max) {
                 isValid = false;
                 print("That number is out of range. Please try again.");
+            }            
+            } catch (NumberFormatException ex) {
+                print("That is an invalid number. Please try again.");
             }
         }
         

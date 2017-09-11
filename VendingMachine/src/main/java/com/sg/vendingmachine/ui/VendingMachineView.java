@@ -6,7 +6,7 @@
 package com.sg.vendingmachine.ui;
 
 import com.sg.vendingmachine.dto.Item;
-import com.sg.vendingmachine.service.Change;
+import com.sg.vendingmachine.dto.Change;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -79,7 +79,7 @@ public class VendingMachineView {
     }
 
     public void returnChange(Change userChange) {
-        clearScreen();
+        io.print("");
         io.print("Your change is:");
         io.print("");
         io.print(userChange.getQuarters() + " Quarter(s)");
@@ -91,7 +91,7 @@ public class VendingMachineView {
     }
     
     public void displayErrorMessage(String message) {
-        io.print("You got an Error.");
+        io.print(message);
         pressEnter();
     }
 

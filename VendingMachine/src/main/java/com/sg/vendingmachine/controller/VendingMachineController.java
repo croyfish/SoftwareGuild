@@ -8,7 +8,7 @@ package com.sg.vendingmachine.controller;
 import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
 import com.sg.vendingmachine.dto.Item;
-import com.sg.vendingmachine.service.Change;
+import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.service.VendingMachineService;
 import com.sg.vendingmachine.ui.VendingMachineView;
 import java.math.BigDecimal;
@@ -84,12 +84,17 @@ public class VendingMachineController {
         String SKU = view.askAndGetItemSelection();
         try {
             Item purchasedItem = service.getItemFromDAO(SKU);
-            view.displayItemPurchaseSuccessBanner(purchasedItem);
-            getChange();
+            if (purchasedItem != null) {
+                view.displayItemPurchaseSuccessBanner(purchasedItem);
+                view.pressEnter();
+                getChange();
+            } else {
+                view.displayErrorMessage("You cannot buy that item.");
+            }
         } catch (VendingMachineDataValidationException e) {
-            view.displayErrorMessage("You don't have enough money for that item.");
-            view.pressEnter();
+            view.displayErrorMessage("You cannot buy that item.");
         }    
+
     }
     
     private void getChange() {
