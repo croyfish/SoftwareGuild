@@ -207,7 +207,10 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
     @Override
     public List<DVD> getAllMoviesReleasedByStudio(String Studio) throws DVDLibraryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return dvds.values()
+                .stream()
+                .filter(d -> d.getStudio().equalsIgnoreCase(Studio))
+                .collect(Collectors.toList());
     }
 
     @Override

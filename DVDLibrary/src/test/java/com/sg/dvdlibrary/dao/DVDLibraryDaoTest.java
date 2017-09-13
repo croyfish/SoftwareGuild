@@ -375,7 +375,7 @@ public class DVDLibraryDaoTest {
         List<DVD> searchResults = dao.getAllMoviesReleasedByStudio("Studio1");
         assertEquals(searchResults.size(), 2);
         
-        searchResults = dao.getAllMoviesReleasedByStudio("Stuido2");
+        searchResults = dao.getAllMoviesReleasedByStudio("Studio2");
         assertEquals(searchResults.size(), 1);  
 
         searchResults = dao.getAllMoviesReleasedByStudio("Studio");
