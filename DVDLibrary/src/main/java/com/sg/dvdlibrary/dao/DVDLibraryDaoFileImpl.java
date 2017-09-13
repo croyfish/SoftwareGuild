@@ -189,7 +189,12 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
     @Override
     public List<DVD> getAllMoviesReleasedInLastNYears(int N) throws DVDLibraryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.   
+        LocalDate startingDate = LocalDate.now().minusYears(N);
+        
+        return dvds.values()
+                .stream()
+                .filter(d -> d.getReleaseDate().toEpochDay() > startingDate.toEpochDay())
+                .collect(Collectors.toList());
     }
 
     @Override
