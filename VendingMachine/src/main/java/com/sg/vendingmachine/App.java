@@ -23,6 +23,9 @@ import com.sg.vendingmachine.ui.VendingMachineView;
 public class App {
     public static void main(String[] args) throws VendingMachineFilePersistenceException, 
             VendingMachineDataValidationException  {
+        
+        // Use dependency injection to instantiate objects for UserIO, View,
+        // DAO, and service, and pass them via constructors to the relevant classes.
         UserIO myIO = new UserIOConsoleImpl();
         VendingMachineView myView = new VendingMachineView(myIO);
         VendingMachineDAO myDAO = new VendingMachineDAOFileImpl();

@@ -23,11 +23,13 @@ public class VendingMachineController {
     VendingMachineService service;
     VendingMachineView  view;
     
+    // Constructor to receive Service and View implementations from App
     public VendingMachineController(VendingMachineService service, VendingMachineView view) {
         this.service = service;
         this.view = view;
     }
     
+    // Main menu selection switch
     public void run() throws VendingMachineDataValidationException {
         boolean keepGoing = true;
         int menuSelection = 0;
@@ -36,7 +38,8 @@ public class VendingMachineController {
             
         
             while (keepGoing) {
-            
+                
+                // Call method to manage Main Menu selection process
                 menuSelection = getMenuSelection();
             
                 switch(menuSelection) {
@@ -63,25 +66,37 @@ public class VendingMachineController {
             view.displayErrorMessage(e.getMessage());
         }
     }
-        
+
+    // Main menu selection process.
     private int getMenuSelection() throws VendingMachineFilePersistenceException {
         view.clearScreen();
+        // get inventory from DAO
         List<Item> items = service.getAllItemsFromDAO();
+        // print inventory
         view.printInventory(items);
+        // get money entered from DAO
         BigDecimal money = service.getMoneyEnteredFromDAO();
+        // print balance
         view.printCurrentBalance(money);
+        // print menu options and get selection
         return view.printMainMenuAndGetSelection();
     }
     
+    // Add coins to machine
     private void addMoney() {
+        // print coins menu
         int coinType = view.printAddMoneyMenuAndGetSelection();
         if (coinType != 0) {
+            // enter coin to DAO via service
             service.depositCoin(coinType);
         }
     }
     
+    // Attempt to buy an item from the machine
     private void purchaseAnItem() throws VendingMachineDataValidationException {
+        // Print item selection menu and get result as string
         String SKU = view.askAndGetItemSelection();
+        // Try to purchase the item from service
         try {
             Item purchasedItem = service.getItemFromDAO(SKU);
             if (purchasedItem != null) {
@@ -97,6 +112,7 @@ public class VendingMachineController {
 
     }
     
+    // Call method to return money entered as change to user
     private void getChange() {
         Change userChange = service.calculateChange();
         view.returnChange(userChange);

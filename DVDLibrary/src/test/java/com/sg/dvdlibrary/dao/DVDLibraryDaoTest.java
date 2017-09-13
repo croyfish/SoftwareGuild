@@ -226,11 +226,300 @@ public class DVDLibraryDaoTest {
         assertEquals("DL1", dao.getNewSKU());
         assertEquals("DL2", dao.getNewSKU());
         
+    }
+    
+    /**
+     * Test of getAllMoviesReleasedInLastNYears method, of class DVDLibraryDao.
+     */
+    @Test
+    public void testGetAllMoviesReleasedInLastNYears() throws Exception {
+        
+        DVD dvd1 = new DVD("DL1");
+        dvd1.setTitle("One");
+        dvd1.setReleaseDate(LocalDate.now().minusYears(1));
+        dvd1.setMPAARating("MPAARating");
+        dvd1.setDirector("Director");       
+        dvd1.setStudio("Studio");
+        dvd1.setUserNote("UserNote");
+        
+        dao.addDVD(dvd1.getSKU(), dvd1);
+        
+        DVD dvd2 = new DVD("DL2");
+        dvd2.setTitle("Two");
+        dvd2.setReleaseDate(LocalDate.now().minusYears(5));
+        dvd2.setMPAARating("MPAARating");
+        dvd2.setDirector("Director");       
+        dvd2.setStudio("Studio");
+        dvd2.setUserNote("UserNote");
+        
+        dao.addDVD(dvd2.getSKU(), dvd2);
+        
+        DVD dvd3 = new DVD("DL3");
+        dvd3.setTitle("Three");
+        dvd3.setReleaseDate(LocalDate.now().minusYears(10));
+        dvd3.setMPAARating("MPAARating");
+        dvd3.setDirector("Director");       
+        dvd3.setStudio("Studio");
+        dvd3.setUserNote("UserNote");
+        
+        dao.addDVD(dvd3.getSKU(), dvd3);
+        
+        List<DVD> searchResults = dao.getAllMoviesReleasedInLastNYears(0);
+        assertEquals(searchResults.size(), 0);
+        
+        searchResults = dao.getAllMoviesReleasedInLastNYears(4);
+        assertEquals(searchResults.size(), 1);
+        
+        searchResults = dao.getAllMoviesReleasedInLastNYears(7);
+        assertEquals(searchResults.size(), 2);  
 
+        searchResults = dao.getAllMoviesReleasedInLastNYears(12);
+        assertEquals(searchResults.size(), 3);         
+        
+    }
+
+    /**
+     * Test of getAllMoviesWithGivenMPAARating method, of class DVDLibraryDao.
+     */
+    @Test
+    public void testGetAllMoviesWithGivenMPAARating() throws Exception {
+        
+        DVD dvd1 = new DVD("DL1");
+        dvd1.setTitle("One");
+        dvd1.setReleaseDate(LocalDate.now().minusYears(1));
+        dvd1.setMPAARating("PG-13");
+        dvd1.setDirector("Director");       
+        dvd1.setStudio("Studio");
+        dvd1.setUserNote("UserNote");
+        
+        dao.addDVD(dvd1.getSKU(), dvd1);
+        
+        DVD dvd2 = new DVD("DL2");
+        dvd2.setTitle("Two");
+        dvd2.setReleaseDate(LocalDate.now().minusYears(5));
+        dvd2.setMPAARating("PG-13");
+        dvd2.setDirector("Director");       
+        dvd2.setStudio("Studio");
+        dvd2.setUserNote("UserNote");
+        
+        dao.addDVD(dvd2.getSKU(), dvd2);
+        
+        DVD dvd3 = new DVD("DL3");
+        dvd3.setTitle("Three");
+        dvd3.setReleaseDate(LocalDate.now().minusYears(10));
+        dvd3.setMPAARating("PG-7");
+        dvd3.setDirector("Director");       
+        dvd3.setStudio("Studio");
+        dvd3.setUserNote("UserNote");
+        
+        dao.addDVD(dvd3.getSKU(), dvd3);     
+        
+        List<DVD> searchResults = dao.getAllMoviesWithGivenMPAARating("PG-13");
+        assertEquals(searchResults.size(), 2);
+        
+        searchResults = dao.getAllMoviesWithGivenMPAARating("PG-7");
+        assertEquals(searchResults.size(), 1);  
+
+        searchResults = dao.getAllMoviesWithGivenMPAARating("R");
+        assertEquals(searchResults.size(), 0);      
+        
+        
+    }
+
+    /**
+     * Test of getAllMoviesByGivenDirectorSortedByMPAARating method, of class DVDLibraryDao.
+     */
+    @Test
+    public void testGetAllMoviesByGivenDirectorSortedByMPAARating() throws Exception {
         
         
         
     }
+
+    /**
+     * Test of getAllMoviesReleasedByStudio method, of class DVDLibraryDao.
+     */
+    @Test
+    public void testGetAllMoviesReleasedByStudio() throws Exception {
+    
+        DVD dvd1 = new DVD("DL1");
+        dvd1.setTitle("One");
+        dvd1.setReleaseDate(LocalDate.now().minusYears(1));
+        dvd1.setMPAARating("PG-13");
+        dvd1.setDirector("Director");       
+        dvd1.setStudio("Studio1");
+        dvd1.setUserNote("UserNote");
+        
+        dao.addDVD(dvd1.getSKU(), dvd1);
+        
+        DVD dvd2 = new DVD("DL2");
+        dvd2.setTitle("Two");
+        dvd2.setReleaseDate(LocalDate.now().minusYears(5));
+        dvd2.setMPAARating("PG-13");
+        dvd2.setDirector("Director");       
+        dvd2.setStudio("Studio2");
+        dvd2.setUserNote("UserNote");
+        
+        dao.addDVD(dvd2.getSKU(), dvd2);
+        
+        DVD dvd3 = new DVD("DL3");
+        dvd3.setTitle("Three");
+        dvd3.setReleaseDate(LocalDate.now().minusYears(10));
+        dvd3.setMPAARating("PG-7");
+        dvd3.setDirector("Director");       
+        dvd3.setStudio("Studio1");
+        dvd3.setUserNote("UserNote");
+        
+        dao.addDVD(dvd3.getSKU(), dvd3);     
+        
+        List<DVD> searchResults = dao.getAllMoviesReleasedByStudio("Studio1");
+        assertEquals(searchResults.size(), 2);
+        
+        searchResults = dao.getAllMoviesReleasedByStudio("Stuido2");
+        assertEquals(searchResults.size(), 1);  
+
+        searchResults = dao.getAllMoviesReleasedByStudio("Studio");
+        assertEquals(searchResults.size(), 0);   
+        
+        
+    }
+
+    /**
+     * Test of getAverageAgeOfAllMovies method, of class DVDLibraryDao.
+     */
+    @Test
+    public void testGetAverageAgeOfAllMovies() throws Exception {
+        
+        DVD dvd1 = new DVD("DL1");
+        dvd1.setTitle("One");
+        dvd1.setReleaseDate(LocalDate.now().minusYears(1));
+        dvd1.setMPAARating("PG-13");
+        dvd1.setDirector("Director");       
+        dvd1.setStudio("Studio1");
+        dvd1.setUserNote("UserNote");
+        
+        dao.addDVD(dvd1.getSKU(), dvd1);
+        
+        DVD dvd2 = new DVD("DL2");
+        dvd2.setTitle("Two");
+        dvd2.setReleaseDate(LocalDate.now().minusYears(5));
+        dvd2.setMPAARating("PG-13");
+        dvd2.setDirector("Director");       
+        dvd2.setStudio("Studio2");
+        dvd2.setUserNote("UserNote");
+        
+        dao.addDVD(dvd2.getSKU(), dvd2);
+        
+        DVD dvd3 = new DVD("DL3");
+        dvd3.setTitle("Three");
+        dvd3.setReleaseDate(LocalDate.now().minusYears(9));
+        dvd3.setMPAARating("PG-7");
+        dvd3.setDirector("Director");       
+        dvd3.setStudio("Studio1");
+        dvd3.setUserNote("UserNote");      
+        
+        assertEquals(dao.getAverageAgeOfAllMovies(), LocalDate.now().minusYears(5));
+        
+    }
+
+    /**
+     * Test of getNewestMovie method, of class DVDLibraryDao.
+     */
+    @Test
+    public void testGetNewestMovie() throws Exception {
+        
+        DVD dvd1 = new DVD("DL1");
+        dvd1.setTitle("One");
+        dvd1.setReleaseDate(LocalDate.now().minusYears(1));
+        dvd1.setMPAARating("PG-13");
+        dvd1.setDirector("Director");       
+        dvd1.setStudio("Studio1");
+        dvd1.setUserNote("UserNote");
+        
+        dao.addDVD(dvd1.getSKU(), dvd1);
+        
+        DVD dvd2 = new DVD("DL2");
+        dvd2.setTitle("Two");
+        dvd2.setReleaseDate(LocalDate.now().minusYears(1));
+        dvd2.setMPAARating("PG-13");
+        dvd2.setDirector("Director");       
+        dvd2.setStudio("Studio2");
+        dvd2.setUserNote("UserNote");
+        
+        dao.addDVD(dvd2.getSKU(), dvd2);
+        
+        DVD dvd3 = new DVD("DL3");
+        dvd3.setTitle("Three");
+        dvd3.setReleaseDate(LocalDate.now().minusYears(10));
+        dvd3.setMPAARating("PG-7");
+        dvd3.setDirector("Director");       
+        dvd3.setStudio("Studio1");
+        dvd3.setUserNote("UserNote");
+        
+        
+        List<DVD> searchResults = dao.getNewestMovie();
+        assertEquals(searchResults.size(), 2);
+        
+        dvd2.setReleaseDate(LocalDate.now().minusYears(5));
+        searchResults = dao.getNewestMovie();
+        assertEquals(searchResults.size(), 1);
+        DVD currentDVD = searchResults.get(0);
+        assertTrue(currentDVD.getTitle().equals("One"));
+
+    }
+
+    /**
+     * Test of getOldestMovie method, of class DVDLibraryDao.
+     */
+    @Test
+    public void testGetOldestMovie() throws Exception {
+        
+        DVD dvd1 = new DVD("DL1");
+        dvd1.setTitle("One");
+        dvd1.setReleaseDate(LocalDate.now().minusYears(1));
+        dvd1.setMPAARating("PG-13");
+        dvd1.setDirector("Director");       
+        dvd1.setStudio("Studio1");
+        dvd1.setUserNote("UserNote");
+        
+        dao.addDVD(dvd1.getSKU(), dvd1);
+        
+        DVD dvd2 = new DVD("DL2");
+        dvd2.setTitle("Two");
+        dvd2.setReleaseDate(LocalDate.now().minusYears(10));
+        dvd2.setMPAARating("PG-13");
+        dvd2.setDirector("Director");       
+        dvd2.setStudio("Studio2");
+        dvd2.setUserNote("UserNote");
+        
+        dao.addDVD(dvd2.getSKU(), dvd2);
+        
+        DVD dvd3 = new DVD("DL3");
+        dvd3.setTitle("Three");
+        dvd3.setReleaseDate(LocalDate.now().minusYears(10));
+        dvd3.setMPAARating("PG-7");
+        dvd3.setDirector("Director");       
+        dvd3.setStudio("Studio1");
+        dvd3.setUserNote("UserNote");
+        
+        List<DVD> searchResults = dao.getNewestMovie();
+        assertEquals(searchResults.size(), 2);
+        
+        dvd2.setReleaseDate(LocalDate.now().minusYears(5));
+        searchResults = dao.getNewestMovie();
+        assertEquals(searchResults.size(), 1);
+        DVD currentDVD = searchResults.get(0);
+        assertTrue(currentDVD.getTitle().equals("Three"));
+        
+    }
+
+    /**
+     * Test of getAverageNumberOfNotesPerMovie method, of class DVDLibraryDao.
+     */
+    @Test
+    public void testGetAverageNumberOfNotesPerMovie() throws Exception {
+        
+    }    
 
     /**
      * Test of initializeLibrary method, of class DVDLibraryDao.

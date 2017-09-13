@@ -6,4 +6,4 @@ B3::Twix::0.40::12
 A3::Almond Joy::0.75::12
 C1::Nutty Bars::0.35::12
 B1::Snickers::0.65::12
-C2::Hershey's::0.25::11
+C2::Hershey's::0.25::10

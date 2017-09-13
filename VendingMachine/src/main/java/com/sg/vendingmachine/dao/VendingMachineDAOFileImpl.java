@@ -25,18 +25,27 @@ import java.util.Scanner;
  */
 public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     
+    // Instantiate HashMap to link SKU numbers to items
     private Map<String, Item> items = new HashMap<>();
+    // Store name of inventory file
     private static final String INVENTORY_FILE = "inventory.txt";
+    // Set delimiter
     private static final String DELIMITER = "::";
+    // Instantiate BigDecimal to keep track of money entered to machine
     private BigDecimal moneyEntered;
+    // These variables are reserved for future use
+    // DAO should not decide dimensions of machine but
+    // Machine object should keep that information
     private static final Integer NUM_ROWS = 3;
     private static final Integer NUM_COLUMNS = 3;
     
+    // Read inventory from file when DAO object is constructed
     public VendingMachineDAOFileImpl() throws VendingMachineFilePersistenceException {
         readInventory();
         moneyEntered = new BigDecimal("0");
     }
     
+    // Read the inventory from file 
     private void readInventory() throws VendingMachineFilePersistenceException {
         Scanner scanner;
         

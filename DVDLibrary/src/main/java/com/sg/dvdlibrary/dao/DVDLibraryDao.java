@@ -7,6 +7,7 @@ package com.sg.dvdlibrary.dao;
 
 import com.sg.dvdlibrary.dto.DVD;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -38,4 +39,28 @@ public interface DVDLibraryDao {
     public void saveOnExit()
      throws DVDLibraryPersistenceException;
     
-}
+    public List<DVD> getAllMoviesReleasedInLastNYears(int N)
+     throws DVDLibraryPersistenceException;
+    
+    public List<DVD> getAllMoviesWithGivenMPAARating(String MPAARating)
+     throws DVDLibraryPersistenceException;
+    
+    public Map<String, List<DVD>> getAllMoviesByGivenDirectorSortedByMPAARating(String Director)
+     throws DVDLibraryPersistenceException;
+    
+    public List<DVD> getAllMoviesReleasedByStudio(String Studio)
+     throws DVDLibraryPersistenceException;
+    
+    public double getAverageAgeOfAllMovies()
+     throws DVDLibraryPersistenceException;
+    
+    public List<DVD> getNewestMovie()
+     throws DVDLibraryPersistenceException;
+    
+    public List<DVD> getOldestMovie()
+     throws DVDLibraryPersistenceException;
+    
+    public double getAverageNumberOfNotesPerMovie()
+     throws DVDLibraryPersistenceException;
+             
+    }
