@@ -5,7 +5,9 @@
  */
 package com.sg.dvdlibrary.dto;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 /**
@@ -30,6 +32,11 @@ public class DVD {
         this.SKU = SKU;
     }
 
+    public long getDVDAge() {
+            Period p = releaseDate.until(LocalDate.now());
+            return p.getYears();
+    }    
+    
     // SKU for each DVD object is read-only, because it is the unique identifier
     public String getSKU() {
         return SKU;

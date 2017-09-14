@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -118,6 +119,51 @@ public class DVDLibraryDaoStubImpl implements DVDLibraryDao {
     @Override
     public void saveOnExit() throws DVDLibraryPersistenceException {
         return;
+    }
+
+    @Override
+    public List<DVD> getAllMoviesReleasedInLastNYears(int N) throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<DVD> getAllMoviesWithGivenMPAARating(String MPAARating) throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Map<String, List<DVD>> getAllMoviesByGivenDirectorSortedByMPAARating(String Director) throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<DVD> getAllMoviesReleasedByStudio(String Studio) throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getAverageAgeOfAllMovies() throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<DVD> getNewestMovie() throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<DVD> getOldestMovie() throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getAverageNumberOfNotesPerMovie() throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<DVD> getListOfDVDs() throws DVDLibraryPersistenceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

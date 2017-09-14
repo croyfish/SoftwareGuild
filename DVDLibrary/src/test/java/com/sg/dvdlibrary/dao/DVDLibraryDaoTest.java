@@ -416,9 +416,12 @@ public class DVDLibraryDaoTest {
         dvd3.setMPAARating("PG-7");
         dvd3.setDirector("Director");       
         dvd3.setStudio("Studio1");
-        dvd3.setUserNote("UserNote");      
+        dvd3.setUserNote("UserNote");  
         
-        assertEquals(dao.getAverageAgeOfAllMovies(), LocalDate.now().minusYears(5));
+        dao.addDVD(dvd3.getSKU(), dvd3);
+        
+        
+        assertEquals(5, dao.getAverageAgeOfAllMovies(), 0.1) ;
         
     }
 
@@ -455,14 +458,15 @@ public class DVDLibraryDaoTest {
         dvd3.setDirector("Director");       
         dvd3.setStudio("Studio1");
         dvd3.setUserNote("UserNote");
-        
+
+        dao.addDVD(dvd3.getSKU(), dvd3);        
         
         List<DVD> searchResults = dao.getNewestMovie();
-        assertEquals(searchResults.size(), 2);
+        assertEquals(2, searchResults.size());
         
         dvd2.setReleaseDate(LocalDate.now().minusYears(5));
         searchResults = dao.getNewestMovie();
-        assertEquals(searchResults.size(), 1);
+        assertEquals(1, searchResults.size());
         DVD currentDVD = searchResults.get(0);
         assertTrue(currentDVD.getTitle().equals("One"));
 
@@ -502,12 +506,18 @@ public class DVDLibraryDaoTest {
         dvd3.setStudio("Studio1");
         dvd3.setUserNote("UserNote");
         
-        List<DVD> searchResults = dao.getNewestMovie();
-        assertEquals(searchResults.size(), 2);
+        dao.addDVD(dvd3.getSKU(), dvd3);
         
-        dvd2.setReleaseDate(LocalDate.now().minusYears(5));
-        searchResults = dao.getNewestMovie();
-        assertEquals(searchResults.size(), 1);
+        System.out.println(dvd1.getReleaseDate() + " : " + dvd2.getReleaseDate() + " : " + dvd3.getReleaseDate());
+        System.out.println(dvd1.getDVDAge() + " : " + dvd2.getDVDAge() + " : " + dvd3.getDVDAge());
+        
+        
+        List<DVD> searchResults = dao.getOldestMovie();
+        assertEquals(2, searchResults.size());
+        
+        dvd2.setReleaseDate(LocalDate.now().minusYears(8));
+        searchResults = dao.getOldestMovie();
+        assertEquals(1, searchResults.size());
         DVD currentDVD = searchResults.get(0);
         assertTrue(currentDVD.getTitle().equals("Three"));
         

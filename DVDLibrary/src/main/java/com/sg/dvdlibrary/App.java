@@ -7,14 +7,9 @@ package com.sg.dvdlibrary;
 
 // Import classes that will be referenced in App
 import com.sg.dvdlibrary.controller.DVDLibraryController;
-import com.sg.dvdlibrary.dao.DVDLibraryDao;
-import com.sg.dvdlibrary.dao.DVDLibraryDaoFileImpl;
 import com.sg.dvdlibrary.service.DVDLibraryDataValidationException;
-import com.sg.dvdlibrary.service.DVDLibraryServiceLayer;
-import com.sg.dvdlibrary.service.DVDLibraryServiceLayerImpl;
-import com.sg.dvdlibrary.ui.DVDLibraryView;
-import com.sg.dvdlibrary.ui.UserIO;
-import com.sg.dvdlibrary.ui.UserIOConsoleImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -24,17 +19,22 @@ public class App {
     
     public static void main(String[] args) throws DVDLibraryDataValidationException {
         
-        // Instantiate UserIO interface implementation
-        UserIO myIO = new UserIOConsoleImpl();
-        // Pass UserIO implementation object to view
-        DVDLibraryView myView = new DVDLibraryView(myIO);
-        // Instantiate DAO interface implementation
-        DVDLibraryDao myDao = new DVDLibraryDaoFileImpl();
-        // Instantiate ServiceLayer interface implementation
-        DVDLibraryServiceLayer myService = new DVDLibraryServiceLayerImpl(myDao);
-        // Pass DAO implementation to controller
-        DVDLibraryController controller = new DVDLibraryController(myService, myView);
-        // Start the controller
+//        // Instantiate UserIO interface implementation
+//        UserIO myIO = new UserIOConsoleImpl();
+//        // Pass UserIO implementation object to view
+//        DVDLibraryView myView = new DVDLibraryView(myIO);
+//        // Instantiate DAO interface implementation
+//        DVDLibraryDao myDao = new DVDLibraryDaoFileImpl();
+//        // Instantiate ServiceLayer interface implementation
+//        DVDLibraryServiceLayer myService = new DVDLibraryServiceLayerImpl(myDao);
+//        // Pass DAO implementation to controller
+//        DVDLibraryController controller = new DVDLibraryController(myService, myView);
+//        // Start the controller
+
+        ApplicationContext ctx =
+                new ClassPathXmlApplicationContext("applicationContext.xml");
+        DVDLibraryController controller =
+                ctx.getBean("controller", DVDLibraryController.class);
         controller.run();
     }
 }

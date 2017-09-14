@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -220,22 +222,89 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
     @Override
     public double getAverageAgeOfAllMovies() throws DVDLibraryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<DVD> dvdList = getListOfDVDs();
+        
+        LongSummaryStatistics lstats = dvdList.stream()
+            .collect(Collectors.summarizingLong(DVD::getDVDAge));
+            
+        return lstats.getAverage();
     }
 
     @Override
-    public List<DVD> getNewestMovie() throws DVDLibraryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<DVD> getListOfDVDs () throws DVDLibraryPersistenceException {
+        return dvds.values().stream()
+                .collect(Collectors.toList());
     }
+    
+    
+    @Override
+    public List<DVD> getNewestMovie() throws DVDLibraryPersistenceException{
+        
+            List<DVD> dvdList = getListOfDVDs();
+//            List<Long> agesList = Lambda.extract(dvdList, Lambda.on(DVD).getDVDAge);
 
+            LongSummaryStatistics lstats = dvdList.stream()
+                    .collect(Collectors.summarizingLong(DVD::getDVDAge));
+            
+            
+            long oldestDate = lstats.getMin();
+            
+            return dvds.values()
+                .stream()
+                .filter(d -> d.getDVDAge() == oldestDate)
+                .collect(Collectors.toList());
+
+//        LocalDate newestDVDs = dvds.values()
+//            .stream()
+//            .min(DVD::getReleaseDate)
+//            .getAsLocalDate().toEpochDay();
+//        
+//        return dvds.values()
+//                .stream()
+//                .filter(d -> d.getReleaseDate().toEpochDay() == newestDVDs.toEpochDay())
+//                .collect(Collectors.toList());
+
+//               .stream()
+//                .mapToLong(Server::getServerAge)
+//                .average()
+//                .getAsDouble();
+    }
+    
     @Override
     public List<DVD> getOldestMovie() throws DVDLibraryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            
+//        Comparator<DVD> byRelease = Comparator.comparing(
+//                    DVD::getDVDAge, (d1, d2) -> {
+//                        return d2.compareTo(d1);
+//                    });
+//            
+//            DVD oldestDVD = getListOfDVDs().stream()
+//                    .max(byRelease).get();
+//            
+//            LocalDate oldestDate;
+//                oldestDate = oldestDVD.getReleaseDate();
+           
+
+
+            List<DVD> dvdList = getListOfDVDs();
+//            List<Long> agesList = Lambda.extract(dvdList, Lambda.on(DVD).getDVDAge);
+
+            LongSummaryStatistics lstats = dvdList.stream()
+                    .collect(Collectors.summarizingLong(DVD::getDVDAge));
+            
+            
+            long oldestDate = lstats.getMax();
+            
+            return dvds.values()
+                .stream()
+                .filter(d -> d.getDVDAge() == oldestDate)
+                .collect(Collectors.toList());
+        
     }
 
     @Override
     public double getAverageNumberOfNotesPerMovie() throws DVDLibraryPersistenceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

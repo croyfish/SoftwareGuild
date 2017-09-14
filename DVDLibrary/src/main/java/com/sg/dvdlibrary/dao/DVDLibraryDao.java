@@ -55,12 +55,14 @@ public interface DVDLibraryDao {
      throws DVDLibraryPersistenceException;
     
     public List<DVD> getNewestMovie()
-     throws DVDLibraryPersistenceException;
+     throws DVDLibraryPersistenceException;;
     
     public List<DVD> getOldestMovie()
      throws DVDLibraryPersistenceException;
     
     public double getAverageNumberOfNotesPerMovie()
      throws DVDLibraryPersistenceException;
-             
+    
+    public List<DVD> getListOfDVDs () 
+     throws DVDLibraryPersistenceException;       
     }

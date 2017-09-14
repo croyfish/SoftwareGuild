@@ -5,10 +5,6 @@
  */
 package com.sg.classroster.service;
 
-import com.sg.classroster.dao.ClassRosterDaoStubImpl;
-import com.sg.classroster.dao.ClassRosterAuditDaoStubImpl;
-import com.sg.classroster.dao.ClassRosterAuditDao;
-import com.sg.classroster.dao.ClassRosterDao;
 import com.sg.classroster.dto.Student;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -19,6 +15,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -29,10 +27,15 @@ public class ClassRosterServiceLayerTest {
     private ClassRosterServiceLayer service;
     
     public ClassRosterServiceLayerTest() {
-        ClassRosterDao dao = new ClassRosterDaoStubImpl();
-        ClassRosterAuditDao auditDao = new ClassRosterAuditDaoStubImpl();
-        
-        service = new ClassRosterServiceLayerImpl(dao, auditDao);
+//        ClassRosterDao dao = new ClassRosterDaoStubImpl();
+//        ClassRosterAuditDao auditDao = new ClassRosterAuditDaoStubImpl();
+//        
+//        service = new ClassRosterServiceLayerImpl(dao, auditDao);
+
+    ApplicationContext ctx = 
+        new ClassPathXmlApplicationContext("applicationContext.xml");
+    service = 
+        ctx.getBean("serviceLayer", ClassRosterServiceLayer.class);
         
     }
     
