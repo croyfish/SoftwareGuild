@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.LongSummaryStatistics;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
  *
  * @author jeffc
  */
-public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
+public class DVDLibraryDaoFileImpl2 implements DVDLibraryDao {
     // Declare HashMap to store DVD SKUs as keys and DVD objects as values
     private Map<String, DVD> dvds = new HashMap<>();
     // Initialize name of write file as a static final
@@ -78,11 +77,9 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         // Instantiate search result list
         List<DVD> dvdSearchResults = new ArrayList<>();
         // Search through dvds HashMap and DVD objects with correct title to ArrayList
-        for (DVD currentDVD : dvds.values()) {
-            if (currentDVD.getTitle().equals(title)) {
-                dvdSearchResults.add(currentDVD);
-            }
-        }
+        dvds.values().stream().filter((currentDVD) -> (currentDVD.getTitle().equals(title))).forEachOrdered((currentDVD) -> {
+            dvdSearchResults.add(currentDVD);
+        });
         // Return the Arraylist
         return (dvdSearchResults);
     }
@@ -174,7 +171,7 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
         List<DVD> dvdList = this.getAllDVDs();
         // Get fields from all DVD objects in list and write them to lines of
         // data file with each field separated by delimiter.
-        for (DVD currentDVD : dvdList) {
+        dvdList.stream().map((currentDVD) -> {
             out.println(currentDVD.getSKU() + DELIMITER
                     + currentDVD.getTitle() + DELIMITER
                     + currentDVD.getReleaseDate() + DELIMITER
@@ -182,9 +179,11 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
                     + currentDVD.getDirector() + DELIMITER 
                     + currentDVD.getStudio() + DELIMITER
                     + currentDVD.getUserNote());
+            return currentDVD;
+        }).forEachOrdered((_item) -> {
             // Force PrintWriter to finish writing file
             out.flush();
-        }
+        });
         // Close data stream
         out.close();
     }
@@ -193,26 +192,18 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     public List<DVD> getAllMoviesReleasedInLastNYears(int N) throws DVDLibraryPersistenceException {
         LocalDate startingDate = LocalDate.now().minusYears(N);
         
-        List<DVD> searchResults = new ArrayList<>();
-        for (DVD currentDVD : dvds.values()) {
-            if (currentDVD.getReleaseDate().toEpochDay() > startingDate.toEpochDay()) {
-                searchResults.add(currentDVD);
-            }
-        }
-        
-        return searchResults;
+        return dvds.values()
+                .stream()
+                .filter(d -> d.getReleaseDate().toEpochDay() > startingDate.toEpochDay())
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<DVD> getAllMoviesWithGivenMPAARating(String MPAARating) throws DVDLibraryPersistenceException {
-        
-        List<DVD> searchResults = new ArrayList<>();
-        for (DVD currentDVD : dvds.values()) {
-            if (currentDVD.getMPAARating().equalsIgnoreCase(MPAARating)) {
-                searchResults.add(currentDVD);
-            }
-        }
-        return searchResults;
+        return dvds.values()
+                .stream()
+                .filter(d -> d.getMPAARating().equalsIgnoreCase(MPAARating))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -222,35 +213,26 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
     @Override
     public List<DVD> getAllMoviesReleasedByStudio(String Studio) throws DVDLibraryPersistenceException {
-        
-        List<DVD> searchResults = new ArrayList<>();
-        for (DVD currentDVD : dvds.values()) {
-            if (currentDVD.getStudio().equals(Studio)) {
-                searchResults.add(currentDVD);
-            }
-        }
-        
-        return searchResults;
+            return dvds.values()
+                .stream()
+                .filter(d -> d.getStudio().equalsIgnoreCase(Studio))
+                .collect(Collectors.toList());
     }
 
     @Override
     public double getAverageAgeOfAllMovies() throws DVDLibraryPersistenceException {
+        List<DVD> dvdList = getListOfDVDs();
         
-        double sum = 0;
-        double average;
-        for (DVD currentDVD : dvds.values()) {
-            sum += currentDVD.getDVDAge();
-        }
-        return sum/(dvds.size());
+        LongSummaryStatistics lstats = dvdList.stream()
+            .collect(Collectors.summarizingLong(DVD::getDVDAge));
+            
+        return lstats.getAverage();
     }
 
     @Override
     public List<DVD> getListOfDVDs () throws DVDLibraryPersistenceException {
-        List<DVD> allDVDs = new ArrayList<>();
-        for (DVD currentDVD : dvds.values()) {
-            allDVDs.add(currentDVD);
-        }
-        return allDVDs;
+        return dvds.values().stream()
+                .collect(Collectors.toList());
     }
     
     
@@ -325,3 +307,4 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     }
 
 }
+
