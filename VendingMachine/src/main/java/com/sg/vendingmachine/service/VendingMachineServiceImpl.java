@@ -5,6 +5,7 @@
  */
 package com.sg.vendingmachine.service;
 
+import com.sg.vendingmachine.dao.VendingMachineAuditDao;
 import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dao.VendingMachineDAO;
 import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
@@ -20,10 +21,12 @@ import java.util.List;
  */
 public class VendingMachineServiceImpl implements VendingMachineService {
 
+    private VendingMachineAuditDao auditDao;
     private VendingMachineDAO dao;
     
-    public VendingMachineServiceImpl(VendingMachineDAO dao) {
+    public VendingMachineServiceImpl(VendingMachineDAO dao, VendingMachineAuditDao auditDao) {
         this.dao = dao;
+        this.auditDao = auditDao;
     }
 
     // Pass through menu to return all items
@@ -46,7 +49,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         // Extract in stock field from purchased item
         Integer leftInStock = selectedItem.getInStock();
         // Check if user has enough money and item is in stock
-        if (money.compareTo(price) == 1 && leftInStock > 0) {
+        if ((money.compareTo(price) == 1 || money.compareTo(price) == 0) && leftInStock > 0) {
             // Subtract item price from money entered
             dao.setMoneyEntered(money.subtract(price));
             // Remove one item from stock
@@ -68,7 +71,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     }
 
     @Override
-    public void addMoneyEnteredToDAO(BigDecimal money) {
+    public void addMoneyEnteredToDAO(Change money) {
         dao.addMoney(money);
     }
 
@@ -129,23 +132,23 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     @Override
     public void depositCoin(int coinType) {
         String moneyAdded = "0.00";
+        Change changeEntered = new Change();
         switch (coinType) {
             case 1:
-                moneyAdded = "0.01";
+                changeEntered.setPennies(1);
                 break;
             case 2:
-                moneyAdded = "0.05";
+                changeEntered.setNickels(1);
                 break;
             case 3:
-                moneyAdded = "0.10";
+                changeEntered.setDimes(1);
                 break;
             case 4:
-                moneyAdded = "0.25";
+                changeEntered.setQuarters(1);
                 break;
             default:
-                moneyAdded = "0.00";
         }
-        dao.addMoney(new BigDecimal(moneyAdded));
+        dao.addMoney(changeEntered);
     }
     
     // Write the inventory before exiting the program

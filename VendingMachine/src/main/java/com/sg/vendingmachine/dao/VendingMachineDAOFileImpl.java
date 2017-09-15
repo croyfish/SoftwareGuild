@@ -5,6 +5,7 @@
  */
 package com.sg.vendingmachine.dao;
 
+import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dto.Item;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -42,7 +43,7 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     // Read inventory from file when DAO object is constructed
     public VendingMachineDAOFileImpl() throws VendingMachineFilePersistenceException {
         readInventory();
-        moneyEntered = new BigDecimal("0");
+        moneyEntered = new BigDecimal("0.00");
     }
     
     // Read the inventory from file 
@@ -140,8 +141,10 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     }
 
     @Override
-    public void addMoney(BigDecimal money) {
-        moneyEntered = new BigDecimal(money.add(moneyEntered).toString());
+    public void addMoney(Change changeEntered) {
+        
+        moneyEntered = moneyEntered.add(new BigDecimal(changeEntered.getValueOfChange().toString()));
+        
     }
 
 }

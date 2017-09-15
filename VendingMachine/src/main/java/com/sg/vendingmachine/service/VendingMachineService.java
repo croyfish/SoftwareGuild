@@ -28,7 +28,7 @@ public interface VendingMachineService {
     
     public BigDecimal getMoneyEnteredFromDAO();
     
-    public void addMoneyEnteredToDAO(BigDecimal money);
+    public void addMoneyEnteredToDAO(Change money);
     
     public Change calculateChange();
     

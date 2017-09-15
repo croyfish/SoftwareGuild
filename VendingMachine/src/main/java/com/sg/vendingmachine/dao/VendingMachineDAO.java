@@ -5,6 +5,7 @@
  */
 package com.sg.vendingmachine.dao;
 
+import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,7 +26,7 @@ public interface VendingMachineDAO {
     
     public void setMoneyEntered(BigDecimal money);
     
-    public void addMoney(BigDecimal money);
+    public void addMoney(Change changeEntered);
     
     public void writeInventory()
      throws VendingMachineFilePersistenceException;

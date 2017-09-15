@@ -22,6 +22,11 @@ public class Item {
         this.SKU = SKU;
     }
     
+    @Override
+    public String toString() {
+    return " SKU: " + SKU + " | Item name: " + name + " | In stock: " + inStock + "items";
+    }
+    
     public String getSKU() {
         return SKU;
     }

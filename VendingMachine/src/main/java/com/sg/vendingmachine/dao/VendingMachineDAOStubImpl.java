@@ -5,6 +5,7 @@
  */
 package com.sg.vendingmachine.dao;
 
+import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -75,8 +76,8 @@ public class VendingMachineDAOStubImpl implements VendingMachineDAO {
     }
 
     @Override
-    public void addMoney(BigDecimal money) {
-        moneyEntered = new BigDecimal(money.add(moneyEntered).toString());
+    public void addMoney(Change money) {
+        moneyEntered = moneyEntered.add(new BigDecimal(money.getValueOfChange().toString()));
     }
 
     @Override

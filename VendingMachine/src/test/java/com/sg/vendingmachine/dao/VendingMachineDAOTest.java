@@ -5,6 +5,7 @@
  */
 package com.sg.vendingmachine.dao;
 
+import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dto.Item;
 import java.math.BigDecimal;
 import java.util.List;
@@ -121,20 +122,33 @@ public class VendingMachineDAOTest {
     @Test
     public void testAddMoneyEntered() {
         
+        
+        
         dao.setMoneyEntered(new BigDecimal("0"));
         assertEquals("0", dao.getMoneyEntered().toString());
         
-        dao.addMoney(new BigDecimal("0.05"));
+        Change myChange = new Change();
+        myChange.setNickels(1);
+        
+        dao.addMoney(myChange);
         assertEquals("0.05", dao.getMoneyEntered().toString());
         
-        dao.addMoney(new BigDecimal("0.10"));
+        myChange.setNickels(2);
+        
+        dao.addMoney(myChange);
         assertEquals("0.15", dao.getMoneyEntered().toString());
         
-        dao.addMoney(new BigDecimal("0.25"));
+        myChange.setDimes(1);
+        myChange.setNickels(3);
+        
+        dao.addMoney(myChange);
         assertEquals("0.40", dao.getMoneyEntered().toString());
         
-        dao.addMoney(new BigDecimal("12345"));
-        assertEquals("12345.40", dao.getMoneyEntered().toString());
+        myChange.setChangeToZero();
+        myChange.setQuarters(100);
+        
+        dao.addMoney(myChange);
+        assertEquals("25.40", dao.getMoneyEntered().toString());
         
     }
 }

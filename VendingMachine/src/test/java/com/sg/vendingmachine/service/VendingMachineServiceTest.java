@@ -6,11 +6,7 @@
 package com.sg.vendingmachine.service;
 
 import com.sg.vendingmachine.dto.Change;
-import com.sg.vendingmachine.dao.VendingMachineDAO;
-import com.sg.vendingmachine.dao.VendingMachineDAOStubImpl;
 import com.sg.vendingmachine.dto.Item;
-import com.sg.vendingmachine.ui.UserIO;
-import com.sg.vendingmachine.ui.UserIOConsoleImpl;
 import java.math.BigDecimal;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,6 +17,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -28,13 +26,21 @@ import org.junit.Test;
  */
 public class VendingMachineServiceTest {
     
-    private VendingMachineService service;
-    private UserIO io = new UserIOConsoleImpl();
+//    private VendingMachineService service;
+//    private UserIO io = new UserIOConsoleImpl();
+//    
+//    public VendingMachineServiceTest() {
+//        VendingMachineDAO dao = new VendingMachineDAOStubImpl();
+//        service = new VendingMachineServiceImpl(dao);
+    
+    VendingMachineService service;  
     
     public VendingMachineServiceTest() {
-        VendingMachineDAO dao = new VendingMachineDAOStubImpl();
-        service = new VendingMachineServiceImpl(dao);
+        
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+    service = ctx.getBean("service", VendingMachineService.class);    
     }
+
     
     @BeforeClass
     public static void setUpClass() {
@@ -73,7 +79,7 @@ public class VendingMachineServiceTest {
             item = service.getItemFromDAO("B1");
             assertNull(item);
         } catch (NullPointerException e) {
-            io.print("NullPointerException was encountered.");
+            System.out.println("NullPointerException was encountered.");
         }
         
     }
@@ -99,14 +105,29 @@ public class VendingMachineServiceTest {
      */
     @Test
     public void testAddMoneyEnteredToDAO() {
-        service.addMoneyEnteredToDAO(new BigDecimal("0"));
-        assertEquals("0", service.getMoneyEnteredFromDAO().toString());
-        service.addMoneyEnteredToDAO(new BigDecimal("12345.67"));
-        assertEquals("12345.67", service.getMoneyEnteredFromDAO().toString());
-        service.addMoneyEnteredToDAO(new BigDecimal("0"));
-        assertEquals("12345.67", service.getMoneyEnteredFromDAO().toString());
-        service.addMoneyEnteredToDAO(new BigDecimal("0.01"));
-        assertEquals("12345.68", service.getMoneyEnteredFromDAO().toString());    
+        
+        Change myChange = new Change();
+        myChange.setNickels(1);
+        
+        service.addMoneyEnteredToDAO(myChange);
+        assertEquals("0.05", service.getMoneyEnteredFromDAO().toString());
+        
+        myChange.setNickels(2);
+        
+        service.addMoneyEnteredToDAO(myChange);
+        assertEquals("0.15", service.getMoneyEnteredFromDAO().toString());
+        
+        myChange.setDimes(1);
+        myChange.setNickels(3);
+        
+        service.addMoneyEnteredToDAO(myChange);
+        assertEquals("0.40", service.getMoneyEnteredFromDAO().toString());
+        
+        myChange.setChangeToZero();
+        myChange.setQuarters(100);
+        
+        service.addMoneyEnteredToDAO(myChange);
+        assertEquals("25.40", service.getMoneyEnteredFromDAO().toString());    
     }
 
     /**
