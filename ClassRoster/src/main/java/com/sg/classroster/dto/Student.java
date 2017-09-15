@@ -18,6 +18,12 @@ public class Student {
     private String lastName;
     private String cohort;
 
+    @Override
+    public String toString() {
+        return "ID: " + studentID + " |Name: " + firstName + " "
+                + lastName + " |Cohort: " + cohort;
+    }
+    
     public Student(Integer studentID) {
         this.studentID = studentID;
     }

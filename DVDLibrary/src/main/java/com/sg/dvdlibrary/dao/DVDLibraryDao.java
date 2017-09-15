@@ -18,6 +18,9 @@ public interface DVDLibraryDao {
     public DVD addDVD(String SKU, DVD dvd)
      throws DVDLibraryPersistenceException;
     
+    public DVD editDVD(String SKU, DVD dvd)
+     throws DVDLibraryPersistenceException;
+    
     public List<DVD> getAllDVDs()
      throws DVDLibraryPersistenceException;
     

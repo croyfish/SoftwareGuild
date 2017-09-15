@@ -19,6 +19,10 @@ public interface DVDLibraryServiceLayer {
      throws DVDLibraryDataValidationException,
             DVDLibraryPersistenceException;
     
+    public DVD editDVD(String SKU, DVD dvd)
+     throws DVDLibraryDataValidationException,
+            DVDLibraryPersistenceException;
+    
     public List<DVD> getAllDVDs()
      throws DVDLibraryPersistenceException;
     

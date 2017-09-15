@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.LongSummaryStatistics;
@@ -46,6 +45,13 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
 
     @Override // Add a new DVD object to the dvds HashMap
     public DVD addDVD(String SKU, DVD dvd) 
+     throws DVDLibraryPersistenceException {
+        DVD currentDVD = dvds.put(SKU, dvd);
+        return currentDVD;
+    }
+    
+    @Override // Add a new DVD object to the dvds HashMap
+    public DVD editDVD(String SKU, DVD dvd) 
      throws DVDLibraryPersistenceException {
         DVD currentDVD = dvds.put(SKU, dvd);
         return currentDVD;

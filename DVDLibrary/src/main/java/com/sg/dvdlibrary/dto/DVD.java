@@ -5,8 +5,8 @@
  */
 package com.sg.dvdlibrary.dto;
 
-import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.Objects;
 
@@ -32,6 +32,12 @@ public class DVD {
         this.SKU = SKU;
     }
 
+    @Override
+    public String toString() {
+        LocalDateTime timestamp = LocalDateTime.now();
+        return "Title: " + title;
+    }    
+    
     public long getDVDAge() {
             Period p = releaseDate.until(LocalDate.now());
             return p.getYears();

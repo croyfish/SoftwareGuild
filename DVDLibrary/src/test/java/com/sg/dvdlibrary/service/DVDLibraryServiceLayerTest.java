@@ -5,11 +5,8 @@
  */
 package com.sg.dvdlibrary.service;
 
-import com.sg.dvdlibrary.dao.DVDLibraryDao;
-import com.sg.dvdlibrary.dao.DVDLibraryDaoStubImpl;
 import com.sg.dvdlibrary.dto.DVD;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -21,6 +18,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -31,9 +30,15 @@ public class DVDLibraryServiceLayerTest {
     private DVDLibraryServiceLayer service;
     
     public DVDLibraryServiceLayerTest() {
-        DVDLibraryDao dao = new DVDLibraryDaoStubImpl();
-        
-        service = new DVDLibraryServiceLayerImpl(dao);
+//        DVDLibraryDao dao = new DVDLibraryDaoStubImpl();
+//        ClassRosterAuditDao auditDao = new ClassRosterAuditDaoStubImpl();
+//        
+//        service = new DVDLibraryServiceLayerImpl(dao);
+
+    ApplicationContext ctx =
+            new ClassPathXmlApplicationContext("applicationContext.xml");
+    service =
+            ctx.getBean("serviceLayer", DVDLibraryServiceLayer.class);
         
     }
     

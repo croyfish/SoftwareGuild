@@ -222,7 +222,7 @@ public class DVDLibraryController {
                 return;
             }
             // If yes, tell DAO to edit the DVD object by updating its fields
-            service.addDVD(SKU, currentDVD);
+            service.editDVD(SKU, currentDVD);
             view.displayEditSuccessBanner();
             // Call local method to ask user to edit another DVD or not
             doAgain  = verifyDoAgain();

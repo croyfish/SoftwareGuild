@@ -40,8 +40,8 @@ public class ClassRosterServiceLayerImpl implements
         
         validateStudentData(student);
         dao.addStudent(student.getStudentID(), student);
-        auditDao.writeAuditEntry(
-                "Student " + student.getStudentID() + " CREATED.");
+//        auditDao.writeAuditEntry(
+//                "Student " + student.getStudentID() + " CREATED.");
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ClassRosterServiceLayerImpl implements
     public Student removeStudent(Integer studentID) throws 
             ClassRosterPersistenceException {
         Student removedStudent = dao.removeStudent(studentID);
-        auditDao.writeAuditEntry("Student " + studentID + " REMOVED.");
+//        auditDao.writeAuditEntry("Student " + studentID + " REMOVED.");
         return removedStudent;
     }
     

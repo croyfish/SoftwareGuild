@@ -5,6 +5,7 @@
  */
 package com.sg.dvdlibrary.service;
 
+import com.sg.dvdlibrary.dao.DVDLibraryAuditDao;
 import com.sg.dvdlibrary.dao.DVDLibraryPersistenceException;
 import com.sg.dvdlibrary.dao.DVDLibraryDao;
 import com.sg.dvdlibrary.dto.DVD;
@@ -16,10 +17,13 @@ import java.util.List;
  */
 public class DVDLibraryServiceLayerImpl implements DVDLibraryServiceLayer {
     
+    private DVDLibraryAuditDao auditDao;
     private DVDLibraryDao dao;
+
     
-    public DVDLibraryServiceLayerImpl(DVDLibraryDao dao) {
+    public DVDLibraryServiceLayerImpl(DVDLibraryDao dao, DVDLibraryAuditDao auditDao) {
         this.dao = dao;
+        this.auditDao = auditDao;
     }
 
     @Override
@@ -35,6 +39,21 @@ public class DVDLibraryServiceLayerImpl implements DVDLibraryServiceLayer {
         dao.addDVD(dvd.getSKU(), dvd);
         return dvd;
     }
+    
+    @Override
+    public DVD editDVD(String SKU, DVD dvd) throws DVDLibraryDataValidationException, DVDLibraryPersistenceException {
+        if (dao.getDVD(dvd.getSKU()) == null) {
+            throw new DVDLibraryPersistenceException(
+                    "ERROR: Could not edit DVD. SKU "
+            + dvd.getSKU()
+            + " does not exist");
+        }
+        
+        validateDVDData(dvd);
+        dao.addDVD(dvd.getSKU(), dvd);
+        return dvd;
+    }
+    
 
     @Override
     public List<DVD> getAllDVDs() throws DVDLibraryPersistenceException {

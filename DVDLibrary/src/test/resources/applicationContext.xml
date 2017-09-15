@@ -20,12 +20,16 @@
     <bean id="dvdLibraryDao" 
        class="com.sg.dvdlibrary.dao.DVDLibraryDaoFileImpl"/>
    
-    <bean id="dveLibraryDaoStub" 
+    <bean id="dvdLibraryDaoStub" 
        class="com.sg.dvdlibrary.dao.DVDLibraryDaoStubImpl"/>
+    
+    <bean id="auditDaoStub" 
+       class="com.sg.dvdlibrary.dao.DVDLibraryAuditDaoStubImpl"/>
    
     <bean id="serviceLayer" 
        class="com.sg.dvdlibrary.service.DVDLibraryServiceLayerImpl">
-        <constructor-arg ref="dvdLibraryDaoStub"/>          
+        <constructor-arg ref="dvdLibraryDaoStub"/>
+        <constructor-arg ref="auditDaoStub"/>             
     </bean>
    
 </beans>

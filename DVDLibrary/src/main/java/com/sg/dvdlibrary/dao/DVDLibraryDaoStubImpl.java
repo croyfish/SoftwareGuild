@@ -64,6 +64,15 @@ public class DVDLibraryDaoStubImpl implements DVDLibraryDao {
             return null;
         }
     }
+    
+    @Override
+    public DVD editDVD(String SKU, DVD dvd) throws DVDLibraryPersistenceException {
+        if(SKU.equals(dvd1.getSKU())) {
+            return dvd1;
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public List<DVD> getAllDVDs() throws DVDLibraryPersistenceException {

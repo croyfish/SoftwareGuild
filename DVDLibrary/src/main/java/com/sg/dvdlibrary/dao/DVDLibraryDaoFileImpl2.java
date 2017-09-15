@@ -49,6 +49,13 @@ public class DVDLibraryDaoFileImpl2 implements DVDLibraryDao {
         DVD currentDVD = dvds.put(SKU, dvd);
         return currentDVD;
     }
+    
+    @Override // Add a new DVD object to the dvds HashMap
+    public DVD editDVD(String SKU, DVD dvd) 
+     throws DVDLibraryPersistenceException {
+        DVD currentDVD = dvds.put(SKU, dvd);
+        return currentDVD;
+    }    
 
     @Override // Returns an ArrayList of all DVD object values in dvds HashMap
     public List<DVD> getAllDVDs() 
