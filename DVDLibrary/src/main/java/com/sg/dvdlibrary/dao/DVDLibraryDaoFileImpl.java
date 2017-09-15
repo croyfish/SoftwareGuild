@@ -37,11 +37,6 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     // Initialize integer to count and generate unique SKU codes
     private Integer nextSKU = 0;
     
-    // Construct DVDLibraryDaoFileImpl object and unmarshal data from file to dvds HashMap
-    public void DVDLibraryDaoFileImpl()
-     throws DVDLibraryDaoException {
-        loadLibrary();
-    }
 
     @Override // Add a new DVD object to the dvds HashMap
     public DVD addDVD(String SKU, DVD dvd) 
@@ -113,8 +108,8 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
     }
     
     // Unmarhsalls DVD object data from data file
-    private void loadLibrary() throws DVDLibraryDaoException {
-        Scanner scanner;
+    public void loadLibrary() {
+        Scanner scanner = null;
         
         // Tries&Catches FileNotFoundException and translates it to DaoException
         // to maintain loose coupling between program layers
@@ -123,8 +118,8 @@ public class DVDLibraryDaoFileImpl implements DVDLibraryDao {
                     new BufferedReader(
                             new FileReader(ADDRESS_FILE)));
         } catch (FileNotFoundException e) {
-            throw new DVDLibraryDaoException(
-                "-_- Could not load roster data into memory.", e);
+            System.out.println("-_- Could not load roster data into memory.");
+            System.exit(0);
         }
         
         // Declares a string to hold the data file data line by line

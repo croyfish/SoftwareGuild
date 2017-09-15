@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public interface DVDLibraryDao {
     
+    public void loadLibrary();
+    
     public DVD addDVD(String SKU, DVD dvd)
      throws DVDLibraryPersistenceException;
     

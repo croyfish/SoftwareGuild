@@ -24,6 +24,7 @@ public class DVDLibraryServiceLayerImpl implements DVDLibraryServiceLayer {
     public DVDLibraryServiceLayerImpl(DVDLibraryDao dao, DVDLibraryAuditDao auditDao) {
         this.dao = dao;
         this.auditDao = auditDao;
+        dao.loadLibrary();
     }
 
     @Override
