@@ -26,7 +26,7 @@ public class Change {
     
     @Override
     public String toString() {
-    return " Change: $" + getValueOfChange();
+    return "$" + getValueOfChange();
     }
 
     

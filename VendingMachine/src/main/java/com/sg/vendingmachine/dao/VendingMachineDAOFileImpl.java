@@ -43,7 +43,7 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     // Read inventory from file when DAO object is constructed
     public VendingMachineDAOFileImpl() throws VendingMachineFilePersistenceException {
         readInventory();
-        moneyEntered = new BigDecimal("0.00");
+        this.moneyEntered = new BigDecimal("0.00");
     }
     
     // Read the inventory from file 

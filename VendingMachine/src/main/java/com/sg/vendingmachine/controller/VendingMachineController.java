@@ -109,7 +109,7 @@ public class VendingMachineController {
         }
 //            service.depositCoin(coinType);
               service.addMoneyEnteredToDAO(changeEntered);
-              view.pressEnter();
+//              view.pressEnter();
         }
     }
     

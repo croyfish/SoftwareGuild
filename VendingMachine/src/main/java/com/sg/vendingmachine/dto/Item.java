@@ -22,10 +22,10 @@ public class Item {
         this.SKU = SKU;
     }
     
-    @Override
-    public String toString() {
-    return "Item name: " + name;
-    }
+//    @Override
+//    public String toString() {
+//    return "Item name: " + name;
+//    }
     
     public String getSKU() {
         return SKU;

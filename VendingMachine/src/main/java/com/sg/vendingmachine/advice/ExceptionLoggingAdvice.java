@@ -23,12 +23,12 @@ public class ExceptionLoggingAdvice {
 
         public void createExceptionAuditEntry(JoinPoint jp, Exception ex) {
         
-        String auditEntry = jp.getSignature().getName() + ": " + getMessage(ex) + " ";
-        Object[] args = jp.getArgs();
-          for (Object currentArg : args) {
-
-            auditEntry += currentArg;
-        }
+        String auditEntry = jp.getSignature().getName() + ": " + ex.getMessage();
+//        Object[] args = jp.getArgs();
+//          for (Object currentArg : args) {
+//
+//            auditEntry += currentArg;
+//        }
           
         try {
             auditDao.writeAuditEntry(auditEntry);

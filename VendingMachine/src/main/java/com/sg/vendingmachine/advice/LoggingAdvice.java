@@ -21,11 +21,14 @@ public class LoggingAdvice {
     }
 
         public void createAuditEntry(JoinPoint jp) {
+        String methodName = jp.getSignature().getName();
+        String auditEntry = methodName + ": ";
+        
         Object[] args = jp.getArgs();
-        String auditEntry = jp.getSignature().getName() + ": ";
         for (Object currentArg : args) {
             auditEntry += currentArg;
         }
+    
         try {
             auditDao.writeAuditEntry(auditEntry);
         } catch (VendingMachineFilePersistenceException e) {

@@ -75,7 +75,6 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     @Override
     public void addMoneyEnteredToDAO(Change moneyEntered) {
         dao.addMoney(moneyEntered);
-        System.out.println("We got here.");
     }
 
     // Calculate change owed to user
@@ -125,13 +124,15 @@ public class VendingMachineServiceImpl implements VendingMachineService {
             NoItemInventoryException {
         Item selectedItem = dao.getItem(SKU);
         if (selectedItem.getInStock() < 1) {
-            throw new NoItemInventoryException ("EXCEPTION: Item not in inventory.");
+            throw new NoItemInventoryException ("NoItemInventoryException"
+                    + " encountered! Item: " + selectedItem.getName());
         }
         
         BigDecimal money = dao.getMoneyEntered();
         BigDecimal price = selectedItem.getPrice();
         if (money.compareTo(price) == -1) {  
-            throw new InsufficientFundException ("EXCEPTION: Insufficient funds.");
+            throw new InsufficientFundException ("InsufficientFundException"
+                    + " encountered! Item: " + selectedItem.getName());
         }
      
         money = money.subtract(price);
@@ -143,7 +144,6 @@ public class VendingMachineServiceImpl implements VendingMachineService {
     // Take coin deposited from user and send its value to DAO
     @Override
     public void depositCoin(int coinType) {
-        String moneyAdded = "0.00";
         Change changeEntered = new Change();
         switch (coinType) {
             case 1:
