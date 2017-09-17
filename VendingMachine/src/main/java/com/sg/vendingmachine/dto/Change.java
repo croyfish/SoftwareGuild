@@ -24,7 +24,12 @@ public class Change {
         pennies = 0;
     }
     
+    @Override
+    public String toString() {
+    return " Change: $" + getValueOfChange();
+    }
 
+    
     public void setChangeToZero() {
         this.setPennies(0);
         this.setNickels(0);

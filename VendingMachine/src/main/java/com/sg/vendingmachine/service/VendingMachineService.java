@@ -5,6 +5,8 @@
  */
 package com.sg.vendingmachine.service;
 
+import com.sg.vendingmachine.dao.InsufficientFundException;
+import com.sg.vendingmachine.dao.NoItemInventoryException;
 import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
@@ -33,7 +35,9 @@ public interface VendingMachineService {
     public Change calculateChange();
     
     public Item purchaseItem(String SKU)
-     throws VendingMachineDataValidationException;
+     throws VendingMachineDataValidationException, 
+            InsufficientFundException,
+            NoItemInventoryException;
     
     public void depositCoin(int coinType);
     

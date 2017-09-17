@@ -5,6 +5,8 @@
  */
 package com.sg.vendingmachine.controller;
 
+import com.sg.vendingmachine.dao.InsufficientFundException;
+import com.sg.vendingmachine.dao.NoItemInventoryException;
 import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
 import com.sg.vendingmachine.dto.Item;
@@ -88,7 +90,26 @@ public class VendingMachineController {
         int coinType = view.printAddMoneyMenuAndGetSelection();
         if (coinType != 0) {
             // enter coin to DAO via service
-            service.depositCoin(coinType);
+                    String moneyAdded = "0.00";
+        Change changeEntered = new Change();
+        switch (coinType) {
+            case 1:
+                changeEntered.setPennies(1);
+                break;
+            case 2:
+                changeEntered.setNickels(1);
+                break;
+            case 3:
+                changeEntered.setDimes(1);
+                break;
+            case 4:
+                changeEntered.setQuarters(1);
+                break;
+            default:
+        }
+//            service.depositCoin(coinType);
+              service.addMoneyEnteredToDAO(changeEntered);
+              view.pressEnter();
         }
     }
     
@@ -98,7 +119,7 @@ public class VendingMachineController {
         String SKU = view.askAndGetItemSelection();
         // Try to purchase the item from service
         try {
-            Item purchasedItem = service.getItemFromDAO(SKU);
+            Item purchasedItem = service.purchaseItem(SKU);
             if (purchasedItem != null) {
                 view.displayItemPurchaseSuccessBanner(purchasedItem);
                 view.pressEnter();
@@ -107,8 +128,12 @@ public class VendingMachineController {
                 view.displayErrorMessage("You cannot buy that item.");
             }
         } catch (VendingMachineDataValidationException e) {
-            view.displayErrorMessage("You cannot buy that item.");
-        }    
+            view.displayErrorMessage("Inventory not loaded.");
+        } catch (NoItemInventoryException ex) {
+            view.displayErrorMessage("Item is out of stock.");
+        } catch (InsufficientFundException exc) {
+            view.displayErrorMessage("Your fund is insufficient.");
+        }  
 
     }
     

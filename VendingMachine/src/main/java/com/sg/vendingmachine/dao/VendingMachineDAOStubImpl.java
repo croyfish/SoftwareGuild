@@ -76,8 +76,9 @@ public class VendingMachineDAOStubImpl implements VendingMachineDAO {
     }
 
     @Override
-    public void addMoney(Change money) {
+    public Change addMoney(Change money) {
         moneyEntered = moneyEntered.add(new BigDecimal(money.getValueOfChange().toString()));
+        return money;
     }
 
     @Override

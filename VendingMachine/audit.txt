@@ -2,3 +2,10 @@
 2017-09-15T15:33:51.162 : addMoneyEnteredToDAO: com.sg.vendingmachine.dto.Change@1f2586d6
 2017-09-15T15:33:51.162 : addMoneyEnteredToDAO: com.sg.vendingmachine.dto.Change@1f2586d6
 2017-09-15T15:33:51.162 : addMoneyEnteredToDAO: com.sg.vendingmachine.dto.Change@1f2586d6
+2017-09-17T09:55:28.472 : addMoneyEnteredToDAO:  Change: 0.15
+2017-09-17T09:57:13.589 : addMoneyEnteredToDAO:  Change: 0.150.05
+2017-09-17T10:01:45.497 : addMoneyEnteredToDAO:  Change: $0.10
+2017-09-17T10:01:51.283 : addMoneyEnteredToDAO:  Change: $0.05
+2017-09-17T11:09:30.206 : addMoneyEnteredToDAO:  Change: $0.25
+2017-09-17T11:09:34.588 : addMoneyEnteredToDAO:  Change: $0.25
+2017-09-17T11:09:38.305 : addMoneyEnteredToDAO:  Change: $0.25

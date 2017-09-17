@@ -26,7 +26,7 @@ public interface VendingMachineDAO {
     
     public void setMoneyEntered(BigDecimal money);
     
-    public void addMoney(Change changeEntered);
+    public Change addMoney(Change changeEntered);
     
     public void writeInventory()
      throws VendingMachineFilePersistenceException;

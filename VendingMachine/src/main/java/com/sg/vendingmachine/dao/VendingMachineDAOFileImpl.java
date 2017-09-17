@@ -141,10 +141,10 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
     }
 
     @Override
-    public void addMoney(Change changeEntered) {
+    public Change addMoney(Change changeEntered) {
         
         moneyEntered = moneyEntered.add(new BigDecimal(changeEntered.getValueOfChange().toString()));
-        
+        return changeEntered;
     }
 
 }

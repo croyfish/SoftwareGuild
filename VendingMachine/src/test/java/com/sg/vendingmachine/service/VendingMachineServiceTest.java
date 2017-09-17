@@ -5,6 +5,9 @@
  */
 package com.sg.vendingmachine.service;
 
+import com.sg.vendingmachine.dao.InsufficientFundException;
+import com.sg.vendingmachine.dao.NoItemInventoryException;
+import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
 import com.sg.vendingmachine.dto.Change;
 import com.sg.vendingmachine.dto.Item;
 import java.math.BigDecimal;
@@ -71,7 +74,11 @@ public class VendingMachineServiceTest {
      * Test of getItemFromDAO method, of class VendingMachineService.
      */
     @Test
-    public void testGetItemFromDAO() throws Exception {
+    public void testGetItemFromDAO() 
+            throws VendingMachineDataValidationException,
+            InsufficientFundException,
+            NoItemInventoryException
+        {
         service.setMoneyEnteredInDAO(new BigDecimal("0.15"));
         Item item = service.getItemFromDAO("A1");
         assertNotNull(item);
@@ -184,8 +191,8 @@ public class VendingMachineServiceTest {
             service.setMoneyEnteredInDAO(new BigDecimal("0.04"));
             Item item1 = service.purchaseItem("A1");
             assertNull(item1.getName());
-            fail ("Expected Null Pointer Excepion Not Encountered.");
-         } catch (NullPointerException e) {
+            fail ("Expected Insufficient Fund Excepion Not Encountered.");
+         } catch (InsufficientFundException e) {
              
          }
 
@@ -193,8 +200,8 @@ public class VendingMachineServiceTest {
             service.setMoneyEnteredInDAO(new BigDecimal("0.38"));
             Item item3 = service.purchaseItem("A3");
             assertNull(item3.getName());
-            fail ("Expected Null Pointer Excepion Not Encountered.");
-         } catch (NullPointerException e) {
+            fail ("Insufficient Fund Excepion Not Encountered.");
+         } catch (InsufficientFundException e) {
          assertEquals("0.38", service.getMoneyEnteredFromDAO().toString());
          }
 
