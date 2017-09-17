@@ -73,23 +73,23 @@ public class VendingMachineServiceTest {
     /**
      * Test of getItemFromDAO method, of class VendingMachineService.
      */
-    @Test
-    public void testGetItemFromDAO() 
-            throws VendingMachineDataValidationException,
-            InsufficientFundException,
-            NoItemInventoryException
-        {
-        service.setMoneyEnteredInDAO(new BigDecimal("0.15"));
-        Item item = service.getItemFromDAO("A1");
-        assertNotNull(item);
-        try {
-            item = service.getItemFromDAO("B1");
-            assertNull(item);
-        } catch (NullPointerException e) {
-            System.out.println("NullPointerException was encountered.");
-        }
-        
-    }
+//    @Test
+//    public void testGetItemFromDAO() 
+//            throws VendingMachineDataValidationException,
+//            InsufficientFundException,
+//            NoItemInventoryException
+//        {
+//        service.setMoneyEnteredInDAO(new BigDecimal("0.15"));
+//        Item item = service.getItemFromDAO("A1");
+//        assertNotNull(item);
+//        try {
+//            item = service.getItemFromDAO("B1");
+//            assertNull(item);
+//        } catch (NullPointerException e) {
+//            System.out.println("NullPointerException was encountered.");
+//        }
+//        
+//    }
 
     /**
      * Test of setMoneyEnteredInDAO method, of class VendingMachineService.

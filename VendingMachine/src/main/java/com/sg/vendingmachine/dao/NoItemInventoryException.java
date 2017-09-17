@@ -14,7 +14,7 @@ public class NoItemInventoryException extends Exception {
         super(message);
     }
     
-    NoItemInventoryException(String message,
+ public NoItemInventoryException(String message,
             Throwable cause) {
         super(message, cause);
     }        

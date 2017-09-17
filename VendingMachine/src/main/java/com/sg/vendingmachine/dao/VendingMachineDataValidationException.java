@@ -14,7 +14,7 @@ public class VendingMachineDataValidationException extends Exception {
         super(message);
     }
     
-    VendingMachineDataValidationException(String message,
+ public VendingMachineDataValidationException(String message,
             Throwable cause) {
         super(message, cause);
     }        

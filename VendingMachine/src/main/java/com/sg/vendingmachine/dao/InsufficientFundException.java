@@ -14,7 +14,7 @@ public class InsufficientFundException extends Exception {
         super(message);
     }
     
-    InsufficientFundException(String message,
+ public InsufficientFundException(String message,
             Throwable cause) {
         super(message, cause);
     }        

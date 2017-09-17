@@ -24,7 +24,7 @@ public class Item {
     
     @Override
     public String toString() {
-    return " SKU: " + SKU + " | Item name: " + name + " | In stock: " + inStock + "items";
+    return "Item name: " + name;
     }
     
     public String getSKU() {

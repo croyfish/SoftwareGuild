@@ -46,11 +46,24 @@
         <constructor-arg ref="auditDao"/>
     </bean>
     
+    <bean id="exceptionLoggingAdvice"
+        class="com.sg.vendingmachine.advice.ExceptionLoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+
+    
     <aop:config>
         <aop:aspect ref="loggingAdvice">
             <aop:after-returning
                 method="createAuditEntry"
                 pointcut="execution(* com.sg.vendingmachine.service.VendingMachineService.addMoneyEnteredToDAO(..))"
+            />
+        </aop:aspect>
+        <aop:aspect ref="exceptionLoggingAdvice">
+            <aop:after-throwing 
+                method="createExceptionAuditEntry"
+                pointcut="execution(* com.sg.vendingmachine.service.VendingMachineService.purchaseItem(..))"
+                throwing="ex"
             />
         </aop:aspect>
     </aop:config>

@@ -7,6 +7,7 @@ package com.sg.vendingmachine.advice;
 
 import com.sg.vendingmachine.dao.VendingMachineAuditDao;
 import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
+import static org.apache.commons.lang3.exception.ExceptionUtils.getMessage;
 import org.aspectj.lang.JoinPoint;
 
 /**
@@ -20,17 +21,20 @@ public class ExceptionLoggingAdvice {
         this.auditDao = auditDao;
     }
 
-        public void createAuditEntry(JoinPoint jp) {
+        public void createExceptionAuditEntry(JoinPoint jp, Exception ex) {
+        
+        String auditEntry = jp.getSignature().getName() + ": " + getMessage(ex) + " ";
         Object[] args = jp.getArgs();
-        String auditEntry = jp.getSignature().getName() + ": ";
-        for (Object currentArg : args) {
+          for (Object currentArg : args) {
+
             auditEntry += currentArg;
         }
+          
         try {
             auditDao.writeAuditEntry(auditEntry);
         } catch (VendingMachineFilePersistenceException e) {
             System.err.println(
-                "ERROR: Could not create audit entry in LoggingAdvice.");
+                "ERROR: Could not create audit entry in ExceptionLoggingAdvice.");
         }
     }   
     

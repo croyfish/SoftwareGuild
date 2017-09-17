@@ -14,7 +14,7 @@ public class VendingMachineFilePersistenceException extends Exception {
         super(message);
     }
     
-    VendingMachineFilePersistenceException(String message,
+ public VendingMachineFilePersistenceException(String message,
             Throwable cause) {
         super(message, cause);
     }        
