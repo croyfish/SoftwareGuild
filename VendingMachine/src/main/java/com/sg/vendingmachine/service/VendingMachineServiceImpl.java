@@ -120,13 +120,15 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         }
         // Since no exceptions encountered, subtract price of item from money entered
         money = money.subtract(price);
+        // Reduce number of item in inventory
+        selectedItem.setInStock(selectedItem.getInStock() - 1);
         // set money entered value in DAO
         dao.setMoneyEntered(money);
         // return item to controller
         return selectedItem; 
     }
 
-
+    /*
     // Take integer denoting type of coin deposited from user and create change object
     @Override
     public void depositCoin(int coinType) {
@@ -151,6 +153,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         // call method to add money's value to money entered in machine in DAO
         this.addMoneyEnteredToDAO(changeEntered);
     }
+    */
     
     // Write the inventory before exiting the program
     @Override

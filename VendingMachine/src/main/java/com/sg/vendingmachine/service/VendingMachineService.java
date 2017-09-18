@@ -36,7 +36,7 @@ public interface VendingMachineService {
             InsufficientFundException,
             NoItemInventoryException;
     
-    public void depositCoin(int coinType);
+    // public void depositCoin(int coinType);
     
     public void saveOnExit()
      throws VendingMachineFilePersistenceException;

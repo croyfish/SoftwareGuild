@@ -22,28 +22,32 @@ import java.util.List;
  */
 public class VendingMachineController {
     
+    // Declare service and view objects
     VendingMachineService service;
     VendingMachineView  view;
     
-    // Constructor to receive Service and View implementations from App
+    // Constructor to receive Service and View implementations from Spring DI
     public VendingMachineController(VendingMachineService service, VendingMachineView view) {
         this.service = service;
         this.view = view;
     }
     
     // Main menu selection switch
-    public void run() throws VendingMachineDataValidationException {
+    public void run() {
+        // set keepgoing flag to true
         boolean keepGoing = true;
+        // initialize menu selecction
         int menuSelection = 0;
         
+        // try-catch to catch the File Persistence Exception 
+        // that may occur when inventory is loaded
         try {
-            
-        
+            // keepgoing while flag is set to true
             while (keepGoing) {
                 
                 // Call method to manage Main Menu selection process
                 menuSelection = getMenuSelection();
-            
+                // Call appropriate method based on user's selection
                 switch(menuSelection) {
                     case 1:
                         addMoney();
@@ -54,6 +58,7 @@ public class VendingMachineController {
                     case 3:
                         getChange();
                         break;
+                    // If user chooses 4, set keepgoing flag to false
                     case 4:
                         keepGoing = false;
                         break;
@@ -61,11 +66,15 @@ public class VendingMachineController {
                         unknownCommand();
                 }
             }
-        
+            // print message when leaving machine
             exitMessage();
+            // persist item data to data file
             service.saveOnExit();
+            
         } catch (VendingMachineFilePersistenceException e) {
             view.displayErrorMessage(e.getMessage());
+        } catch (VendingMachineDataValidationException ex) {
+            view.displayErrorMessage(ex.getMessage());
         }
     }
 
@@ -89,8 +98,8 @@ public class VendingMachineController {
         // print coins menu
         int coinType = view.printAddMoneyMenuAndGetSelection();
         if (coinType != 0) {
-            // enter coin to DAO via service
-                    String moneyAdded = "0.00";
+            // set fields in new change object appropriately
+        String moneyAdded = "0.00";
         Change changeEntered = new Change();
         switch (coinType) {
             case 1:
@@ -107,9 +116,7 @@ public class VendingMachineController {
                 break;
             default:
         }
-//            service.depositCoin(coinType);
               service.addMoneyEnteredToDAO(changeEntered);
-//              view.pressEnter();
         }
     }
     

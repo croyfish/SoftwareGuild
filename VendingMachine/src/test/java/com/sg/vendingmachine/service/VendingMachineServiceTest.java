@@ -198,15 +198,16 @@ public class VendingMachineServiceTest {
 
          try {
             service.setMoneyEnteredInDAO(new BigDecimal("0.38"));
-            Item item3 = service.purchaseItem("A3");
+            Item item3 = service.purchaseItem("A2");
             assertNull(item3.getName());
-            fail ("Insufficient Fund Excepion Not Encountered.");
-         } catch (InsufficientFundException e) {
+            fail ("Item Not in Inventory Exception Not Encountered.");
+         } catch (NoItemInventoryException e) {
          assertEquals("0.38", service.getMoneyEnteredFromDAO().toString());
          }
 
     }
 
+    /*
     @Test
     public void testDepositCoin() throws Exception {
         service.setMoneyEnteredInDAO(new BigDecimal("0"));        
@@ -222,6 +223,7 @@ public class VendingMachineServiceTest {
         assertEquals("0.41", service.getMoneyEnteredFromDAO().toString());        
     }
     
+    */
     /**
      * Test of saveOnExit method, of class VendingMachineService.
      */

@@ -6,8 +6,6 @@
 package com.sg.vendingmachine;
 
 import com.sg.vendingmachine.controller.VendingMachineController;
-import com.sg.vendingmachine.dao.VendingMachineDataValidationException;
-import com.sg.vendingmachine.dao.VendingMachineFilePersistenceException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -16,8 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author jeffc
  */
 public class App {
-    public static void main(String[] args) throws VendingMachineFilePersistenceException, 
-            VendingMachineDataValidationException  {
+    public static void main(String[] args) {
         
 //        // Use dependency injection to instantiate objects for UserIO, View,
 //        // DAO, and service, and pass them via constructors to the relevant classes.
