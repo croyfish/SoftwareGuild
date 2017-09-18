@@ -24,12 +24,13 @@ public class Change {
         pennies = 0;
     }
     
+    // Override toString method to print change's value when LoggingAdvice prints the parameter's values
     @Override
     public String toString() {
     return "$" + getValueOfChange();
     }
 
-    
+    // Method to reset all change fields to zero
     public void setChangeToZero() {
         this.setPennies(0);
         this.setNickels(0);
@@ -69,26 +70,28 @@ public class Change {
         this.pennies = pennies;
     }
     
+    // Get BigDecimal USD value of only pennies in change object
     public BigDecimal getValueOfPennies() {
         return new BigDecimal(new BigDecimal(this.getPennies().toString())
                 .multiply(new BigDecimal("0.01")).toString());
     } 
-    
+    // Get BigDecimal USD value of only nickels in change object
     public BigDecimal getValueOfNickels() {
         return new BigDecimal(new BigDecimal(this.getNickels().toString())
                 .multiply(new BigDecimal("0.05")).toString());
     }    
-
+    // Get BigDecimal USD value of only dimes in change object
     public BigDecimal getValueOfDimes() {
         return new BigDecimal(new BigDecimal(this.getDimes().toString())
                 .multiply(new BigDecimal("0.1")).toString());
     } 
-
+    /// Get BigDecimal USD value of only quarters in change object
     public BigDecimal getValueOfQuarters() {
         return new BigDecimal(new BigDecimal(this.getQuarters().toString())
                 .multiply(new BigDecimal("0.25")).toString());
     }
     
+    // Get total value of change object in USD as a big decimal
     public BigDecimal getValueOfChange() {
         return new BigDecimal(getValueOfPennies().add(getValueOfNickels())
             .add(getValueOfDimes()).add(getValueOfQuarters()).toString());

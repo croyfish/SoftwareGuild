@@ -27,9 +27,13 @@ public class App {
 //        VendingMachineService myService = new VendingMachineServiceImpl(myDAO);
 //        VendingMachineController controller = new VendingMachineController(myService, myView);
         
+        // Create a ClassPathXMLApplicationContext for the ApplicationContext interface
+        // and provide xml file name as parameter
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        // Inject beans from context file into controller object and use Spring DI for the rest
         VendingMachineController controller =
                 ctx.getBean("controller", VendingMachineController.class);
+        // Run app from controller
         controller.run();
         
     }

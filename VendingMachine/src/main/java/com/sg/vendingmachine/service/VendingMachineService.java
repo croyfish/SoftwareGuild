@@ -23,9 +23,6 @@ public interface VendingMachineService {
     public List<Item> getAllItemsFromDAO()
      throws VendingMachineFilePersistenceException;
     
-    public Item getItemFromDAO(String SKU)
-     throws VendingMachineDataValidationException;
-    
     public void setMoneyEnteredInDAO(BigDecimal money);
     
     public BigDecimal getMoneyEnteredFromDAO();

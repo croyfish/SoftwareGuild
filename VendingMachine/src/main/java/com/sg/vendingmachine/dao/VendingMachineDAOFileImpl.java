@@ -115,31 +115,35 @@ public class VendingMachineDAOFileImpl implements VendingMachineDAO {
         out.close();
     }
     
+    // return number of slots in machine
     @Override
     public Integer getNumberOfSlotsInMachine() {
         return (NUM_ROWS * NUM_COLUMNS);
     }    
-    
+    // return ArrayList of all item objects in machine
     @Override
     public List<Item> getAllItems() throws VendingMachineFilePersistenceException {
         return new ArrayList(items.values());
     }
-
+    // return a single item object based on its SKU
     @Override
     public Item getItem(String SKU) throws VendingMachineDataValidationException {
         return items.get(SKU);
     }
-
+    
+    // set value money entered in machine
     @Override
     public void setMoneyEntered(BigDecimal money) {
         this.moneyEntered = money;
     }
-
+    
+    // get value of money entered in machine
     @Override
     public BigDecimal getMoneyEntered() {
         return moneyEntered;
     }
-
+    
+    // add change object to value of money in machine
     @Override
     public Change addMoney(Change changeEntered) {
         

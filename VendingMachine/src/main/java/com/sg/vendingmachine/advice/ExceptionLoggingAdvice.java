@@ -15,23 +15,21 @@ import org.aspectj.lang.JoinPoint;
  * @author jeffc
  */
 public class ExceptionLoggingAdvice {
+    // Declare AuditDao object
     VendingMachineAuditDao auditDao;
     
+    // Create class constructor that takes auditDao implementation as parameter
     public ExceptionLoggingAdvice(VendingMachineAuditDao auditDao) {
         this.auditDao = auditDao;
     }
-
-        public void createExceptionAuditEntry(JoinPoint jp, Exception ex) {
-        
+        // Declare createExceptionAuditEntry method that takes JP and Exception as parameters
+        public void createExceptionAuditEntry(JoinPoint jp, Exception ex) {        
+        // Initialize auditEntry String with Name of JP method and exception message 
         String auditEntry = jp.getSignature().getName() + ": " + ex.getMessage();
-//        Object[] args = jp.getArgs();
-//          for (Object currentArg : args) {
-//
-//            auditEntry += currentArg;
-//        }
-          
+        // Use auditDao object to try to write audit entry to file  
         try {
             auditDao.writeAuditEntry(auditEntry);
+        // If the audit file does not exist, print error message
         } catch (VendingMachineFilePersistenceException e) {
             System.err.println(
                 "ERROR: Could not create audit entry in ExceptionLoggingAdvice.");

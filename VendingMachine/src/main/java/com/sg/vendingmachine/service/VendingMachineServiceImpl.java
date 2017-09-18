@@ -22,56 +22,35 @@ import java.util.List;
  * @author jeffc
  */
 public class VendingMachineServiceImpl implements VendingMachineService {
-
+    // declare AuditDao and Dao objects
     private VendingMachineAuditDao auditDao;
     private VendingMachineDAO dao;
-    
+    // create class constructor that takes dao and auditDao implementations as parameters
     public VendingMachineServiceImpl(VendingMachineDAO dao, VendingMachineAuditDao auditDao) {
         this.dao = dao;
         this.auditDao = auditDao;
     }
 
-    // Pass through menu to return all items
+    // Pass through method to return list of all items from dao
     @Override
     public List<Item> getAllItemsFromDAO() 
      throws VendingMachineFilePersistenceException {
         return dao.getAllItems();
     }
 
-    // Implement purchasing process
-    @Override
-    public Item getItemFromDAO(String SKU) 
-     throws VendingMachineDataValidationException {
-//        // Get money entered to machine from DAO
-//        BigDecimal money = dao.getMoneyEntered();
-//        // Get purchased item object from DAO
-//        Item selectedItem = dao.getItem(SKU);
-//        // Extract price field from purchased item
-//        BigDecimal price = selectedItem.getPrice();
-//        // Extract in stock field from purchased item
-//        Integer leftInStock = selectedItem.getInStock();
-//        // Check if user has enough money and item is in stock
-//        if ((money.compareTo(price) == 1 || money.compareTo(price) == 0) && leftInStock > 0) {
-//            // Subtract item price from money entered
-//            dao.setMoneyEntered(money.subtract(price));
-//            // Remove one item from stock
-//            selectedItem.setInStock(leftInStock - 1);
-//            // Return purchased item
-//            return dao.getItem(SKU);
-//        }
-          return null;      
-    }
-
+    // Pass through method to set money entered in machine (in DAO) to zero
     @Override
     public void setMoneyEnteredInDAO(BigDecimal money) {
         dao.setMoneyEntered(money);
     }
 
+    // Pass through method to get money entered in machine (from DAO)
     @Override
     public BigDecimal getMoneyEnteredFromDAO() {
         return dao.getMoneyEntered();
     }
 
+    // pass through method to add money to money entered in machine (in DAO)
     @Override
     public void addMoneyEnteredToDAO(Change moneyEntered) {
         dao.addMoney(moneyEntered);
@@ -115,36 +94,45 @@ public class VendingMachineServiceImpl implements VendingMachineService {
         return userChange;
     }
 
-    // Is this a duplicate method? What happened here?
-    // It appears this method is not called from controller... delete?
+    // Peform business logic to decide whether machine will vend item or not
     @Override
     public Item purchaseItem(String SKU) 
             throws VendingMachineDataValidationException, 
             InsufficientFundException,
             NoItemInventoryException {
+        // get selected item from DAO based on its SKU
         Item selectedItem = dao.getItem(SKU);
+        // If the item is not in stock, throw a NoItemInventoryException and send
+        // exception message to exception logger
         if (selectedItem.getInStock() < 1) {
             throw new NoItemInventoryException ("NoItemInventoryException"
                     + " encountered! Item: " + selectedItem.getName());
         }
-        
+        // get money entered in machine from DAO
         BigDecimal money = dao.getMoneyEntered();
+        // get price of item from Item DTO
         BigDecimal price = selectedItem.getPrice();
-        if (money.compareTo(price) == -1) {  
+        // if the price of the item is more than the money entered in the machine,
+        // throw an InsufficientFundException and send message to exception logger
+        if (price.compareTo(money) == 1) {  
             throw new InsufficientFundException ("InsufficientFundException"
                     + " encountered! Item: " + selectedItem.getName());
         }
-     
+        // Since no exceptions encountered, subtract price of item from money entered
         money = money.subtract(price);
+        // set money entered value in DAO
         dao.setMoneyEntered(money);
+        // return item to controller
         return selectedItem; 
     }
 
 
-    // Take coin deposited from user and send its value to DAO
+    // Take integer denoting type of coin deposited from user and create change object
     @Override
     public void depositCoin(int coinType) {
+        // delcare change object
         Change changeEntered = new Change();
+        // set the appropriate field in the object
         switch (coinType) {
             case 1:
                 changeEntered.setPennies(1);
@@ -160,6 +148,7 @@ public class VendingMachineServiceImpl implements VendingMachineService {
                 break;
             default:
         }
+        // call method to add money's value to money entered in machine in DAO
         this.addMoneyEnteredToDAO(changeEntered);
     }
     

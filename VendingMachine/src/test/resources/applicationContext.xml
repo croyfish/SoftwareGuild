@@ -15,17 +15,18 @@
           http://www.springframework.org/schema/aop  
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-    <!-- Bean definitions go here -->
+    <!-- Bean definitions for DAO and Service Tests -->
     
+    <!-- Create DAOFileImpl bean for Dao --> 
     <bean id="vendingMachineDao" 
        class="com.sg.vendingmachine.dao.VendingMachineDAOFileImpl"/>
-   
+    <!-- Create bean for DaoStubImpl --> 
     <bean id="vendingMachineDaoStub" 
        class="com.sg.vendingmachine.dao.VendingMachineDAOStubImpl"/>
-    
+    <!-- Create AuditDaoStubImpl bean for AuditDaoStub --> 
     <bean id="auditDaoStub" 
        class="com.sg.vendingmachine.dao.VendingMachineAuditDaoStubImpl"/>
-   
+    <!-- Create bean for Service and inject DaoStub and AuditDaoStub dependency beans --> 
     <bean id="service" 
        class="com.sg.vendingmachine.service.VendingMachineServiceImpl">
         <constructor-arg ref="vendingMachineDaoStub"/>
