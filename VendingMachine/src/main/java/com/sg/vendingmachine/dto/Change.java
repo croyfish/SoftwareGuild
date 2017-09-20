@@ -23,7 +23,7 @@ public class Change {
         nickels = 0;
         pennies = 0;
     }
-    
+    // Don't do this from now on
     // Override toString method to print change's value when LoggingAdvice prints the parameter's values
     @Override
     public String toString() {

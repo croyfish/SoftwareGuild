@@ -1,0 +1,3 @@
+2017-09-18T10:50:58.608 : purchaseItem: InsufficientFundException encountered! Item: Butterfingers
+2017-09-18T10:51:16.022 : addMoneyEnteredToDAO: $0.25
+2017-09-18T10:51:28.466 : purchaseItem: NoItemInventoryException encountered! Item: Hershey's
