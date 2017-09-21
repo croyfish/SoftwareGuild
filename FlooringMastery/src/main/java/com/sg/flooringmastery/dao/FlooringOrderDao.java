@@ -19,11 +19,10 @@ public interface FlooringOrderDao {
     
     public Order removeOrder (Integer orderNum, LocalDate date);
         
-    public Order editOrder (Order order, LocalDate date);
+    public Order editOrder (Order order, LocalDate oldDate, LocalDate newDate);
     
     public Order getOrderByNum (Integer orderNum, LocalDate date);
         
     public List<Order> getAllOrdersByDate (LocalDate date);
-    
-    public void clearOrders();
+
 }

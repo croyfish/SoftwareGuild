@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -55,11 +56,12 @@ public class FlooringOrderDaoTest {
      * Test of addOrder method, of class FlooringOrderDao.
      */
     @Test
-    public void testAddOrderAndGetOrderByNum() {
+    public void testAddOrderAndGetOrderByNum() throws Exception {
         
         LocalDate order1Date = LocalDate.parse("1111-11-11");
         
         Order order1 = new Order(1);
+//        order1.setOrderDate(LocalDate.parse("1111-11-11"));
                 
         order1.setCustomerName("Croyle");
         order1.setFlooringArea(new BigDecimal("44.583"));
@@ -99,7 +101,7 @@ public class FlooringOrderDaoTest {
      * Test of removeOrder method, of class FlooringOrderDao.
      */
     @Test
-    public void testRemoveOrder() {
+    public void testRemoveOrder() throws Exception {
         
         LocalDate order1Date = LocalDate.parse("1111-11-11");
         
@@ -123,19 +125,14 @@ public class FlooringOrderDaoTest {
 
         orderDao.removeOrder(1, order1Date);
         
-        try {
-            Order unexpectedOrder = orderDao.getOrderByNum(1, order1Date);
-            assert(false);
-        } catch (NullPointerException ex) {
-            
-        }
+        assertNull(orderDao.getOrderByNum(1, order1Date));
     }
 
     /**
      * Test of editOrder method, of class FlooringOrderDao.
      */
     @Test
-    public void testEditOrder() {
+    public void testEditOrder() throws Exception {
         
         LocalDate order1Date = LocalDate.parse("1111-11-11");
         
@@ -157,10 +154,12 @@ public class FlooringOrderDaoTest {
         
         orderDao.addOrder(order1, order1Date);
         
-        order1Date = LocalDate.parse("1212-12-11");
+        Order order2 = new Order();
         
-        order1.setCustomerName("Doyle");
-        order1.setFlooringArea(new BigDecimal("44.583"));
+        LocalDate order2Date = LocalDate.parse("1212-12-11");
+        
+        order2.setCustomerName("Doyle");
+        order2.setFlooringArea(new BigDecimal("44.583"));
         
         order1.setState("MI");
         order1.setProductType("Laminate");
@@ -178,7 +177,7 @@ public class FlooringOrderDaoTest {
         Order testOrder = orderDao.getOrderByNum(1, order1Date);
         
         // Compare Strings
-        assertTrue(order1.getCustomerName().equals(testOrder.getCustomerName()));
+        assertFalse(order1.getCustomerName().equals(testOrder.getCustomerName()));
         assertTrue(order1.getState().equals(testOrder.getState()));
         assertTrue(order1.getProductType().equals(testOrder.getProductType()));
         // Compare BigDecimals
@@ -197,7 +196,7 @@ public class FlooringOrderDaoTest {
      * Test of getAllOrdersByDate method, of class FlooringOrderDao.
      */
     @Test
-    public void testGetAllOrdersByDate() {
+    public void testGetAllOrdersByDate() throws Exception {
         
         List<Order> orderList;
         
@@ -212,11 +211,11 @@ public class FlooringOrderDaoTest {
         orderList = orderDao.getAllOrdersByDate(LocalDate.parse("1111-11-11"));
         assertEquals(1, orderList.size());
 
-        orderList = orderDao.getAllOrdersByDate(LocalDate.parse("1112-11-11"));
+        orderList = orderDao.getAllOrdersByDate(LocalDate.parse("1112-11-12"));
         assertEquals(2, orderList.size());
         
         orderList = orderDao.getAllOrdersByDate(LocalDate.parse("1113-11-11"));
-        assertNull(orderList);
+        assertEquals(0, orderList.size());
         
     }
     
