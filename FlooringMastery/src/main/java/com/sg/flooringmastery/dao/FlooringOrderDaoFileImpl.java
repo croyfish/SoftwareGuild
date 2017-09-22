@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,15 +33,18 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
     private Map<Integer, Order> orderMap;
     private LocalDate currentDate;
     
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy"); // format for file
+    
     private static final String FILE_HEADER = "OrderNumber,CustomerName,State,"
             + "TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,"
             + "MaterialCost,LaborCost,Tax,Total";
-    private static final String ORDERS_DIR = "data/orders/";
+    private String writeDir;
     private static final String DELIMITER = ",";
 
-    public FlooringOrderDaoFileImpl() {
+    public FlooringOrderDaoFileImpl(String writeDir) {
         this.orderMap = new HashMap<>();
         currentDate = LocalDate.now();
+        this.writeDir = writeDir;
     }
     
     @Override
@@ -95,7 +99,7 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
         try {
             scanner = new Scanner(
                     new BufferedReader(
-                            new FileReader(ORDERS_DIR + "Orders_" + currentDate.toString()))); // check!!!!!!
+                            new FileReader("data/orders/" + "Orders_" + currentDate.toString()))); // check!!!!!!
         } catch (FileNotFoundException e) {
             throw new NoOrdersForDateException (
                 "No orders found for given date.", e);
@@ -136,7 +140,7 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
         PrintWriter out;
         
         try {
-            out = new PrintWriter(new FileWriter(ORDERS_DIR + "Orders_" + currentDate.toString()));
+            out = new PrintWriter(new FileWriter(writeDir + "orders/" + "Orders_" + currentDate.toString()));
         } catch (IOException e) {
             throw new FlooringPersistenceException(
                     "Could not save order data.", e);

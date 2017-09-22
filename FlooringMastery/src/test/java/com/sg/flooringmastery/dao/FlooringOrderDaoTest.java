@@ -12,7 +12,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -26,6 +25,7 @@ import org.junit.Test;
 public class FlooringOrderDaoTest {
     
     FlooringOrderDao orderDao = new FlooringOrderDaoInMemImpl();
+    // FlooringOrderDao orderDao = new FlooringOrderFileImpl("test/"); // test directory for writing
     //FlooringProductDao productDao = new FlooringOrderDaoInMemImpl();
     //FlooringTaxDao taxDao  = new FlooringOrderDaoInMemImpl();
     //FlooringUniqueOrderNumberDao uniqueOrderNumberDao  = new FlooringOrderDaoInMemImpl();
@@ -61,7 +61,6 @@ public class FlooringOrderDaoTest {
         LocalDate order1Date = LocalDate.parse("1111-11-11");
         
         Order order1 = new Order(1);
-//        order1.setOrderDate(LocalDate.parse("1111-11-11"));
                 
         order1.setCustomerName("Croyle");
         order1.setFlooringArea(new BigDecimal("44.583"));
@@ -95,6 +94,11 @@ public class FlooringOrderDaoTest {
         assertTrue(order1.getTotalTax().compareTo(testOrder.getTotalTax()) == 0);
         assertTrue(order1.getTotalCost().compareTo(testOrder.getTotalCost()) == 0);
 
+        // Order testOrderFile = orderDao.getOrderByNum(num, orderDate);
+        // assertTrue(value, field);
+        
+        // Get order that's not there -- expect does not exist exception
+        
     }
 
     /**
@@ -126,6 +130,11 @@ public class FlooringOrderDaoTest {
         orderDao.removeOrder(1, order1Date);
         
         assertNull(orderDao.getOrderByNum(1, order1Date));
+        
+        // removed something that doesn't exist
+        // try -- fail
+        // catch does not exist
+        //
     }
 
     /**
@@ -172,12 +181,12 @@ public class FlooringOrderDaoTest {
         
         orderDao.editOrder(order1, order1Date, order2Date);
         
-        assertNull(orderDao.getOrderByNum(1, order1Date));
+        assertNull(orderDao.getOrderByNum(1, order1Date));  //something is going wrong here!!
         
         Order testOrder = orderDao.getOrderByNum(1, order2Date);
         
         // Compare Strings
-        assertFalse(order1.getCustomerName().equals(testOrder.getCustomerName()));
+        assertTrue(order1.getCustomerName().equals(testOrder.getCustomerName()));
         assertTrue(order1.getState().equals(testOrder.getState()));
         assertTrue(order1.getProductType().equals(testOrder.getProductType()));
         // Compare BigDecimals
@@ -204,18 +213,34 @@ public class FlooringOrderDaoTest {
         Order order2 = new Order(2);
         Order order3 = new Order(3);
                 
+        int size1;
+        if (orderDao.getAllOrdersByDate(LocalDate.parse("1111-11-11")) != null)
+        {
+             size1 = orderDao.getAllOrdersByDate(LocalDate.parse("1111-11-11")).size();
+        } else {
+            size1 = 0;
+        }
+        
+        int size2;
+        if (orderDao.getAllOrdersByDate(LocalDate.parse("1112-11-12")) != null)
+        {
+            size2 = orderDao.getAllOrdersByDate(LocalDate.parse("1112-11-12")).size();
+        } else {
+            size2 = 0;
+        }
+        
         orderDao.addOrder(order1, LocalDate.parse("1111-11-11"));
         orderDao.addOrder(order2, LocalDate.parse("1112-11-12"));
         orderDao.addOrder(order3, LocalDate.parse("1112-11-12"));
         
         orderList = orderDao.getAllOrdersByDate(LocalDate.parse("1111-11-11"));
-        assertEquals(1, orderList.size());
+        assertEquals(size1 + 1, orderList.size());
 
         orderList = orderDao.getAllOrdersByDate(LocalDate.parse("1112-11-12"));
-        assertEquals(2, orderList.size());
+        assertEquals(size2 + 2, orderList.size());
         
         orderList = orderDao.getAllOrdersByDate(LocalDate.parse("1113-11-11"));
-        assertNull(orderList);
+        assertTrue(orderList == null || orderList.isEmpty());
         
     }
     

@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,7 +29,8 @@ public class FlooringOrderDaoInMemImpl implements FlooringOrderDao {
     private Map<LocalDate, List<Order>> orderMap;
     private LocalDate currentDate;
     
-    private static final String ORDERS_DIR = "data/orders/";
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy"); // format for file
+    
     private static final String DELIMITER = ",";
     
     public FlooringOrderDaoInMemImpl () {
@@ -115,7 +117,7 @@ public class FlooringOrderDaoInMemImpl implements FlooringOrderDao {
     }
     
     public void clearOrders() {
-        orderMap = new HashMap<>();
+        orderMap.clear();
     }
     
     private void readOrderFile(LocalDate currentDate) throws NoOrdersForDateException {
@@ -127,7 +129,7 @@ public class FlooringOrderDaoInMemImpl implements FlooringOrderDao {
         try {
             scanner = new Scanner(
                     new BufferedReader(
-                            new FileReader(ORDERS_DIR + "Orders_" + currentDate.toString()))); // check!!!!!!
+                            new FileReader("data/orders/" + "Orders_" + currentDate.toString()))); // check!!!!!!
         } catch (FileNotFoundException e) {
             throw new NoOrdersForDateException (
                 "No orders found for given date.", e);
