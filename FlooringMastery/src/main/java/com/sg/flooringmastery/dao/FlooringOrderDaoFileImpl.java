@@ -6,6 +6,7 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.dao.exception.NoOrdersForDateException;
 import com.sg.flooringmastery.dto.Order;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,8 +14,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,54 +79,86 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
         return ordersByDate;
     }
     
-    public void clearOrders(Map<Integer, Order> orderMap) {
-        orderMap = new HashMap<>();
+    public void clearOrders() {
+        for (Order currentOrder : orderMap.values()) {
+            removeOrder(currentOrder.getOrderNumber(), currentDate);
+        }
+            
     }
     
-    private void readOrderFile(String orderFile) {
- Scanner scanner;
+    private void readOrderFile(LocalDate currentDate) throws NoOrdersForDateException {
+        
+        clearOrders();
+        
+        Scanner scanner;
         
         try {
             scanner = new Scanner(
                     new BufferedReader(
-                            new FileReader(ORDERS_DIR + currentDate.toString())));
+                            new FileReader(ORDERS_DIR + "Orders_" + currentDate.toString()))); // check!!!!!!
         } catch (FileNotFoundException e) {
-            throw new ClassRosterPersistenceException(
-                "-_- Could not load roster data into memory.", e);
+            throw new NoOrdersForDateException (
+                "No orders found for given date.", e);
         }
         
         String currentLine;
         String[] currentTokens;
-        while (scanner.hasNextLine()) {
+        Integer lineCounter = 0;
+        
+        while (scanner.nextLine().length() != 0) {
             currentLine = scanner.nextLine();
+            lineCounter++;
+            if (lineCounter == 1) {
+                continue;
+            }
             currentTokens = currentLine.split(DELIMITER);
-            Student currentStudent = new Student(Integer.parseInt(currentTokens[0]));
-            currentStudent.setFirstName(currentTokens[1]);
-            currentStudent.setLastName(currentTokens[2]);
-            currentStudent.setCohort(currentTokens[3]);
+            Order currentOrder = new Order(Integer.parseInt(currentTokens[0]));
+            currentOrder.setCustomerName(currentTokens[1]);
+            currentOrder.setState(currentTokens[2]);
+            currentOrder.setTaxRate(new BigDecimal(currentTokens[3]));
+            currentOrder.setProductType(currentTokens[4]);
+            currentOrder.setFlooringArea(new BigDecimal(currentTokens[5]));
+            currentOrder.setCostPerSqFt(new BigDecimal(currentTokens[6]));
+            currentOrder.setLaborCostPerSqFt(new BigDecimal(currentTokens[7]));
+            currentOrder.setMaterialCost(new BigDecimal(currentTokens[8]));
+            currentOrder.setLaborCost(new BigDecimal(currentTokens[9]));
+            currentOrder.setTotalTax(new BigDecimal(currentTokens[10]));
+            currentOrder.setTotalCost(new BigDecimal(currentTokens[11]));
             
-            students.put(currentStudent.getStudentID(), currentStudent);
+            orderMap.put(currentOrder.getOrderNumber(), currentOrder);
         }
         
         scanner.close();
     }
     
-    private void writeRoster() throws FlooringPersistenceException {
+    private void writeOrderFile(LocalDate currentDate) throws FlooringPersistenceException {
+        
         PrintWriter out;
         
         try {
-            out = new PrintWriter(new FileWriter(ORDERS_DIR + currentDate.toString()));
+            out = new PrintWriter(new FileWriter(ORDERS_DIR + "Orders_" + currentDate.toString()));
         } catch (IOException e) {
-            throw new ClassRosterPersistenceException(
-                    "Could not save address data.", e);
+            throw new FlooringPersistenceException(
+                    "Could not save order data.", e);
         }
         
-        List<Student> addressList = this.getAllStudents();
-        for (Student currentStudent : addressList) {
-            out.println(currentStudent.getStudentID() + DELIMITER
-                    + currentStudent.getFirstName() + DELIMITER
-                    + currentStudent.getLastName() + DELIMITER
-                    + currentStudent.getCohort());
+        Collection<Order> orderCollection = orderMap.values();
+        
+        out.println(FILE_HEADER);
+        
+        for (Order currentOrder : orderCollection) {
+            out.println(currentOrder.getOrderNumber() + DELIMITER
+                    + currentOrder.getCustomerName() + DELIMITER
+                    + currentOrder.getState() + DELIMITER
+                    + currentOrder.getTaxRate().toString() + DELIMITER
+                    + currentOrder.getProductType() + DELIMITER
+                    + currentOrder.getFlooringArea().toString() + DELIMITER
+                    + currentOrder.getCostPerSqFt().toString() + DELIMITER
+                    + currentOrder.getLaborCostPerSqFt().toString() + DELIMITER
+                    + currentOrder.getMaterialCost().toString() + DELIMITER
+                    + currentOrder.getLaborCost().toString() + DELIMITER
+                    + currentOrder.getTotalTax().toString() + DELIMITER
+                    + currentOrder.getTotalCost().toString());
             out.flush();
         }
         
