@@ -19,13 +19,13 @@ import java.util.Scanner;
 public class FlooringUniqueOrderNumberDaoInMemImpl implements FlooringUniqueOrderNumberDao {
     
     @Override
-    public Integer getCurrentUniqueOrderNumber() {
+    public UniqueOrderNumber getCurrentUniqueOrderNumber() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setCurrentUniqueOrderNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setCurrentUniqueOrderNumber(UniqueOrderNumber num) {
+        
     }
     
     private UniqueOrderNumber readUniqueOrderNumberFile() throws FlooringPersistenceException {
