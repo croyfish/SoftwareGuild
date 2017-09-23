@@ -134,9 +134,16 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
         // List<Order> currentOrders = new ArrayList<>();
         
         // each iteration creates one order (but first line is skipped over)
-        while (scanner.nextLine().length() != 0) {
+        while (scanner.hasNextLine()) {
+            
             currentLine = scanner.nextLine();
+            
+            if (currentLine.length() == 0) {
+                break;
+            }
+            
             lineCounter++;
+            
             if (lineCounter == 1) {
                 continue;
             }

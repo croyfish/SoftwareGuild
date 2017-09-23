@@ -75,10 +75,12 @@ public class FlooringOrderDaoTest {
     }
 
     @After
-    public void tearDown() {
-       // orderDao.clearOrders();
+    public void tearDown() throws Exception {
+       setUp();
     }
 
+    
+    
     /**
      * Test of addOrder method, of class FlooringOrderDao.
      */
