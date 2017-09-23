@@ -34,65 +34,133 @@ public class FlooringOrderDaoInMemImpl implements FlooringOrderDao {
     private static final String DELIMITER = ",";
     
     public FlooringOrderDaoInMemImpl () {
-        this.orderMap = new HashMap<>();
+        this.orderMap = new HashMap<>(); // why???
         currentDate = LocalDate.now();
     }
     
     @Override
     public Order addOrder(Order order, LocalDate date) {
-        List<Order> addedOrders = new ArrayList<>();
+        
         try {
-        addedOrders = orderMap.get(date);
-        if (addedOrders == null) {
-            addedOrders = new ArrayList<>(Arrays.asList(order));
+            if (!orderMap.containsKey(date)) {
+                readOrderFile(date); // throw FilePersistenceException
+            }
+        } catch (NoOrdersForDateException e) {
+            // throw a NoOrdersForDateException    
+        }
+        
+        List<Order> listOfOrdersToAddTo = new ArrayList<>();
+        
+        //try {
+            
+        listOfOrdersToAddTo = orderMap.get(date);
+
+        if (listOfOrdersToAddTo == null) {
+            listOfOrdersToAddTo = new ArrayList<>(Arrays.asList(order));
         } else {
-        addedOrders.add(order);
+            listOfOrdersToAddTo.add(order);
         }
-        orderMap.put(date, addedOrders);
+
+        orderMap.put(date, listOfOrdersToAddTo);
         return order;
-        } catch (NullPointerException ex) {
+            
+        //} catch (NullPointerException ex) {
             // throw new exception
-        }
-        return null;
+        //}
+        //return null;
     }
 
     @Override
     public Order removeOrder(Integer orderNum, LocalDate date) {
-        List<Order> removeOrders = new ArrayList<>();
+        List<Order> ordersToRemoveFrom = new ArrayList<>();
+        
         try {
-            removeOrders = orderMap.get(date);
-            for (Order removeOrder : removeOrders) {
-                if (removeOrder.getOrderNumber().equals(orderNum)) {
-                    removeOrders.remove(removeOrder); // This probably doesn't work!
-                    orderMap.put(date, removeOrders);
-                    return removeOrder;
+            if (!orderMap.containsKey(date)) {
+                readOrderFile(date); // throw FilePersistenceException
+            }
+        } catch (NoOrdersForDateException e) {
+            // throw a NoOrdersForDateException    
+        }    
+              
+        try {
+            ordersToRemoveFrom = orderMap.get(date); // get list from map
+            for (Order currentOrder : ordersToRemoveFrom) {
+                if (currentOrder.getOrderNumber().equals(orderNum)) {
+                    ordersToRemoveFrom.remove(currentOrder);
+                    orderMap.put(date, ordersToRemoveFrom);
+                    return currentOrder;  // return removed object to service layer
                 } 
             }
         } catch (NullPointerException ex) {
-            // throw new exception
+            // throw new NoOrderNumberException
         }
         return null;
     }
 
     @Override
     public Order editOrder(Order order, LocalDate oldDate, LocalDate newDate) {
-        List<Order> currentOrders = new ArrayList<>();
-        currentOrders = orderMap.get(oldDate);
-        removeOrder(order.getOrderNumber(), oldDate);
+        
+        
+        // probably not necessary
         try {
-            currentOrders.add(order);
-            orderMap.put(newDate, currentOrders);
-            return order;
-        } catch (NullPointerException ex) {
+            if (!orderMap.containsKey(oldDate)) {
+                readOrderFile(oldDate); // throw FilePersistenceException
+            }
+        } catch (NoOrdersForDateException e) {
+            // throw a NoOrdersForDateException    
+        }          
+        
+        try {
+            if (!orderMap.containsKey(newDate)) {
+                readOrderFile(newDate); // throw FilePersistenceException
+            }
+        } catch (NoOrdersForDateException e) {
+            // throw a NoOrdersForDateException    
+        }  
+        
+        // if oldDate != newDate, order is moved from one row in hash map
+        // to another row
+        
+        // COULD call remove, then call add ONLY!!!!!
+        
+//        List<Order> ordersToRemoveFrom = new ArrayList<>();
+//        ordersToRemoveFrom = orderMap.get(oldDate);
+//        List<Order> newOrders = new ArrayList<>();
+        
+//        try {
+//            newOrders = orderMap.get(newDate);
+//        } catch (NullPointerException e) {
+//            // Throw new NoOrdersForDateException
+//        }
             
-        }
-        return null;
+        removeOrder(order.getOrderNumber(), oldDate);
+        addOrder(order, newDate);
+        
+//        try {
+//            newOrders.add(order);
+//            orderMap.put(newDate, newOrders);
+//            return order;
+//        } catch (NullPointerException ex) {
+//            
+//        }
+        return order;
     }
 
     @Override
     public Order getOrderByNum(Integer orderNum, LocalDate date) {
+        
         List<Order> currentOrders  = new ArrayList<>();
+        
+        try {
+            if (!orderMap.containsKey(date)) {
+                readOrderFile(date); // throw FilePersistenceException
+            }
+        } catch (NoOrdersForDateException e) {
+            // throw a NoOrdersForDateException    
+        }    
+        
         currentOrders = orderMap.get(date);
+        
         try {
             for (Order currentOrder : currentOrders) {
                 if (currentOrder.getOrderNumber().equals(orderNum)) {
@@ -108,28 +176,32 @@ public class FlooringOrderDaoInMemImpl implements FlooringOrderDao {
 
     @Override
     public List<Order> getAllOrdersByDate(LocalDate date) {
+    
         try {
-            return orderMap.get(date);
-        } catch (NullPointerException ex) {
-            
-        }
-        return null;
+            if (!orderMap.containsKey(date)) {
+                readOrderFile(date); // throw FilePersistenceException
+            }
+        } catch (NoOrdersForDateException e) {
+            // throw a NoOrdersForDateException    
+        } 
+
+        return orderMap.get(date);
+  
     }
     
     public void clearOrders() {
         orderMap.clear();
     }
     
-    private void readOrderFile(LocalDate currentDate) throws NoOrdersForDateException {
-        
-        clearOrders();
+    private void readOrderFile(LocalDate dateOfInterest) throws NoOrdersForDateException {
         
         Scanner scanner;
+        String dateOfInterestString = dateOfInterest.format(formatter);
         
         try {
             scanner = new Scanner(
                     new BufferedReader(
-                            new FileReader("data/orders/" + "Orders_" + currentDate.toString()))); // check!!!!!!
+                            new FileReader("data/orders/Orders_" + dateOfInterestString + ".txt"))); // check!!!!!!
         } catch (FileNotFoundException e) {
             throw new NoOrdersForDateException (
                 "No orders found for given date.", e);
@@ -147,6 +219,7 @@ public class FlooringOrderDaoInMemImpl implements FlooringOrderDao {
             if (lineCounter == 1) {
                 continue;
             }
+            
             currentTokens = currentLine.split(DELIMITER);
             Order currentOrder = new Order(Integer.parseInt(currentTokens[0]));
             currentOrder.setCustomerName(currentTokens[1]);
@@ -164,7 +237,7 @@ public class FlooringOrderDaoInMemImpl implements FlooringOrderDao {
             currentOrders.add(currentOrder);
         }
         
-        orderMap.put(currentDate, currentOrders);
+        orderMap.put(dateOfInterest, currentOrders);
         
         scanner.close();
     }    

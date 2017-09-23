@@ -18,6 +18,10 @@ public class Product {
     private BigDecimal costPerSqFt; // mapped
     private BigDecimal laborCostPerSqFt; // mapped
 
+    public Product (String productType) {
+        this.productType = productType;
+    }
+    
     public String getProductType() {
         return productType;
     }

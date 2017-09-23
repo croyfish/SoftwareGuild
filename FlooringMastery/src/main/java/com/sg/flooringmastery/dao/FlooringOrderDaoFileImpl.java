@@ -30,7 +30,7 @@ import java.util.Scanner;
  */
 public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
     // Orders Map, with all orders for one day loaded in
-    private Map<Integer, Order> orderMap;
+    private Map<Integer, Order> orderMap; // this is different from mem impl - holds 1 date
     private LocalDate currentDate;
     
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMddyyyy"); // format for file
@@ -38,17 +38,25 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
     private static final String FILE_HEADER = "OrderNumber,CustomerName,State,"
             + "TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,"
             + "MaterialCost,LaborCost,Tax,Total";
-    private String writeDir;
+    
+    // String directory "test/" for test files and "data/" for app
+    private String directory;
     private static final String DELIMITER = ",";
 
-    public FlooringOrderDaoFileImpl(String writeDir) {
+    public FlooringOrderDaoFileImpl(String directory) {
         this.orderMap = new HashMap<>();
         currentDate = LocalDate.now();
-        this.writeDir = writeDir;
+        this.directory = directory;
     }
     
     @Override
     public Order addOrder(Order order, LocalDate date) {
+        try {
+            readOrderFile(date);
+        } catch (NoOrdersForDateException e) {
+            // throw new blah blah blah
+        } 
+        
         orderMap.put(order.getOrderNumber(), order);
         return order;
     }
@@ -84,22 +92,21 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
     }
     
     public void clearOrders() {
-        for (Order currentOrder : orderMap.values()) {
-            removeOrder(currentOrder.getOrderNumber(), currentDate);
-        }
-            
+        orderMap.clear();
     }
     
-    private void readOrderFile(LocalDate currentDate) throws NoOrdersForDateException {
+    private void readOrderFile(LocalDate dateOfInterest) throws NoOrdersForDateException {
         
-        clearOrders();
+        clearOrders(); // called in every method...
         
         Scanner scanner;
+        String dateOfInterestString = dateOfInterest.format(formatter);
         
         try {
             scanner = new Scanner(
                     new BufferedReader(
-                            new FileReader("data/orders/" + "Orders_" + currentDate.toString()))); // check!!!!!!
+                            // this is different from in mem impl!!
+                            new FileReader(directory + "orders/Orders_" + dateOfInterestString + ".txt"))); // check!!!!!!
         } catch (FileNotFoundException e) {
             throw new NoOrdersForDateException (
                 "No orders found for given date.", e);
@@ -108,13 +115,16 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
         String currentLine;
         String[] currentTokens;
         Integer lineCounter = 0;
+        // List<Order> currentOrders = new ArrayList<>();
         
+        // each iteration creates one order (but first line is skipped over)
         while (scanner.nextLine().length() != 0) {
             currentLine = scanner.nextLine();
             lineCounter++;
             if (lineCounter == 1) {
                 continue;
             }
+            
             currentTokens = currentLine.split(DELIMITER);
             Order currentOrder = new Order(Integer.parseInt(currentTokens[0]));
             currentOrder.setCustomerName(currentTokens[1]);
@@ -130,27 +140,30 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
             currentOrder.setTotalCost(new BigDecimal(currentTokens[11]));
             
             orderMap.put(currentOrder.getOrderNumber(), currentOrder);
+            
         }
         
+      //  orderMap.put(dateOfInterest, currentOrders);
+        
         scanner.close();
-    }
+    }    
     
     private void writeOrderFile(LocalDate currentDate) throws FlooringPersistenceException {
         
         PrintWriter out;
         
         try {
-            out = new PrintWriter(new FileWriter(writeDir + "orders/" + "Orders_" + currentDate.toString()));
+            out = new PrintWriter(new FileWriter(directory + "orders/Orders_" + currentDate.toString() + ".txt"));
         } catch (IOException e) {
             throw new FlooringPersistenceException(
                     "Could not save order data.", e);
         }
         
-        Collection<Order> orderCollection = orderMap.values();
+        List<Order> orderList = new ArrayList(orderMap.values());
         
         out.println(FILE_HEADER);
         
-        for (Order currentOrder : orderCollection) {
+        for (Order currentOrder : orderList) {
             out.println(currentOrder.getOrderNumber() + DELIMITER
                     + currentOrder.getCustomerName() + DELIMITER
                     + currentOrder.getState() + DELIMITER

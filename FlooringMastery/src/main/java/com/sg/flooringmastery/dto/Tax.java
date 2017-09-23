@@ -16,6 +16,10 @@ public class Tax {
     private String state; // input
     
     private BigDecimal taxRate; // mapped
+    
+    public Tax(String state) {
+        this.state = state;
+    }
 
     public String getState() {
         return state;
