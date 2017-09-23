@@ -5,16 +5,16 @@
  */
 package com.sg.flooringmastery.dao;
 
+import com.sg.flooringmastery.dto.UniqueOrderNumber;
+
 /**
  *
  * @author jeffc
  */
 public interface FlooringUniqueOrderNumberDao {
     
-    public Integer getNewOrderNumber();
+    public UniqueOrderNumber getCurrentUniqueOrderNumber();
     
-    public Integer getCurrentUniqueOrderNumber();
-    
-    public void setCurrentUniqueOrderNumber();
+    public void setCurrentUniqueOrderNumber(UniqueOrderNumber num);
     
 }

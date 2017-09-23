@@ -5,6 +5,8 @@
  */
 package com.sg.flooringmastery.dao;
 
+import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.dao.exception.NoStateException;
 import com.sg.flooringmastery.dto.Tax;
 import java.util.List;
 
@@ -20,7 +22,8 @@ public interface FlooringTaxDao {
     
     public Tax editTax(Tax tax);
     
-    public Tax getTaxByState(String state);
+    public Tax getTaxByState(String state) 
+            throws FlooringPersistenceException, NoStateException;
     
     public List<Tax> getAllStateTaxes();
 }

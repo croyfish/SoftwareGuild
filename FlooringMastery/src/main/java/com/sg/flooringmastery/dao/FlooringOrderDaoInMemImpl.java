@@ -214,9 +214,15 @@ public class FlooringOrderDaoInMemImpl implements FlooringOrderDao {
         List<Order> currentOrders = new ArrayList<>();
         
         
-        while (scanner.nextLine().length() != 0) {
+        while (scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
+            
+            if (currentLine.length() == 0) {
+                break;
+            }
+            
             lineCounter++;
+            
             if (lineCounter == 1) {
                 continue;
             }

@@ -6,12 +6,13 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
-import com.sg.flooringmastery.dto.Product;
+import com.sg.flooringmastery.dao.exception.NoStateException;
 import com.sg.flooringmastery.dto.Tax;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -27,11 +28,11 @@ public class FlooringTaxDaoFileImpl implements FlooringTaxDao {
     private String directory;
     private static final String DELIMITER = ",";
     
-    private Map<String, Product> taxMap;
+    private Map<String, Tax> taxMap = new HashMap<>();
     
     
     public FlooringTaxDaoFileImpl(String directory) throws FlooringPersistenceException {
-        this.taxMap = taxMap;
+        this.directory = directory;
         readTaxesFile();
     }        
     
@@ -52,8 +53,15 @@ public class FlooringTaxDaoFileImpl implements FlooringTaxDao {
     }
 
     @Override
-    public Tax getTaxByState(String state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Tax getTaxByState(String state) throws FlooringPersistenceException, NoStateException {
+        readTaxesFile();
+        
+        Tax taxGotten = taxMap.get(state);
+        if (taxGotten == null) {
+            throw new NoStateException("That state is not serviced.");
+        }
+        
+        return taxGotten;
     }
 
     @Override
@@ -68,7 +76,7 @@ public class FlooringTaxDaoFileImpl implements FlooringTaxDao {
         try {
             scanner = new Scanner(
                     new BufferedReader(
-                            new FileReader("data/taxes/Taxes.txt")));
+                            new FileReader(directory + "taxes/Taxes.txt")));
         } catch (FileNotFoundException e) {
             throw new FlooringPersistenceException (
                 "No taxes list was found.", e);
@@ -78,18 +86,24 @@ public class FlooringTaxDaoFileImpl implements FlooringTaxDao {
         String[] currentTokens;
         Integer lineCounter = 0;
         
-        while (scanner.nextLine().length() != 0) {
+        while (scanner.hasNextLine()) {
+            
             currentLine = scanner.nextLine();
+            
+            if (currentLine.length() == 0) {
+                break;
+            }
+            
             lineCounter++;
+            
             if (lineCounter == 1) {
                 continue;
             }
             currentTokens = currentLine.split(DELIMITER);
-            Product currentProduct = new Product(currentTokens[0]);
-            currentProduct.setCostPerSqFt(new BigDecimal(currentTokens[1]));
-            currentProduct.setLaborCostPerSqFt(new BigDecimal(currentTokens[2]));
+            Tax currentTax = new Tax(currentTokens[0]);
+            currentTax.setTaxRate(new BigDecimal(currentTokens[1]));
             
-            taxMap.put(currentProduct.getProductType(), currentProduct);
+            taxMap.put(currentTax.getState(), currentTax);
         }
         
         scanner.close();

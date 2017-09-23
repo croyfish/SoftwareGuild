@@ -6,49 +6,26 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
-import com.sg.flooringmastery.dto.Order;
-import com.sg.flooringmastery.dto.Tax;
 import com.sg.flooringmastery.dto.UniqueOrderNumber;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
  *
  * @author jeffc
  */
-public class FlooringUniqueOrderNumberDaoFileImpl implements FlooringUniqueOrderNumberDao {
-
+public class FlooringUniqueOrderNumberDaoInMemImpl implements FlooringUniqueOrderNumberDao {
+    
     @Override
-    public UniqueOrderNumber getCurrentUniqueOrderNumber() {
-        
-        UniqueOrderNumber num = null;
-        
-        try {
-            num = readUniqueOrderNumberFile();
-        } catch (FlooringPersistenceException e) {
-            // something
-        }
-        
-        return num;
+    public Integer getCurrentUniqueOrderNumber() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setCurrentUniqueOrderNumber(UniqueOrderNumber num) {
-        
-        try {
-            writeUniqueOrderNumberFile(num);
-        } catch (FlooringPersistenceException e) {
-            // something
-        }
+    public void setCurrentUniqueOrderNumber() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     private UniqueOrderNumber readUniqueOrderNumberFile() throws FlooringPersistenceException {
@@ -83,21 +60,6 @@ public class FlooringUniqueOrderNumberDaoFileImpl implements FlooringUniqueOrder
 
         scanner.close();
         return num;
-    }
-    
-    private void writeUniqueOrderNumberFile(UniqueOrderNumber num) throws FlooringPersistenceException {
-        
-        PrintWriter out;
-        
-        try {
-            out = new PrintWriter(new FileWriter("data/unique_order_number/UniqueOrderNumber.txt"));
-        } catch (IOException e) {
-            throw new FlooringPersistenceException(
-                    "Could not save order number data to data file data.", e);
-        }
-        out.println(num.getOrderNumber());
-        out.flush();
-        out.close();        
     }    
     
 }

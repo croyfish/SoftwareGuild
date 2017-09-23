@@ -6,11 +6,13 @@
 package com.sg.flooringmastery.dao;
 
 import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.dao.exception.NoProductException;
 import com.sg.flooringmastery.dto.Product;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -25,11 +27,11 @@ public class FlooringProductDaoFileImpl implements FlooringProductDao {
     private String directory;
     private static final String DELIMITER = ",";
     
-    private Map<String, Product> productMap;
+    private Map<String, Product> productMap = new HashMap<>();
     
     
     public FlooringProductDaoFileImpl(String directory) throws FlooringPersistenceException {
-        this.productMap = productMap;
+        this.directory = directory;
         readProductFile();
     }    
     
@@ -50,8 +52,18 @@ public class FlooringProductDaoFileImpl implements FlooringProductDao {
     }
 
     @Override
-    public Product getProductByType(String productType) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Product getProductByType(String productType) throws NoProductException, 
+            FlooringPersistenceException {
+        
+        readProductFile();
+        
+        Product productGotten = productMap.get(productType);
+        if (productGotten == null) {
+            throw new NoProductException("no product of that type");
+        }
+        
+        return productGotten;
+        
     }
 
     @Override
@@ -66,7 +78,7 @@ public class FlooringProductDaoFileImpl implements FlooringProductDao {
         try {
             scanner = new Scanner(
                     new BufferedReader(
-                            new FileReader("data/products/Products.txt")));
+                            new FileReader(directory + "products/Products.txt")));
         } catch (FileNotFoundException e) {
             throw new FlooringPersistenceException (
                 "No product list was found.", e);
@@ -76,12 +88,20 @@ public class FlooringProductDaoFileImpl implements FlooringProductDao {
         String[] currentTokens;
         Integer lineCounter = 0;
         
-        while (scanner.nextLine().length() != 0) {
+        while (scanner.hasNextLine()) {
+            
             currentLine = scanner.nextLine();
+            
+            if (currentLine.length() == 0) {
+                break;
+            }
+            
             lineCounter++;
+            
             if (lineCounter == 1) {
                 continue;
             }
+            
             currentTokens = currentLine.split(DELIMITER);
             Product currentProduct = new Product(currentTokens[0]);
             currentProduct.setCostPerSqFt(new BigDecimal(currentTokens[1]));

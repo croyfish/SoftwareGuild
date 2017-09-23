@@ -5,6 +5,8 @@
  */
 package com.sg.flooringmastery.dao;
 
+import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.dao.exception.NoProductException;
 import com.sg.flooringmastery.dto.Product;
 import java.util.List;
 
@@ -20,7 +22,8 @@ public interface FlooringProductDao {
     
     public Product editProduct (Product product);
     
-    public Product getProductByType (String productType);
+    public Product getProductByType (String productType)
+            throws NoProductException, FlooringPersistenceException;
     
     public List<Product> getAllProducts();
     
