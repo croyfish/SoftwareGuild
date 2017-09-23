@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/mvc
+          http://www.springframework.org/schema/mvc/spring-mvc.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/aop  
+          http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+    <!-- Bean definitions for main Vending Machine program -->
+    
+    <!-- Create UserIOConsoleImpl bean for UserIO-->
+    <bean id="userIO" class="com.sg.vendingmachine.ui.UserIOConsoleImpl"/>
+    <!-- Create bean for View and inject userIO dependency bean-->
+    <bean id="view" class="com.sg.vendingmachine.ui.VendingMachineView">
+        <constructor-arg ref="userIO"/>
+    </bean>
+    <!-- Create DaoFileImpl bean for Dao-->
+    <bean id="vendingMachineDao" 
+         class="com.sg.vendingmachine.dao.VendingMachineDAOFileImpl"/>
+    <!-- Create AuditDaoFileImpl bean for AuditDao-->
+    <bean id="auditDao" 
+         class="com.sg.vendingmachine.dao.VendingMachineAuditDaoFileImpl"/>
+    <!-- Create bean for Service and inject Dao and AuditDao dependency beans-->
+    <bean id="service" 
+         class="com.sg.vendingmachine.service.VendingMachineServiceImpl">
+        <constructor-arg ref="vendingMachineDao"/>
+        <constructor-arg ref="auditDao"/>        
+    </bean>
+    <!-- Create bean for Controller and injecct Service and View beans-->
+    <bean id="controller" 
+         class="com.sg.vendingmachine.controller.VendingMachineController">
+        <constructor-arg ref="service"/>
+        <constructor-arg ref="view"/>
+    </bean>
+    <!-- Create bean for transaction LoggingAdvice and inject AuditDao dependency bean-->
+    <bean id="loggingAdvice"
+        class="com.sg.vendingmachine.advice.LoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+    <!-- Create bean for ExceptionLoggingAdvice and inject AuditDao dependency bean-->
+    <bean id="exceptionLoggingAdvice"
+        class="com.sg.vendingmachine.advice.ExceptionLoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+
+    <!-- Aspect Oriented Programming configuration -->
+    <aop:config>
+        <!-- Create aspect for LoggingAdvice and apply it to addmoneyEntered and calculateChange JoinPoints-->
+        <aop:aspect ref="loggingAdvice">
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* com.sg.vendingmachine.service.VendingMachineService.addMoneyEnteredToDAO(..))"
+            />
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* com.sg.vendingmachine.service.VendingMachineService.calculateChange(..))"
+            />
+        <!-- Create aspect for ExceptionLoggingAdvice and apply it to purchaseItem JoinPoint-->
+        </aop:aspect>
+        <aop:aspect ref="exceptionLoggingAdvice">
+            <aop:after-throwing 
+                method="createExceptionAuditEntry"
+                pointcut="execution(* com.sg.vendingmachine.service.VendingMachineService.purchaseItem(..))"
+                throwing="ex"
+            />
+        </aop:aspect>
+    </aop:config>
+   
+</beans>

@@ -5,7 +5,12 @@
  */
 package com.sg.flooringmastery.dao;
 
+import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
 import com.sg.flooringmastery.dto.Order;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -34,17 +40,40 @@ public class FlooringOrderDaoTest {
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
         // write files back to original states!!!
     }
-    
+
     @Before
-    public void setUp() {
-       // orderDao.clearOrders();
+    public void setUp() throws Exception {
+        
+        FileUtils.cleanDirectory(new File("test/orders/"));
+        
+        orderDao.clearOrders();
+        
+        String FILE_HEADER = "OrderNumber,CustomerName,State,"
+                + "TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,"
+                + "MaterialCost,LaborCost,Tax,Total";
+        
+        PrintWriter out;
+
+        try {
+            out = new PrintWriter(new FileWriter("test/orders/Orders_06012013.txt"));
+        } catch (IOException e) {
+            throw new FlooringPersistenceException(
+                    "Could not write order data.", e);
+        }
+
+        out.println(FILE_HEADER);
+        out.println("1,Wise,OH,6.25,Wood,100.00,5.15,4.75,515.00,475.00,61.88,1051.88");
+
+        out.flush();
+        out.close();        
+        
     }
-    
+
     @After
     public void tearDown() {
        // orderDao.clearOrders();
@@ -55,17 +84,17 @@ public class FlooringOrderDaoTest {
      */
     @Test
     public void testAddOrderAndGetOrderByNum() throws Exception {
-        
+
         LocalDate order1Date = LocalDate.parse("2013-06-01");
-        
+
         Order order1 = new Order(2); /// Duplicate OrderNumbers are not yet checked!!!
-                
+
         order1.setCustomerName("Croyle");
         order1.setFlooringArea(new BigDecimal("44.583"));
-        
+
         order1.setState("OH");
         order1.setProductType("Laminate");
-        
+
         order1.setTaxRate(new BigDecimal("5.75"));
         order1.setCostPerSqFt(new BigDecimal("1.13"));
         order1.setLaborCostPerSqFt(new BigDecimal("0.45"));
@@ -73,11 +102,11 @@ public class FlooringOrderDaoTest {
         order1.setLaborCost(new BigDecimal("236.47"));
         order1.setTotalTax(new BigDecimal("23.74"));
         order1.setTotalCost(new BigDecimal("684.35"));
-        
+
         orderDao.addOrder(order1, order1Date);
-        
+
         Order testOrder = orderDao.getOrderByNum(2, order1Date);
-        
+
         // Compare Strings
         assertTrue(order1.getCustomerName().equals(testOrder.getCustomerName()));
         assertTrue(order1.getState().equals(testOrder.getState()));
@@ -91,20 +120,20 @@ public class FlooringOrderDaoTest {
         assertTrue(order1.getLaborCost().compareTo(testOrder.getLaborCost()) == 0);
         assertTrue(order1.getTotalTax().compareTo(testOrder.getTotalTax()) == 0);
         assertTrue(order1.getTotalCost().compareTo(testOrder.getTotalCost()) == 0);
-        
+
         /// Begin Test 2
-        
-        
+
+
         order1Date = LocalDate.parse("1113-06-01");
-        
+
         order1 = new Order(3);
-                
+
         order1.setCustomerName("Croyle");
         order1.setFlooringArea(new BigDecimal("44.583"));
-        
+
         order1.setState("OH");
         order1.setProductType("Laminate");
-        
+
         order1.setTaxRate(new BigDecimal("5.75"));
         order1.setCostPerSqFt(new BigDecimal("1.13"));
         order1.setLaborCostPerSqFt(new BigDecimal("0.45"));
@@ -112,12 +141,12 @@ public class FlooringOrderDaoTest {
         order1.setLaborCost(new BigDecimal("236.47"));
         order1.setTotalTax(new BigDecimal("23.74"));
         order1.setTotalCost(new BigDecimal("684.35"));
-        
+
         orderDao.addOrder(order1, order1Date);
-        
-        
+
+
         testOrder = orderDao.getOrderByNum(3, order1Date);
-        
+
         // Compare Strings
         assertTrue(order1.getCustomerName().equals(testOrder.getCustomerName()));
         assertTrue(order1.getState().equals(testOrder.getState()));
@@ -131,7 +160,7 @@ public class FlooringOrderDaoTest {
         assertTrue(order1.getLaborCost().compareTo(testOrder.getLaborCost()) == 0);
         assertTrue(order1.getTotalTax().compareTo(testOrder.getTotalTax()) == 0);
         assertTrue(order1.getTotalCost().compareTo(testOrder.getTotalCost()) == 0);        
-        
+
     }
 
     /**
@@ -139,17 +168,17 @@ public class FlooringOrderDaoTest {
      */
     @Test
     public void testRemoveOrder() throws Exception {
-        
+
         LocalDate order1Date = LocalDate.parse("1111-11-11");
-        
+
         Order order1 = new Order(1);
-                
+
         order1.setCustomerName("Croyle");
         order1.setFlooringArea(new BigDecimal("44.583"));
-        
+
         order1.setState("OH");
         order1.setProductType("Laminate");
-        
+
         order1.setTaxRate(new BigDecimal("5.75"));
         order1.setCostPerSqFt(new BigDecimal("1.13"));
         order1.setLaborCostPerSqFt(new BigDecimal("0.45"));
@@ -157,13 +186,13 @@ public class FlooringOrderDaoTest {
         order1.setLaborCost(new BigDecimal("236.47"));
         order1.setTotalTax(new BigDecimal("23.74"));
         order1.setTotalCost(new BigDecimal("684.35"));
-        
+
         orderDao.addOrder(order1, order1Date);
 
         orderDao.removeOrder(1, order1Date);
-        
+
         assertNull(orderDao.getOrderByNum(1, order1Date));
-        
+
         // removed something that doesn't exist
         // try -- fail
         // catch does not exist
@@ -252,7 +281,7 @@ public class FlooringOrderDaoTest {
         Order order3 = new Order(3);
                 
         int size1;
-        if (orderDao.getAllOrdersByDate(LocalDate.parse("2013-06-11")) != null)
+        if (orderDao.getAllOrdersByDate(LocalDate.parse("2013-06-01")) != null)
         {
              size1 = orderDao.getAllOrdersByDate(LocalDate.parse("2016-06-11")).size();
         } else {
@@ -267,11 +296,11 @@ public class FlooringOrderDaoTest {
             size2 = 0;
         }
         
-        orderDao.addOrder(order4, LocalDate.parse("2013-06-11"));
+        orderDao.addOrder(order4, LocalDate.parse("2013-06-01"));
         orderDao.addOrder(order2, LocalDate.parse("1112-11-12"));
         orderDao.addOrder(order3, LocalDate.parse("1112-11-12"));
         
-        orderList = orderDao.getAllOrdersByDate(LocalDate.parse("2013-06-11"));
+        orderList = orderDao.getAllOrdersByDate(LocalDate.parse("2013-06-01"));
         assertEquals(size1 + 1, orderList.size());
 
         orderList = orderDao.getAllOrdersByDate(LocalDate.parse("1112-11-12"));

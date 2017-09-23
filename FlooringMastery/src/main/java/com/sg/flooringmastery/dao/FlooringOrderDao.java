@@ -24,5 +24,7 @@ public interface FlooringOrderDao {
     public Order getOrderByNum (Integer orderNum, LocalDate date);
         
     public List<Order> getAllOrdersByDate (LocalDate date);
+    
+    public void clearOrders();
 
 }

@@ -51,6 +51,7 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
     
     @Override
     public Order addOrder(Order order, LocalDate date) {
+        
         try {
             readOrderFile(date);
         } catch (NoOrdersForDateException e) {
@@ -58,9 +59,28 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
         } 
         
         orderMap.put(order.getOrderNumber(), order);
+        
+        try {
+            writeOrderFile(date);
+        } catch (FlooringPersistenceException e) {
+            // throw new blah blah balh
+        }
+        
         return order;
     }
 
+    @Override
+    public Order getOrderByNum(Integer orderNum, LocalDate date) {
+        
+        try {
+            readOrderFile(date);
+        } catch (NoOrdersForDateException e) {
+            // throw new blah blah blah
+        }     
+        
+        return orderMap.get(orderNum);
+    }
+    
     @Override
     public Order removeOrder(Integer orderNumber, LocalDate date) {
         Order removedOrder = orderMap.get(orderNumber);
@@ -76,11 +96,6 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
     }
 
     @Override
-    public Order getOrderByNum(Integer orderNum, LocalDate date) {
-        return orderMap.get(orderNum);
-    }
-
-    @Override
     public List<Order> getAllOrdersByDate(LocalDate date) {
         List<Order> ordersByDate = new ArrayList<>();
 //            for (Order currentOrder : orderMap.values()) {
@@ -91,6 +106,7 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
         return ordersByDate;
     }
     
+    @Override
     public void clearOrders() {
         orderMap.clear();
     }
@@ -148,12 +164,14 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
         scanner.close();
     }    
     
-    private void writeOrderFile(LocalDate currentDate) throws FlooringPersistenceException {
+    private void writeOrderFile(LocalDate dateOfInterest) throws FlooringPersistenceException {
         
         PrintWriter out;
         
+        String dateOfInterestString = dateOfInterest.format(formatter);
+        
         try {
-            out = new PrintWriter(new FileWriter(directory + "orders/Orders_" + currentDate.toString() + ".txt"));
+            out = new PrintWriter(new FileWriter(directory + "orders/Orders_" + dateOfInterestString + ".txt"));
         } catch (IOException e) {
             throw new FlooringPersistenceException(
                     "Could not save order data.", e);
