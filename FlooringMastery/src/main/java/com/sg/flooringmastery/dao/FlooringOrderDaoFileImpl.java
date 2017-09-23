@@ -83,26 +83,63 @@ public class FlooringOrderDaoFileImpl implements FlooringOrderDao {
     
     @Override
     public Order removeOrder(Integer orderNumber, LocalDate date) {
-        Order removedOrder = orderMap.get(orderNumber);
+        
+        try {
+            readOrderFile(date);
+        } catch (NoOrdersForDateException e) {
+            // throw new blah blah blah
+        }         
+        
+        Order removedOrder = null;
+        
+        try {
+            removedOrder = orderMap.get(orderNumber);
+        } catch (NullPointerException e) {
+            // throw new OrderDoesNotExistException;
+        }
+        
         orderMap.remove(orderNumber);
+        
+        try {
+            writeOrderFile(date);
+        } catch (FlooringPersistenceException e) {
+            // throw new blah blah balh
+        }    
+        
         return removedOrder;
     }
 
     @Override
     public Order editOrder(Order editedOrder, LocalDate oldDate, LocalDate newDate) {
-        removeOrder(editedOrder.getOrderNumber(), oldDate);
+        
+        try {
+            readOrderFile(oldDate);
+        } catch (NoOrdersForDateException e) {
+            // throw new blah blah blah
+        }     
+        
+        removeOrder(editedOrder.getOrderNumber(), oldDate); // does this need a try/catch?
         addOrder(editedOrder, newDate);
+        
+        try {
+            writeOrderFile(newDate);
+        } catch (FlooringPersistenceException e) {
+            // throw new blah blah balh
+        }        
+        
         return editedOrder;
     }
 
     @Override
     public List<Order> getAllOrdersByDate(LocalDate date) {
-        List<Order> ordersByDate = new ArrayList<>();
-//            for (Order currentOrder : orderMap.values()) {
-//                if (currentOrder.getOrderDate().isEqual(date)) {
-//                    ordersByDate.add(currentOrder);
-//                }
-//            }
+        
+        try {
+            readOrderFile(date);
+        } catch (NoOrdersForDateException e) {
+            // throw new blah blah blah
+        } 
+        
+        List<Order> ordersByDate = new ArrayList(orderMap.values());
         return ordersByDate;
     }
     

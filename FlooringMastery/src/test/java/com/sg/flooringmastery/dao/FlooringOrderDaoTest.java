@@ -80,7 +80,6 @@ public class FlooringOrderDaoTest {
     }
 
     
-    
     /**
      * Test of addOrder method, of class FlooringOrderDao.
      */
@@ -278,14 +277,59 @@ public class FlooringOrderDaoTest {
         
         List<Order> orderList;
         
-        Order order4 = new Order(4);
+        Order order1 = new Order(4);
+        
+        order1.setCustomerName("Croyle");
+        order1.setFlooringArea(new BigDecimal("44.583"));
+
+        order1.setState("OH");
+        order1.setProductType("Laminate");
+
+        order1.setTaxRate(new BigDecimal("5.75"));
+        order1.setCostPerSqFt(new BigDecimal("1.13"));
+        order1.setLaborCostPerSqFt(new BigDecimal("0.45"));
+        order1.setMaterialCost(new BigDecimal("454.26"));
+        order1.setLaborCost(new BigDecimal("236.47"));
+        order1.setTotalTax(new BigDecimal("23.74"));
+        order1.setTotalCost(new BigDecimal("684.35"));
+        
         Order order2 = new Order(2);
+        
+        order2.setCustomerName("Croyle");
+        order2.setFlooringArea(new BigDecimal("44.583"));
+
+        order2.setState("OH");
+        order2.setProductType("Laminate");
+
+        order2.setTaxRate(new BigDecimal("5.75"));
+        order2.setCostPerSqFt(new BigDecimal("1.13"));
+        order2.setLaborCostPerSqFt(new BigDecimal("0.45"));
+        order2.setMaterialCost(new BigDecimal("454.26"));
+        order2.setLaborCost(new BigDecimal("236.47"));
+        order2.setTotalTax(new BigDecimal("23.74"));
+        order2.setTotalCost(new BigDecimal("684.35"));        
+                
         Order order3 = new Order(3);
+        
+        order3.setCustomerName("Croyle");
+        order3.setFlooringArea(new BigDecimal("44.583"));
+
+        order3.setState("OH");
+        order3.setProductType("Laminate");
+
+        order3.setTaxRate(new BigDecimal("5.75"));
+        order3.setCostPerSqFt(new BigDecimal("1.13"));
+        order3.setLaborCostPerSqFt(new BigDecimal("0.45"));
+        order3.setMaterialCost(new BigDecimal("454.26"));
+        order3.setLaborCost(new BigDecimal("236.47"));
+        order3.setTotalTax(new BigDecimal("23.74"));
+        order3.setTotalCost(new BigDecimal("684.35"));        
+        
                 
         int size1;
         if (orderDao.getAllOrdersByDate(LocalDate.parse("2013-06-01")) != null)
         {
-             size1 = orderDao.getAllOrdersByDate(LocalDate.parse("2016-06-11")).size();
+             size1 = orderDao.getAllOrdersByDate(LocalDate.parse("2013-06-01")).size();
         } else {
             size1 = 0;
         }
@@ -298,7 +342,7 @@ public class FlooringOrderDaoTest {
             size2 = 0;
         }
         
-        orderDao.addOrder(order4, LocalDate.parse("2013-06-01"));
+        orderDao.addOrder(order1, LocalDate.parse("2013-06-01"));
         orderDao.addOrder(order2, LocalDate.parse("1112-11-12"));
         orderDao.addOrder(order3, LocalDate.parse("1112-11-12"));
         
