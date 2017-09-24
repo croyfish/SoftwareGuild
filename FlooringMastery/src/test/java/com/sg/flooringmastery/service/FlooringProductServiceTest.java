@@ -5,6 +5,8 @@
  */
 package com.sg.flooringmastery.service;
 
+import com.sg.flooringmastery.dao.FlooringProductDao;
+import com.sg.flooringmastery.dao.FlooringProductDaoFileImpl;
 import com.sg.flooringmastery.exception.NoProductException;
 import com.sg.flooringmastery.dto.Product;
 import java.math.BigDecimal;
@@ -21,11 +23,12 @@ import org.junit.Test;
  *
  * @author jeffc
  */
-public class ProductServiceTest {
+public class FlooringProductServiceTest {
     
-    FlooringProductService productService;
+    FlooringProductDao productDao = new FlooringProductDaoFileImpl("test/");
+    FlooringProductService productService = new FlooringProductServiceImpl(productDao);
     
-    public ProductServiceTest() {
+    public FlooringProductServiceTest() {
     }
     
     @BeforeClass
@@ -44,31 +47,12 @@ public class ProductServiceTest {
     public void tearDown() {
     }
 
-    /** arrange, act, assert
-     * Test of fillMaterialCostPerSqFtField method, of class ProductService.
-     */
-//    @Test
-//    public void testFillMaterialCostPerSqFtField() {
-//        
-//        
-//        
-//        Order filledOrder = productService.fillMaterialCostPerSqFtField(order);
-//        
-//        
-//    }
-//
-//    /** arrange, act, assert
-//     * Test of fillLaborCostPerSqFtField method, of class ProductService.
-//     */
-//    @Test
-//    public void testFillLaborCostPerSqFtField() {
-//    }
 
     /** arrange, act, assert
      * Test of addProduct method, of class ProductService.
      */
     @Test
-    public void testAddProduct() {
+    public void testAddProduct() throws Exception {
         Product product1 = new Product("Mahogany");
         product1.setCostPerSqFt(new BigDecimal("0.17"));
         product1.setLaborCostPerSqFt(new BigDecimal("45.89"));
@@ -94,7 +78,7 @@ public class ProductServiceTest {
      * Test of removeProduct method, of class ProductService.
      */
     @Test
-    public void testRemoveProduct() {
+    public void testRemoveProduct() throws Exception {
         Product product1 = new Product("Mahogany");
         product1.setCostPerSqFt(new BigDecimal("0.17"));
         product1.setLaborCostPerSqFt(new BigDecimal("45.89"));
@@ -148,16 +132,34 @@ public class ProductServiceTest {
      * Test of getProductByType method, of class ProductService.
      */
     @Test
-    public void testGetProductByType() {
+    public void testGetProductByType() throws Exception {
+        
+//        Product newProduct = new Product("Wood");
+//        newProduct.setCostPerSqFt(new BigDecimal("1.00"));
+//        newProduct.setLaborCostPerSqFt(new BigDecimal(".50"));
+        
+//        Product addedProduct = productService.addProduct(newProduct);
+        Product testProduct = productService.getProductByType("Wood");
+        String testProductType = testProduct.getProductType();
+
+        assertTrue(testProductType.equals("Wood"));
+        
+        
+        Product missingProduct = new Product("Drift wood");
+        missingProduct.setCostPerSqFt(new BigDecimal("1.00"));
+        missingProduct.setLaborCostPerSqFt(new BigDecimal(".50"));
+        
+        // making sure that we can't call that doesn't exist from dao
+        try {
+            productService.getProductByType(missingProduct.getProductType());
+            fail("The expected NoProductException was not thrown.");
+        } catch (NoProductException e) {
+            
+        }
+        
+                        
     }
-    
-//    public Order fillMaterialCostPerSqFtField(Order order);
-//    public Order fillLaborCostPerSqFtField(Order order);
-//    public Product addProduct(Product product);
-//    public Product removeProduct(String productType);
-//    public Product editProduct(Product product);
-//    public List<Product> getAllProducts();
-//    public Product getProductByType(String productType);    
+      
     
     
 }

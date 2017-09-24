@@ -7,6 +7,7 @@ package com.sg.flooringmastery.service;
 
 import com.sg.flooringmastery.exception.NoProductException;
 import com.sg.flooringmastery.dto.Product;
+import com.sg.flooringmastery.exception.FlooringPersistenceException;
 import java.util.List;
 
 /**
@@ -14,11 +15,15 @@ import java.util.List;
  * @author jeffc
  */
 public interface FlooringProductService {
-//    public Order fillMaterialCostPerSqFtField(Order order);
-//    public Order fillLaborCostPerSqFtField(Order order);
+
     public Product addProduct(Product product);
+    
     public Product removeProduct(String productType) throws NoProductException;
+    
     public Product editProduct(Product product);
+    
     public List<Product> getAllProducts();
-    public Product getProductByType(String productType) throws NoProductException;
+    
+    public Product getProductByType(String productType) 
+            throws NoProductException, FlooringPersistenceException;
 }

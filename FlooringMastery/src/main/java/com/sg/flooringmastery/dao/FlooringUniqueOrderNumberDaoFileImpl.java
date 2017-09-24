@@ -54,7 +54,7 @@ public class FlooringUniqueOrderNumberDaoFileImpl implements FlooringUniqueOrder
     private UniqueOrderNumber readUniqueOrderNumberFile() throws FlooringPersistenceException {
         
         Scanner scanner;
-        UniqueOrderNumber num = null;
+        UniqueOrderNumber num = new UniqueOrderNumber();
 
         try {
             scanner = new Scanner(
@@ -76,7 +76,6 @@ public class FlooringUniqueOrderNumberDaoFileImpl implements FlooringUniqueOrder
                 break;
             }
 
-            num = new UniqueOrderNumber();
             num.setOrderNumber(Integer.parseInt(currentLine));
 
         }

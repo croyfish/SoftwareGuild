@@ -22,11 +22,16 @@ public class FlooringUniqueOrderNumberServiceImpl implements FlooringUniqueOrder
     
     @Override
     public UniqueOrderNumber getNewUniqueOrderNumber() {
+        // create a new orderNumber object and set it equal to the current order number from dao
         UniqueOrderNumber orderNumber = orderNumberDao.getCurrentUniqueOrderNumber();
+        // extract integer number from current order number
         Integer num = orderNumber.getOrderNumber();
+        // increment the integer
         num++;
+        // set the current order number object's value to the incremented value
         orderNumber.setOrderNumber(num);
-        orderNumberDao.setCurrentUniqueOrderNumber(orderNumber);
+        // orderNumberDao.setCurrentUniqueOrderNumber(orderNumber);  // redundant 
+        
         return orderNumber;     
     }
 

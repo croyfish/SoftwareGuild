@@ -28,13 +28,16 @@ public class FlooringProductDaoFileImpl implements FlooringProductDao {
     private static final String DELIMITER = ",";
     
     private Map<String, Product> productMap = new HashMap<>();
+
     
-    
-    public FlooringProductDaoFileImpl(String directory) throws FlooringPersistenceException {
+    public FlooringProductDaoFileImpl(String directory) {
         this.directory = directory;
-        readProductFile();
+        try {
+            readProductFile();
+        } catch (FlooringPersistenceException e) {
+            // do something
+        }
     }    
-    
     
     @Override
     public Product addProduct(Product product) {

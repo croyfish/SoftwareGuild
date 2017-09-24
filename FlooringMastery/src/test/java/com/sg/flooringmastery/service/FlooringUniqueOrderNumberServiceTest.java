@@ -21,9 +21,11 @@ import org.junit.Test;
  */
 public class FlooringUniqueOrderNumberServiceTest {
     
+    // InMemDao represents Dao Stub
     FlooringUniqueOrderNumberDao orderNumberDao = new FlooringUniqueOrderNumberDaoInMemImpl();
     
-    FlooringUniqueOrderNumberService serviceDao = 
+    // Pass Dao Stub to orderNumberService constructor
+    FlooringUniqueOrderNumberService orderNumberService = 
         new FlooringUniqueOrderNumberServiceImpl(orderNumberDao); 
     
     public FlooringUniqueOrderNumberServiceTest() {
@@ -50,11 +52,18 @@ public class FlooringUniqueOrderNumberServiceTest {
      */
     @Test
     public void testGetNewUniqueOrderNumber() {
-        UniqueOrderNumber oldNumber = serviceDao.getCurrentOrderNumber();
+        
+        // We get the old number with the service getter
+        UniqueOrderNumber oldNumber = orderNumberService.getCurrentOrderNumber();
+        // Pull out the integer value of the order number object
         int oldNumberInt = oldNumber.getOrderNumber();
-        UniqueOrderNumber newNumber = serviceDao.getNewUniqueOrderNumber();
+        
+        // We get a new unique order number with the corresponding service method
+        UniqueOrderNumber newNumber = orderNumberService.getNewUniqueOrderNumber();
+        // Pull out the integer value of the new order number
         int newNumberInt = newNumber.getOrderNumber();
         
+        // assert that the new number is the old number plus one
         assertTrue(oldNumberInt + 1 == newNumberInt); 
     }
 
@@ -64,15 +73,19 @@ public class FlooringUniqueOrderNumberServiceTest {
     @Test
     public void testGetCurrentOrderNumber() {
         
+        // create a new UON
         UniqueOrderNumber setNum = new UniqueOrderNumber();
+        // set its int value
         setNum.setOrderNumber(999);
         
-        serviceDao.setCurrentOrderNumber(setNum);
+        // call the service to set the current order number object to the one we created
+        orderNumberService.setCurrentOrderNumber(setNum);
+        // get our number object back from the service
+        UniqueOrderNumber testNum = orderNumberService.getCurrentOrderNumber();
         
-        UniqueOrderNumber testNum = serviceDao.getCurrentOrderNumber();
-        
+        // pull out the integer value of the number we got
         int testNumInt = testNum.getOrderNumber();
-        
+        // assert that the integer value is the one we gave it
         assertTrue(testNumInt == 999);
         
     }
@@ -83,16 +96,20 @@ public class FlooringUniqueOrderNumberServiceTest {
     @Test
     public void testSetCurrentOrderNumber() {
         
+        // create a new UON
         UniqueOrderNumber setNum = new UniqueOrderNumber();
+        // set its int value
         setNum.setOrderNumber(999);
         
-        serviceDao.setCurrentOrderNumber(setNum);
+        // call the service to set the current order number object to the one we created
+        orderNumberService.setCurrentOrderNumber(setNum);
+        // get our number object back from the service
+        UniqueOrderNumber testNum = orderNumberService.getCurrentOrderNumber();
         
-        UniqueOrderNumber testNum = serviceDao.getCurrentOrderNumber();
-        
+        // pull out the integer value of the number we got
         int testNumInt = testNum.getOrderNumber();
-        
-        assertTrue(testNumInt == 999);        
+        // assert that the integer value is the one we gave it
+        assertTrue(testNumInt == 999);     
         
     }
     
