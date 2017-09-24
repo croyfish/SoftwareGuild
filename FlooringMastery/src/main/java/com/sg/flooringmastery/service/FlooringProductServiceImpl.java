@@ -24,7 +24,6 @@ public class FlooringProductServiceImpl implements FlooringProductService {
     }
     
 
-
     @Override
     public Product getProductByType(String productType) 
             throws NoProductException, FlooringPersistenceException {

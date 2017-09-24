@@ -15,40 +15,99 @@
           http://www.springframework.org/schema/aop  
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-    <!-- Bean definitions for main Vending Machine program -->
+    <!-- Bean definitions for main Flooring program -->
     
     <!-- Create UserIOConsoleImpl bean for UserIO-->
-    <bean id="userIO" class="com.sg.vendingmachine.ui.UserIOConsoleImpl"/>
+    <bean id="userIO" class="com.sg.flooringmastery.ui.UserIOConsoleImpl"/>
+    
     <!-- Create bean for View and inject userIO dependency bean-->
-    <bean id="view" class="com.sg.vendingmachine.ui.VendingMachineView">
+    <bean id="view" class="com.sg.flooringmastery.ui.FlooringView">
         <constructor-arg ref="userIO"/>
     </bean>
-    <!-- Create DaoFileImpl bean for Dao-->
-    <bean id="vendingMachineDao" 
-         class="com.sg.vendingmachine.dao.VendingMachineDAOFileImpl"/>
-    <!-- Create AuditDaoFileImpl bean for AuditDao-->
-    <bean id="auditDao" 
-         class="com.sg.vendingmachine.dao.VendingMachineAuditDaoFileImpl"/>
-    <!-- Create bean for Service and inject Dao and AuditDao dependency beans-->
-    <bean id="service" 
-         class="com.sg.vendingmachine.service.VendingMachineServiceImpl">
-        <constructor-arg ref="vendingMachineDao"/>
-        <constructor-arg ref="auditDao"/>        
+    
+    
+    <!-- Create bean for directory string -->
+    <bean id="directory" class="java.lang.String">
+        <constructor-arg value="data/"/>
     </bean>
-    <!-- Create bean for Controller and injecct Service and View beans-->
+    
+    
+    
+    <!-- Create OrderDaoFileImpl bean for OrderDao with directory bean in constructor-->
+    <bean id="orderDao" class="com.sg.flooringmastery.dao.FlooringOrderDaoFileImpl"/>
+        <constructor-arg ref="directory"/>
+    </bean>
+    
+    <!-- Create UniqueOrderNumberDaoFileImpl bean for UniqueOrderNumberDao with dir bean-->
+    <bean id="uniqueOrderNumberDao" 
+          class="com.sg.flooringmastery.dao.FlooringUniqueOrderNumberDaoFileImpl"/>
+        <constructor-arg ref="directory"/>
+    </bean>
+    
+    <!-- Create ProductDaoFileImpl bean for ProductDao-->
+    <bean id="productDao" 
+          class="com.sg.flooringmastery.dao.FlooringProductDaoFileImpl"/>
+    </bean>
+    
+    <!-- Create TaxDaoFileImpl bean for TaxDao-->
+    <bean id="taxDao" 
+          class="com.sg.flooringmastery.dao.FlooringTaxDaoFileImpl"/>
+    </bean>    
+    
+    
+    <!-- Create AuditDaoFileImpl bean for AuditDao
+    <bean id="auditDao" 
+         class="com.sg.flooringmastery.dao.VendingMachineAuditDaoFileImpl"/>
+    -->
+   
+
+    
+    <!-- Create bean for UniqueOrderNumberService and inject UniqueOrderNumberDao bean -->
+    <bean id="uniqueOrderNumberService" 
+         class="com.sg.flooringmastery.service.FlooringUniqueOrderNumberServiceImpl">
+        <constructor-arg ref="uniqueOrderNumberDao"/>      
+    </bean> 
+    
+    <!-- Create bean for ProductService and inject ProductDao bean -->
+    <bean id="productService"
+         class="com.sg.flooringmastery.service.FlooringProductServiceImpl">
+        <constructor-arg ref="productDao"/>      
+    </bean> 
+    
+    <!-- Create bean for TaxService and inject TaxDao bean -->
+    <bean id="taxService" 
+         class="com.sg.flooringmastery.service.FlooringTaxServiceImpl">
+        <constructor-arg ref="taxDao"/>      
+    </bean>
+    
+    <!-- Create bean for OrderService and inject Service and OrderDao beans -->
+    <bean id="orderService" 
+         class="com.sg.flooringmastery.service.FlooringOrderServiceImpl">
+        <constructor-arg ref="orderDao"/>
+        <constructor-arg ref="orderDao"/>
+        <constructor-arg ref="orderDao"/>
+        <constructor-arg ref="orderDao"/>      
+    </bean>                                                           
+    
+    
+    
+    <!-- Create bean for Controller and inject Service and View beans-->
     <bean id="controller" 
-         class="com.sg.vendingmachine.controller.VendingMachineController">
+         class="com.sg.flooringmastery.controller.FlooringController">
         <constructor-arg ref="service"/>
         <constructor-arg ref="view"/>
     </bean>
+    
+    
+    
     <!-- Create bean for transaction LoggingAdvice and inject AuditDao dependency bean-->
     <bean id="loggingAdvice"
-        class="com.sg.vendingmachine.advice.LoggingAdvice">
+        class="com.sg.flooringmastery.advice.LoggingAdvice">
         <constructor-arg ref="auditDao"/>
     </bean>
     <!-- Create bean for ExceptionLoggingAdvice and inject AuditDao dependency bean-->
     <bean id="exceptionLoggingAdvice"
-        class="com.sg.vendingmachine.advice.ExceptionLoggingAdvice">
+        class="com.sg.flooringmastery.advice.ExceptionLoggingAdvice">
         <constructor-arg ref="auditDao"/>
     </bean>
 
@@ -58,18 +117,18 @@
         <aop:aspect ref="loggingAdvice">
             <aop:after-returning
                 method="createAuditEntry"
-                pointcut="execution(* com.sg.vendingmachine.service.VendingMachineService.addMoneyEnteredToDAO(..))"
+                pointcut="execution(* com.sg.flooringmastery.service.VendingMachineService.addMoneyEnteredToDAO(..))"
             />
             <aop:after-returning
                 method="createAuditEntry"
-                pointcut="execution(* com.sg.vendingmachine.service.VendingMachineService.calculateChange(..))"
+                pointcut="execution(* com.sg.flooringmastery.service.VendingMachineService.calculateChange(..))"
             />
         <!-- Create aspect for ExceptionLoggingAdvice and apply it to purchaseItem JoinPoint-->
         </aop:aspect>
         <aop:aspect ref="exceptionLoggingAdvice">
             <aop:after-throwing 
                 method="createExceptionAuditEntry"
-                pointcut="execution(* com.sg.vendingmachine.service.VendingMachineService.purchaseItem(..))"
+                pointcut="execution(* com.sg.flooringmastery.service.VendingMachineService.purchaseItem(..))"
                 throwing="ex"
             />
         </aop:aspect>

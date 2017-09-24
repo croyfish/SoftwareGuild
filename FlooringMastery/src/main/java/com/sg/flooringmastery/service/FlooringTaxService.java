@@ -6,6 +6,8 @@
 package com.sg.flooringmastery.service;
 
 import com.sg.flooringmastery.dto.Tax;
+import com.sg.flooringmastery.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.exception.NoStateException;
 
 /**
  *
@@ -15,10 +17,11 @@ public interface FlooringTaxService {
     
     // create
     public Tax addTaxByState(String state, Tax tax);
-    // remove
-    public Tax getTaxByState(String state);
+    // read
+    public Tax getTaxByState(String state)
+            throws NoStateException, FlooringPersistenceException;
     // update
-    public void editTaxByState(String state, Tax tax);
+    public Tax editTaxByState(String state, Tax tax);
     // delete
     public Tax removeTaxByState(String state);
     

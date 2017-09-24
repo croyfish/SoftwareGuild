@@ -31,9 +31,13 @@ public class FlooringTaxDaoFileImpl implements FlooringTaxDao {
     private Map<String, Tax> taxMap = new HashMap<>();
     
     
-    public FlooringTaxDaoFileImpl(String directory) throws FlooringPersistenceException {
+    public FlooringTaxDaoFileImpl(String directory) {
         this.directory = directory;
-        readTaxesFile();
+        try {
+            readTaxesFile();
+        } catch (FlooringPersistenceException e) {
+            
+        }
     }        
     
     

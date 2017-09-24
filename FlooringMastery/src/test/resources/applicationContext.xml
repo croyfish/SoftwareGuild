@@ -19,16 +19,16 @@
     
     <!-- Create DAOFileImpl bean for Dao --> 
     <bean id="vendingMachineDao" 
-       class="com.sg.vendingmachine.dao.VendingMachineDAOFileImpl"/>
+       class="com.sg.flooringmastery.dao.VendingMachineDAOFileImpl"/>
     <!-- Create bean for DaoStubImpl --> 
     <bean id="vendingMachineDaoStub" 
-       class="com.sg.vendingmachine.dao.VendingMachineDAOStubImpl"/>
+       class="com.sg.flooringmastery.dao.VendingMachineDAOStubImpl"/>
     <!-- Create AuditDaoStubImpl bean for AuditDaoStub --> 
     <bean id="auditDaoStub" 
-       class="com.sg.vendingmachine.dao.VendingMachineAuditDaoStubImpl"/>
+       class="com.sg.flooringmastery.dao.VendingMachineAuditDaoStubImpl"/>
     <!-- Create bean for Service and inject DaoStub and AuditDaoStub dependency beans --> 
     <bean id="service" 
-       class="com.sg.vendingmachine.service.VendingMachineServiceImpl">
+       class="com.sg.flooringmastery.service.VendingMachineServiceImpl">
         <constructor-arg ref="vendingMachineDaoStub"/>
         <constructor-arg ref="auditDaoStub"/>             
     </bean>
