@@ -5,7 +5,7 @@
  */
 package com.sg.flooringmastery.dao;
 
-import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.exception.FlooringPersistenceException;
 import com.sg.flooringmastery.dto.Order;
 import com.sg.flooringmastery.dto.Tax;
 import com.sg.flooringmastery.dto.UniqueOrderNumber;

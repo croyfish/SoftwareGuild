@@ -5,7 +5,7 @@
  */
 package com.sg.flooringmastery.dao;
 
-import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.exception.FlooringPersistenceException;
 import com.sg.flooringmastery.dto.UniqueOrderNumber;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -18,14 +18,25 @@ import java.util.Scanner;
  */
 public class FlooringUniqueOrderNumberDaoInMemImpl implements FlooringUniqueOrderNumberDao {
     
+    private UniqueOrderNumber orderNumber = new UniqueOrderNumber();
+    
+    public FlooringUniqueOrderNumberDaoInMemImpl() {
+        
+        try {
+             this.orderNumber = readUniqueOrderNumberFile();
+        } catch (FlooringPersistenceException e) {
+            
+        }
+    }
+    
     @Override
     public UniqueOrderNumber getCurrentUniqueOrderNumber() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return orderNumber;
     }
 
     @Override
     public void setCurrentUniqueOrderNumber(UniqueOrderNumber num) {
-        
+        orderNumber = num;
     }
     
     private UniqueOrderNumber readUniqueOrderNumberFile() throws FlooringPersistenceException {

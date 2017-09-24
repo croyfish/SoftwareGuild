@@ -5,7 +5,7 @@
  */
 package com.sg.flooringmastery.service;
 
-import com.sg.flooringmastery.dao.exception.NoProductException;
+import com.sg.flooringmastery.exception.NoProductException;
 import com.sg.flooringmastery.dto.Product;
 import java.util.List;
 

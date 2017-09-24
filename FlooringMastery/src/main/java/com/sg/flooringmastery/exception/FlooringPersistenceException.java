@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.flooringmastery.dao.exception;
+package com.sg.flooringmastery.exception;
 
 /**
  *
  * @author jeffc
  */
-public class NoStateException extends Exception {
-    
-    public NoStateException (String message) {
+public class FlooringPersistenceException extends Exception {
+    public FlooringPersistenceException(String message) {
         super(message);
     }
     
-    public NoStateException (String message, Throwable cause) {
+    public FlooringPersistenceException(String message, Throwable cause) {
         super(message, cause);
-    }         
+    }    
 }

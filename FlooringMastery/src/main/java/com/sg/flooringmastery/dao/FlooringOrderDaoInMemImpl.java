@@ -5,7 +5,7 @@
  */
 package com.sg.flooringmastery.dao;
 
-import com.sg.flooringmastery.dao.exception.NoOrdersForDateException;
+import com.sg.flooringmastery.exception.NoOrdersForDateException;
 import com.sg.flooringmastery.dto.Order;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

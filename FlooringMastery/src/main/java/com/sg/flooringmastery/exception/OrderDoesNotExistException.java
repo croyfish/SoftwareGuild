@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.flooringmastery.dao.exception;
+package com.sg.flooringmastery.exception;
 
 /**
  *
  * @author jeffc
  */
-public class NoProductException extends Exception{
+public class OrderDoesNotExistException extends Exception {
     
-    public NoProductException (String message) {
+    public OrderDoesNotExistException (String message) {
         super(message);
     }
     
-    public NoProductException (String message, Throwable cause) {
+    public OrderDoesNotExistException (String message, Throwable cause) {
         super(message, cause);
     }         
 }

@@ -5,8 +5,8 @@
  */
 package com.sg.flooringmastery.dao;
 
-import com.sg.flooringmastery.dao.exception.FlooringPersistenceException;
-import com.sg.flooringmastery.dao.exception.NoStateException;
+import com.sg.flooringmastery.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.exception.NoStateException;
 import com.sg.flooringmastery.dto.Tax;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
