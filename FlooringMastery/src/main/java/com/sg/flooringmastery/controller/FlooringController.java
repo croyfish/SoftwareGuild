@@ -32,9 +32,10 @@ public class FlooringController {
     Integer userChoice = 0;
     
     public FlooringController(FlooringView view, 
-            FlooringOrderService orderService, FlooringProductService productService) {
+            FlooringOrderService orderService, FlooringUniqueOrderNumberService uniqueOrderNumberService) {
         this.view = view;
         this.orderService = orderService;
+        this.uniqueOrderNumberService = uniqueOrderNumberService;
     }
     
     public void run() {
@@ -44,7 +45,7 @@ public class FlooringController {
         
         while (keepGoing){
             // maybe put mode here as a message to user
-            int actionChoice = view.printActionMenuAndGetSelection();
+            int actionChoice = view.printActionMenuAndGetSelection(returnModeString(isTrainingMode));
             useActionMenuChoice(actionChoice);
         }
         
@@ -78,9 +79,8 @@ public class FlooringController {
         try{
             List<Order> ordersForDate = orderService.getOrdersByDate(enteredDateInfo[0]); //use Exception inside for missing dates in try-catch // this method will simply pass the date through to the dao method, which
             view.showAllOrdersForDate(ordersForDate, enteredDateInfo[0]); //view would have showInfoForOrder that we could use enhanced-for for
-            view.displayOperationSuccessfulMessage("Add Order");
-        } catch(FlooringPersistenceException ex){
-            view.displayExceptionMessage("Orders not found");
+        } catch (FlooringPersistenceException ex){
+            view.displayExceptionMessage("Orders not found.");
         }
         
     }
@@ -101,11 +101,18 @@ public class FlooringController {
             orderWithAllFieldsFilled = orderService.fillRemainingOrderFields(partialNewOrder);
         } catch(NoStateException ex){
             view.displayExceptionMessage("This order claimed a state we don't service");
+            return;
         } catch(NoProductException ex){
             view.displayExceptionMessage("This order claimed a product we don't sell");
+            return;
         } catch(FlooringPersistenceException e){
             view.displayExceptionMessage("Unable to access files");
+            return;
         }
+        
+        boolean inLargeList = false;
+        view.showInfoForOneOrder(orderWithAllFieldsFilled, inLargeList);
+        
         //does the user want to save this new order?
         boolean commit = view.askToCommit("Your order will be placed on file"); //"are you sure info is correct?"
         if (commit){
@@ -152,9 +159,11 @@ public class FlooringController {
         } catch(NoProductException ex) {
             view.displayExceptionMessage("No product of that type");
         } catch(NoStateException ex){
-                view.displayExceptionMessage("State not serviced");
+            view.displayExceptionMessage("State not serviced");
         }
     }
+    
+
     
     //commits? YES
     void removeAnOrderByDate(){
@@ -166,6 +175,10 @@ public class FlooringController {
             List<Order> ordersForDate = orderService.getOrdersByDate(enteredDateInfo[0]); //use Exception inside for missing dates
             Integer orderNum = view.getOrderNumFromUser(); //input validation
             Order orderToRemove = orderService.getOrderByNumber(orderNum, enteredDateInfo[0]); //uses native checking
+            
+            boolean inLargeList = false;
+            view.showInfoForOneOrder(orderToRemove, inLargeList);            
+            
             boolean commit = view.askToCommit("Order will be removed from permanent file.");
             if (commit){
                 Order removedOrder = orderService.removeOrder(orderToRemove, enteredDateInfo[0]); //get the orderNum later in dao for actual removal
@@ -203,11 +216,19 @@ public class FlooringController {
             commit = view.askToCommit("If you have any work in progress, it will be lost");
             if (commit){
                 orderService.switchMode(isTrainingMode);
-                isTrainingMode=true;
+                isTrainingMode=!isTrainingMode;
                 view.displayOperationSuccessfulMessage(doSwitch);
             } else{
                 view.displayOperationAbandonedMessage(doSwitch);
             }
         }
     }
+    
+    public String returnModeString(boolean isTrainingMode) {
+        if (isTrainingMode) {
+            return "Training Mode";
+        } else {
+            return "Production Mode";
+        }
+    } 
 }

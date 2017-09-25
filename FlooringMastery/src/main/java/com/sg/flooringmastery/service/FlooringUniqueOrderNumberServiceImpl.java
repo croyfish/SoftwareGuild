@@ -30,7 +30,8 @@ public class FlooringUniqueOrderNumberServiceImpl implements FlooringUniqueOrder
         num++;
         // set the current order number object's value to the incremented value
         orderNumber.setOrderNumber(num);
-        // orderNumberDao.setCurrentUniqueOrderNumber(orderNumber);  // redundant 
+        
+        orderNumberDao.setCurrentUniqueOrderNumber(orderNumber);  // not redundant !!!!!
         
         return orderNumber;     
     }

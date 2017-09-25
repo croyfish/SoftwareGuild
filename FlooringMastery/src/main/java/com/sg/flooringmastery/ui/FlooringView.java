@@ -7,8 +7,10 @@ package com.sg.flooringmastery.ui;
 
 import com.sg.flooringmastery.dto.Order;
 import java.math.BigDecimal;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.format.FormatStyle;
 import java.util.List;
 
@@ -25,13 +27,30 @@ public class FlooringView {
     public void displayDisplayOrdersBanner() {
         io.print("===Display Orders===");
     }
+    
     public LocalDate[] askForDate(boolean editing) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); //CHECK THIS IF PROBLEMATIC
         LocalDate dates[] = new LocalDate[2];
         LocalDate oldDate =io.readLocalDate("Enter the full date (yyyy-MM-dd): ");
         dates[0] = oldDate;
         if (editing){
-            LocalDate newDate =io.readLocalDate("Enter the new date (type in old date if not changing date): ");
-            dates[1] = oldDate;
+            boolean isDateValid = false;
+            while (!isDateValid){
+            
+                String newDate =io.readString("Enter the new date (Press ENTER to use same date): ");
+                if (newDate.equals("")){
+                    dates[1] = oldDate;
+                    isDateValid=true;
+                } else {
+                    try{
+                        LocalDate oldLocalDate = LocalDate.parse(newDate, formatter);
+                        isDateValid=true;
+                    } catch (DateTimeParseException e){
+                        io.print("Please enter a valid date (yyyy-MM-dd)");
+                    }
+                }
+            
+            }
         }
         return dates;
     }
@@ -59,11 +78,12 @@ public class FlooringView {
     public void printInvalidChoiceMessage() {
         io.print("Invalid choice");
     }
+    
     public boolean askToCommit(String warningMessage) {
         String userAnswer = io.readString("Warning: " + warningMessage + " Are you sure you want to proceed? (y/n)");
         return userAnswer.equalsIgnoreCase("y") || userAnswer.equalsIgnoreCase("yes");
     }
-        public int printActionMenuAndGetSelection(){
+        public int printActionMenuAndGetSelection(String mode){
         io.print("*********************************");
         io.print("******  >  Action Menu  <  ******");
         io.print("*********************************");
@@ -71,9 +91,9 @@ public class FlooringView {
         io.print("2. Add an Order");
         io.print("3. Edit an Order");
         io.print("4. Remove an Order");
-        io.print("5. Switch mode");
+        io.print("5. Switch mode (currently in " + mode + ")");
         io.print("6. Quit");
-        io.print("7. Do Admin Stuff"); //this would switch to the admin controller
+        //io.print("7. Do Admin Stuff"); //this would switch to the admin controller
         io.print("");
         int action = io.readInt("Please select from the above choices: ",1,7);
         io.print("*********************************");
@@ -85,7 +105,7 @@ public class FlooringView {
         io.print("===Edit an Order===");
     }
     public Integer getOrderNumFromUser() {
-        return io.readInt("Type the order of the number you are looking for: ");
+        return io.readInt("Type the number of the order you are looking for: ");
     }
     //maybe combine to one method -- get info from user
     public Order setBasicOrderInfo(Order order, boolean editing) {
@@ -98,15 +118,38 @@ public class FlooringView {
             String oldStateMessage = "("+oldState+")";
             String oldProductType = order.getProductType();
             String oldProductTypeMessage = "("+oldProductType+")";
+        
             
         String customerName = io.readString("Enter customer name " + (editing ? oldNameMessage : "") + ": ");
+        if (customerName.equals("")) {customerName = order.getCustomerName();}
         String productType = io.readString("Enter product type " +(editing ? oldProductTypeMessage : "")+ ": ");
-        BigDecimal flooringArea = new BigDecimal(io.readString("Enter flooring area " +(editing ? oldFlooringAreaMessage : "")+ ": ")); //not sure about this one....
+        if (productType.equals("")) {productType = order.getProductType();}
+        
+        BigDecimal flooringAreaBD = null;
+        boolean flooringAreaIsValid = false;
+        while (!flooringAreaIsValid) {
+            String flooringArea = io.readString("Enter flooring area " +(editing ? oldFlooringAreaMessage : "")+ ": "); //not sure about this one....
+
+            if (flooringArea.equals("")) {
+                flooringAreaBD = order.getFlooringArea();
+                flooringAreaIsValid = true;
+            } else {
+                try {
+                    flooringAreaBD = new BigDecimal(flooringArea);
+                    flooringAreaIsValid = true;
+                } catch (NumberFormatException e) {
+                    io.print("Please enter a valid number.");
+                    waitForEnter();
+                }
+            }
+        }
+        
         String state = io.readString("Enter customer state of residence " +(editing ? oldStateMessage : "")+ ": ");        
+        if (state.equals("")) {state = order.getState();}
         
         order.setCustomerName(customerName);
         order.setProductType(productType);
-        order.setFlooringArea(flooringArea);
+        order.setFlooringArea(flooringAreaBD);
         order.setState(state);
         
         return order;
@@ -135,12 +178,11 @@ public class FlooringView {
                                 "Cost per SqFt for labor: " + fullyEditedOrder.getLaborCostPerSqFt(),
                                 "Total cost for materials: " + fullyEditedOrder.getMaterialCost(),
                                 "Total cost for labor: " + fullyEditedOrder.getLaborCost(),
-                      "Total tax: " + fullyEditedOrder.getTotalTax(),
+                                "Total tax: " + fullyEditedOrder.getTotalTax(),
                                 "=============================",
                                 "Grand total: " + fullyEditedOrder.getTotalCost() //
                         };        
         if (inLargeList){
-            for (int stringIdx = 0; stringIdx<infoStrings.length; stringIdx++){
                 io.print(infoStrings[0]);
                 io.print(infoStrings[1]);
                 io.print(infoStrings[2]);
@@ -148,7 +190,6 @@ public class FlooringView {
                 io.print(infoStrings[6]);
                 io.print(infoStrings[7]);
                 io.print(infoStrings[15]);
-            }           
         } else {
             for(String info : infoStrings){
                 io.print(info);
@@ -180,7 +221,10 @@ public class FlooringView {
         for(Order currentOrder : listOfOrders){
             showInfoForOneOrder(currentOrder, inLargeList);
         }
-                
+        if (listOfOrders.size() == 0) {
+            io.print("Error: no orders found for the date you entered!!!");
+            waitForEnter();
+        }     
     }
     
     public void displaySwitchApplicationModeBanner() {
@@ -210,6 +254,7 @@ public class FlooringView {
         waitForEnter();
     }
     public void displayExceptionMessage(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        io.print(string);
+        waitForEnter();
     }
 }

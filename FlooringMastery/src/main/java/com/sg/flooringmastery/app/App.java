@@ -49,7 +49,7 @@ public class App {
             myProductService, myTaxService, myOrderNumberService);
         
         FlooringController controller = new FlooringController(myView,
-            myOrderService, myProductService);
+            myOrderService, myOrderNumberService);
         
         controller.run();
         
