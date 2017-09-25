@@ -8,11 +8,9 @@ package com.sg.flooringmastery.ui;
 import com.sg.flooringmastery.dto.Order;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.format.FormatStyle;
 import java.util.List;
 
 /**
@@ -109,7 +107,7 @@ public class FlooringView {
         return io.readInt("Type the number of the order you are looking for: ");
     }
     //maybe combine to one method -- get info from user
-    public Order setBasicOrderInfo(Order order, boolean editing) {
+    public Order setBasicOrderInfoForEdit(Order order, boolean editing) {
             
             String oldName = order.getCustomerName();
             String oldNameMessage = "("+oldName+")";
@@ -123,7 +121,7 @@ public class FlooringView {
         
             
         String customerName = io.readString("Enter customer name " + (editing ? oldNameMessage : "") + ": ");
-        if (customerName.equals("")) {customerName = order.getCustomerName();}
+        if (customerName.equals("")) {customerName = order.getCustomerName();} 
         String productType = io.readString("Enter product type " +(editing ? oldProductTypeMessage : "")+ ": ");
         if (productType.equals("")) {productType = order.getProductType();}
         
@@ -157,6 +155,77 @@ public class FlooringView {
         return order;
         
     }
+    
+    public Order setBasicOrderInfoForAdd(Order order, boolean editing) {
+            
+        boolean inputIsValid = false;
+        
+        String customerName = null;
+        while(!inputIsValid) {
+            customerName = io.readString("Enter customer name : ");
+            if (!customerName.equals("")) {
+                inputIsValid = true;
+            } else {
+                displayExceptionMessage("Error: Cannot leave name blank.");
+            }
+        }
+        
+        inputIsValid = false;
+        
+        String productType = null;
+        while(!inputIsValid) {
+            productType = io.readString("Enter product type : ");
+            if (!productType.equals("")) {
+                inputIsValid = true;
+            } else {
+                displayExceptionMessage("Error: Cannot leave product type blank.");
+            }
+        }
+        
+        BigDecimal flooringAreaBD = null;
+        boolean flooringAreaIsValid = false;
+        while (!flooringAreaIsValid) {
+            String flooringArea = io.readString("Enter flooring area (sq ft.) : "); //not sure about this one....
+
+            if (flooringArea.equals("")) {
+                flooringAreaBD = order.getFlooringArea();
+                flooringAreaIsValid = true;
+            } else {
+                try {
+                    flooringAreaBD = new BigDecimal(flooringArea);
+                    if (flooringAreaBD.compareTo(new BigDecimal("0")) == 1) {  
+                    flooringAreaIsValid = true;
+                    } else {
+                        displayExceptionMessage("Error: Flooring area must be greater than 0.");
+                    }
+                } catch (NumberFormatException e) {
+                    io.print("Please enter a valid number.");
+                    waitForEnter();
+                }
+            }
+        }
+        
+        inputIsValid = false;
+        
+        String state = null;
+        while(!inputIsValid) {
+            state = io.readString("Enter customer state of residence : ");
+            if (!state.equals("")) {
+                inputIsValid = true;
+            } else {
+                displayExceptionMessage("Error: Cannot leave state blank.");
+            }
+        }
+        
+        order.setCustomerName(customerName);
+        order.setProductType(productType);
+        order.setFlooringArea(flooringAreaBD);
+        order.setState(state);
+        
+        return order;
+        
+    }
+    
     public void displayRemoveAnOrderBanner() {
         io.print("===Remove an Order===");
         waitForEnter();

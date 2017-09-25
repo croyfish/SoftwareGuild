@@ -10,7 +10,6 @@ import com.sg.flooringmastery.exception.FlooringPersistenceException;
 import com.sg.flooringmastery.exception.NoProductException;
 import com.sg.flooringmastery.exception.NoStateException;
 import com.sg.flooringmastery.service.FlooringOrderService;
-import com.sg.flooringmastery.service.FlooringProductService;
 import com.sg.flooringmastery.service.FlooringUniqueOrderNumberService;
 import com.sg.flooringmastery.ui.FlooringView;
 import java.time.LocalDate;
@@ -95,7 +94,7 @@ public class FlooringController {
                 = new Order(uniqueOrderNumberService.getNewUniqueOrderNumber().getOrderNumber()); //NEED service declared above
                                                                       //CHANGE fillRemainingOrderFields......
         
-        Order partialNewOrder = view.setBasicOrderInfo(orderWithAllFieldsFilled, editing); //have access to dao hashmaps 
+        Order partialNewOrder = view.setBasicOrderInfoForAdd(orderWithAllFieldsFilled, editing); //have access to dao hashmaps 
         
         //this changes because now we are splitting the product-filling method into two
         //also the service can talk to each other
@@ -145,7 +144,7 @@ public class FlooringController {
             List<Order> ordersForOldDate = orderService.getOrdersByDate(enteredDateInfo[0]); //use NoDateException inside for missing dates
             Integer orderNum = view.getOrderNumFromUser();
             Order orderToEdit = orderService.getOrderByNumber(orderNum, enteredDateInfo[0]); //try catch for NoOrderException
-            Order partiallyEditedOrder = view.setBasicOrderInfo(orderToEdit, editing); //has all user input
+            Order partiallyEditedOrder = view.setBasicOrderInfoForEdit(orderToEdit, editing); //has all user input
             Order fullyEditedOrder = orderService.fillRemainingOrderFields(partiallyEditedOrder);
             view.showInfoForOneOrder(fullyEditedOrder, inLargeList);//or a view method like "showInfoForFullyEditedOrder"
             

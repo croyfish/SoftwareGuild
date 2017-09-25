@@ -23,12 +23,12 @@ import org.junit.Test;
  *
  * @author jeffc
  */
-public class FlooringProductServiceTest {
+public class ProductServiceTest {
     
     FlooringProductDao productDao = new FlooringProductDaoFileImpl("test/");
     FlooringProductService productService = new FlooringProductServiceImpl(productDao);
     
-    public FlooringProductServiceTest() {
+    public ProductServiceTest() {
     }
     
     @BeforeClass
