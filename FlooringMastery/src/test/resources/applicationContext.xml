@@ -15,22 +15,87 @@
           http://www.springframework.org/schema/aop  
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
-    <!-- Bean definitions for DAO and Service Tests -->
+ <!-- Bean definitions for main Flooring program -->
     
-    <!-- Create DAOFileImpl bean for Dao --> 
-    <bean id="vendingMachineDao" 
-       class="com.sg.flooringmastery.dao.VendingMachineDAOFileImpl"/>
-    <!-- Create bean for DaoStubImpl --> 
-    <bean id="vendingMachineDaoStub" 
-       class="com.sg.flooringmastery.dao.VendingMachineDAOStubImpl"/>
-    <!-- Create AuditDaoStubImpl bean for AuditDaoStub --> 
-    <bean id="auditDaoStub" 
-       class="com.sg.flooringmastery.dao.VendingMachineAuditDaoStubImpl"/>
-    <!-- Create bean for Service and inject DaoStub and AuditDaoStub dependency beans --> 
-    <bean id="service" 
-       class="com.sg.flooringmastery.service.VendingMachineServiceImpl">
-        <constructor-arg ref="vendingMachineDaoStub"/>
-        <constructor-arg ref="auditDaoStub"/>             
+    <!-- Create UserIOConsoleImpl bean for UserIO-->
+    <bean id="userIO" class="com.sg.flooringmastery.ui.UserIOConsoleImpl"/>
+    
+    <!-- Create bean for View and inject userIO dependency bean-->
+    <bean id="view" class="com.sg.flooringmastery.ui.FlooringView">
+        <constructor-arg ref="userIO"/>
+    </bean>
+    
+    
+    <!-- Create bean for directory string -->
+    <bean id="directory" class="java.lang.String">
+        <constructor-arg value="data/"/>
+    </bean>
+    
+    
+    
+    <!-- Create OrderDaoFileImpl bean for OrderDao with directory bean in constructor-->
+    <bean id="orderDao" class="com.sg.flooringmastery.dao.FlooringOrderDaoFileImpl"/>
+        <constructor-arg ref="directory"/>
+    </bean>
+    
+    <!-- Create UniqueOrderNumberDaoFileImpl bean for UniqueOrderNumberDao with dir bean-->
+    <bean id="uniqueOrderNumberDao" 
+          class="com.sg.flooringmastery.dao.FlooringUniqueOrderNumberDaoFileImpl"/>
+        <constructor-arg ref="directory"/>
+    </bean>
+    
+    <!-- Create ProductDaoFileImpl bean for ProductDao-->
+    <bean id="productDao" 
+          class="com.sg.flooringmastery.dao.FlooringProductDaoFileImpl"/>
+    </bean>
+    
+    <!-- Create TaxDaoFileImpl bean for TaxDao-->
+    <bean id="taxDao" 
+          class="com.sg.flooringmastery.dao.FlooringTaxDaoFileImpl"/>
+    </bean>    
+    
+    
+    <!-- Create AuditDaoFileImpl bean for AuditDao
+    <bean id="auditDao" 
+         class="com.sg.flooringmastery.dao.VendingMachineAuditDaoFileImpl"/>
+    -->
+   
+
+    
+    <!-- Create bean for UniqueOrderNumberService and inject UniqueOrderNumberDao bean -->
+    <bean id="uniqueOrderNumberService" 
+         class="com.sg.flooringmastery.service.FlooringUniqueOrderNumberServiceImpl">
+        <constructor-arg ref="uniqueOrderNumberDao"/>      
+    </bean> 
+    
+    <!-- Create bean for ProductService and inject ProductDao bean -->
+    <bean id="productService"
+         class="com.sg.flooringmastery.service.FlooringProductServiceImpl">
+        <constructor-arg ref="productDao"/>      
+    </bean> 
+    
+    <!-- Create bean for TaxService and inject TaxDao bean -->
+    <bean id="taxService" 
+         class="com.sg.flooringmastery.service.FlooringTaxServiceImpl">
+        <constructor-arg ref="taxDao"/>      
+    </bean>
+    
+    <!-- Create bean for OrderService and inject Service and OrderDao beans -->
+    <bean id="orderService" 
+         class="com.sg.flooringmastery.service.FlooringOrderServiceImpl">
+        <constructor-arg ref="orderDao"/>
+        <constructor-arg ref="productService"/>
+        <constructor-arg ref="taxService"/>
+        <constructor-arg ref="uniqueOrderNumberService"/>      
+    </bean>                                                           
+    
+    
+    
+    <!-- Create bean for Controller and inject Order Service and View beans-->
+    <bean id="controller" 
+         class="com.sg.flooringmastery.controller.FlooringController">
+        <constructor-arg ref="orderService"/>
+        <constructor-arg ref="view"/>
     </bean>
    
 </beans>

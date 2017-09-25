@@ -47,21 +47,21 @@ public class FlooringProductDaoTest {
 
     /**
      * Test of addProduct method, of class FlooringProductDao.
-     */
+
     @Test
     public void testAddProduct() {
     }
 
     /**
      * Test of removeProduct method, of class FlooringProductDao.
-     */
+
     @Test
     public void testRemoveProduct() {
     }
 
     /**
      * Test of editProduct method, of class FlooringProductDao.
-     */
+
     @Test
     public void testEditProduct() {
     }
@@ -88,9 +88,11 @@ public class FlooringProductDaoTest {
 
     /**
      * Test of getAllProducts method, of class FlooringProductDao.
-     */
+    
     @Test
     public void testGetAllProducts() {
     }
+    *  
+    */
     
 }

@@ -6,7 +6,14 @@
 package com.sg.flooringmastery.service;
 
 import com.sg.flooringmastery.dto.Order;
+import com.sg.flooringmastery.dto.Product;
+import com.sg.flooringmastery.dto.Tax;
+import com.sg.flooringmastery.exception.FlooringPersistenceException;
+import com.sg.flooringmastery.exception.NoProductException;
+import com.sg.flooringmastery.exception.NoStateException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  *
@@ -14,28 +21,22 @@ import java.time.LocalDate;
  */
 public interface FlooringOrderService {
     
-// + List <Order> getOrdersByDate(LocalDate)
-// +Order getOrderByNumber(Integer, LocalDate)
-// +Order addNewOrder(Order)
-// +Order addEditedOrder(Order)
-// +Order removeOrder(Order)
-// + BigDecimal calculateTotalCost(Order)
-// +void saveWork()
-// <<constructor>>
-// + OrderService(FlooringOrderDao flooringDao,
-// ProductService productService, TaxService taxService)
-
-    // create
-    public Order addNewOrder(Order order);
-    // read
-    public Order getOrderByNumber(Integer orderNumber, LocalDate orderDate);
-    // update
-    public Order addEditedOrder(Order order);
-    // delete
-    public Order removeOrder(Integer orderNumber, LocalDate orderDate);
+    List<Order> getOrdersByDate(LocalDate dateOfInterest)throws FlooringPersistenceException;
+    Order getOrderByNumber(Integer orderNum, LocalDate dateOfInterest)throws FlooringPersistenceException;
+    Order addNewOrder(Order orderWithAllFieldsFilled, LocalDate dateOfInterest)throws FlooringPersistenceException;
+    Order addEditedOrder(Order editedOrder, LocalDate oldDate, LocalDate newDate)throws FlooringPersistenceException;
+    Order removeOrder(Order removedOrder, LocalDate dateOfInterest)throws FlooringPersistenceException;
+    //void saveWork()
+    Product getProductByType(Order partialOrder) throws NoProductException, FlooringPersistenceException;
+    Tax getTaxByState(Order partialOrder) throws NoStateException, FlooringPersistenceException;
     
+    BigDecimal calculateMaterialCost(Order partialOrder, Product productByType)throws NoProductException;
+    BigDecimal calculateLaborCost(Order partialOrder, Product productByType) throws NoProductException; //multiplies two Order fields and returns
+    BigDecimal calculateCostBeforeTax(BigDecimal materialCost, BigDecimal laborCost);
+    BigDecimal calculateTotalTax(Tax taxByState,BigDecimal costBeforeTax) throws NoStateException;
+    BigDecimal calculateTotalCost(BigDecimal totalTax, BigDecimal costBeforeTax);
     
+    Order fillRemainingOrderFields(Order partialNewOrder) throws NoProductException, NoStateException, FlooringPersistenceException;
     
-    
-    
+    public void switchMode(boolean isTrainingMode);
 }

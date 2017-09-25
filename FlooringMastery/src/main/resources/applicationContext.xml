@@ -84,36 +84,36 @@
     <bean id="orderService" 
          class="com.sg.flooringmastery.service.FlooringOrderServiceImpl">
         <constructor-arg ref="orderDao"/>
-        <constructor-arg ref="orderDao"/>
-        <constructor-arg ref="orderDao"/>
-        <constructor-arg ref="orderDao"/>      
+        <constructor-arg ref="productService"/>
+        <constructor-arg ref="taxService"/>
+        <constructor-arg ref="uniqueOrderNumberService"/>      
     </bean>                                                           
     
     
     
-    <!-- Create bean for Controller and inject Service and View beans-->
+    <!-- Create bean for Controller and inject Order Service and View beans-->
     <bean id="controller" 
          class="com.sg.flooringmastery.controller.FlooringController">
-        <constructor-arg ref="service"/>
+        <constructor-arg ref="orderService"/>
         <constructor-arg ref="view"/>
     </bean>
     
     
     
-    <!-- Create bean for transaction LoggingAdvice and inject AuditDao dependency bean-->
+    <!-- Create bean for transaction LoggingAdvice and inject AuditDao dependency bean
     <bean id="loggingAdvice"
         class="com.sg.flooringmastery.advice.LoggingAdvice">
         <constructor-arg ref="auditDao"/>
-    </bean>
-    <!-- Create bean for ExceptionLoggingAdvice and inject AuditDao dependency bean-->
+    </bean>-->
+    <!-- Create bean for ExceptionLoggingAdvice and inject AuditDao dependency bean
     <bean id="exceptionLoggingAdvice"
         class="com.sg.flooringmastery.advice.ExceptionLoggingAdvice">
         <constructor-arg ref="auditDao"/>
-    </bean>
+    </bean>-->
 
-    <!-- Aspect Oriented Programming configuration -->
-    <aop:config>
-        <!-- Create aspect for LoggingAdvice and apply it to addmoneyEntered and calculateChange JoinPoints-->
+    <!-- Aspect Oriented Programming configuration
+    <aop:config> -->
+        <!-- Create aspect for LoggingAdvice and apply it to addmoneyEntered and calculateChange JoinPoints
         <aop:aspect ref="loggingAdvice">
             <aop:after-returning
                 method="createAuditEntry"
@@ -122,8 +122,8 @@
             <aop:after-returning
                 method="createAuditEntry"
                 pointcut="execution(* com.sg.flooringmastery.service.VendingMachineService.calculateChange(..))"
-            />
-        <!-- Create aspect for ExceptionLoggingAdvice and apply it to purchaseItem JoinPoint-->
+            />-->
+        <!-- Create aspect for ExceptionLoggingAdvice and apply it to purchaseItem JoinPoint
         </aop:aspect>
         <aop:aspect ref="exceptionLoggingAdvice">
             <aop:after-throwing 
@@ -132,6 +132,6 @@
                 throwing="ex"
             />
         </aop:aspect>
-    </aop:config>
+    </aop:config>-->
    
 </beans>
