@@ -26,7 +26,7 @@ public class FlooringController {
     private FlooringUniqueOrderNumberService uniqueOrderNumberService;
     
     boolean keepGoing = true;
-    boolean isTrainingMode = false;
+    boolean isTrainingMode = true; //
     
     Integer userChoice = 0;
     
@@ -40,7 +40,7 @@ public class FlooringController {
     public void run() {
         
         view.displayOpeningPage();
-        view.displayYouAreInProductionMode();
+        view.displayYouAreInTrainingMode(); //
         view.waitForEnter();
         
         while (keepGoing){
