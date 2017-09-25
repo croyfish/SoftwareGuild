@@ -81,6 +81,8 @@ public class FlooringController {
             view.showAllOrdersForDate(ordersForDate, enteredDateInfo[0]); //view would have showInfoForOrder that we could use enhanced-for for
         } catch (FlooringPersistenceException ex){
             view.displayExceptionMessage("Orders not found.");
+        } catch (NullPointerException ex) {
+            view.displayExceptionMessage("Error: There are no orders for that date.");
         }
         
     }
@@ -100,13 +102,13 @@ public class FlooringController {
         try{
             orderWithAllFieldsFilled = orderService.fillRemainingOrderFields(partialNewOrder);
         } catch(NoStateException ex){
-            view.displayExceptionMessage("This order claimed a state we don't service");
+            view.displayExceptionMessage("This order claimed a state we don't service.");
             return;
         } catch(NoProductException ex){
-            view.displayExceptionMessage("This order claimed a product we don't sell");
+            view.displayExceptionMessage("This order claimed a product we don't sell.");
             return;
         } catch(FlooringPersistenceException e){
-            view.displayExceptionMessage("Unable to access files");
+            view.displayExceptionMessage("Unable to access files.");
             return;
         }
         
@@ -114,14 +116,14 @@ public class FlooringController {
         view.showInfoForOneOrder(orderWithAllFieldsFilled, inLargeList);
         
         //does the user want to save this new order?
-        boolean commit = view.askToCommit("Your order will be placed on file"); //"are you sure info is correct?"
+        boolean commit = view.askToCommit("Your order will be committed."); //"are you sure info is correct?"
         if (commit){
             
             try{
                 Order addedOrder = orderService.addNewOrder(orderWithAllFieldsFilled, dateToFile[0]); //adds Order to hashmap and saves to file
                 view.displayOperationSuccessfulMessage("Add Order");
             } catch(FlooringPersistenceException ex){
-                view.displayExceptionMessage("There was a problem with the file system");
+                view.displayExceptionMessage("There was a problem with the file system.");
             }
             
             
@@ -147,7 +149,7 @@ public class FlooringController {
             Order fullyEditedOrder = orderService.fillRemainingOrderFields(partiallyEditedOrder);
             view.showInfoForOneOrder(fullyEditedOrder, inLargeList);//or a view method like "showInfoForFullyEditedOrder"
             
-            boolean commit = view.askToCommit("The old information will be over-written");
+            boolean commit = view.askToCommit("The old information will be over-written.");
             if (commit){
                 Order addEditedOrder = orderService.addEditedOrder(fullyEditedOrder, enteredDateInfo[0], enteredDateInfo[1]);
                 view.displayOperationSuccessfulMessage("Edit Order");
@@ -155,11 +157,13 @@ public class FlooringController {
                 view.displayOperationAbandonedMessage("Edit Order");
             }
         } catch(FlooringPersistenceException ex){
-            view.displayExceptionMessage("Orders not retrievable");
+            view.displayExceptionMessage("Error: Orders not retrievable.");
         } catch(NoProductException ex) {
-            view.displayExceptionMessage("No product of that type");
+            view.displayExceptionMessage("Error: No product of that type.");
         } catch(NoStateException ex){
-            view.displayExceptionMessage("State not serviced");
+            view.displayExceptionMessage("Error: State not serviced.");
+        } catch (NullPointerException e) {
+            view.displayExceptionMessage("Error: That date does not contain that order number.");
         }
     }
     
@@ -173,13 +177,15 @@ public class FlooringController {
         LocalDate[] enteredDateInfo = view.askForDate(editing);
         try{
             List<Order> ordersForDate = orderService.getOrdersByDate(enteredDateInfo[0]); //use Exception inside for missing dates
+            view.showAllOrdersForDate(ordersForDate, enteredDateInfo[0]);
+            
             Integer orderNum = view.getOrderNumFromUser(); //input validation
             Order orderToRemove = orderService.getOrderByNumber(orderNum, enteredDateInfo[0]); //uses native checking
             
             boolean inLargeList = false;
             view.showInfoForOneOrder(orderToRemove, inLargeList);            
             
-            boolean commit = view.askToCommit("Order will be removed from permanent file.");
+            boolean commit = view.askToCommit("Order will be removed.");
             if (commit){
                 Order removedOrder = orderService.removeOrder(orderToRemove, enteredDateInfo[0]); //get the orderNum later in dao for actual removal
                 view.displayOperationSuccessfulMessage("Remove Order");
@@ -187,7 +193,9 @@ public class FlooringController {
                 view.displayOperationAbandonedMessage("Remove Order");
             }
         } catch (FlooringPersistenceException ex){
-            view.displayExceptionMessage("Unable to load dates from file");
+            view.displayExceptionMessage("Error: Unable to load dates from file");
+        } catch (NullPointerException ex) {
+            view.displayExceptionMessage("Error: No order(s) for that date.");
         }
     }
     
@@ -213,7 +221,7 @@ public class FlooringController {
         
         if (wantToSwitch){
             String doSwitch = "Switch Modes";
-            commit = view.askToCommit("If you have any work in progress, it will be lost");
+            commit = view.askToCommit("If you have any work in progress, it will be lost.");
             if (commit){
                 orderService.switchMode(isTrainingMode);
                 isTrainingMode=!isTrainingMode;

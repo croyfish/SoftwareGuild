@@ -34,24 +34,24 @@
     
     
     <!-- Create OrderDaoFileImpl bean for OrderDao with directory bean in constructor-->
-    <bean id="orderDao" class="com.sg.flooringmastery.dao.FlooringOrderDaoFileImpl"/>
-        <constructor-arg ref="directory"/>
-    </bean>
+    <bean id="orderDao" class="com.sg.flooringmastery.dao.FlooringOrderDaoInMemImpl"/>
+
     
     <!-- Create UniqueOrderNumberDaoFileImpl bean for UniqueOrderNumberDao with dir bean-->
     <bean id="uniqueOrderNumberDao" 
-          class="com.sg.flooringmastery.dao.FlooringUniqueOrderNumberDaoFileImpl"/>
-        <constructor-arg ref="directory"/>
-    </bean>
+          class="com.sg.flooringmastery.dao.FlooringUniqueOrderNumberDaoInMemImpl"/>
+
     
     <!-- Create ProductDaoFileImpl bean for ProductDao-->
     <bean id="productDao" 
-          class="com.sg.flooringmastery.dao.FlooringProductDaoFileImpl"/>
+          class="com.sg.flooringmastery.dao.FlooringProductDaoFileImpl">
+            <constructor-arg ref="directory"/>
     </bean>
     
     <!-- Create TaxDaoFileImpl bean for TaxDao-->
     <bean id="taxDao" 
-          class="com.sg.flooringmastery.dao.FlooringTaxDaoFileImpl"/>
+          class="com.sg.flooringmastery.dao.FlooringTaxDaoFileImpl">
+            <constructor-arg ref="directory"/>
     </bean>    
     
     
@@ -94,11 +94,12 @@
     <!-- Create bean for Controller and inject Order Service and View beans-->
     <bean id="controller" 
          class="com.sg.flooringmastery.controller.FlooringController">
-        <constructor-arg ref="orderService"/>
         <constructor-arg ref="view"/>
+        <constructor-arg ref="orderService"/>
+        <constructor-arg ref="uniqueOrderNumberService"/>
     </bean>
     
-    
+</beans>    
     
     <!-- Create bean for transaction LoggingAdvice and inject AuditDao dependency bean
     <bean id="loggingAdvice"
@@ -134,4 +135,3 @@
         </aop:aspect>
     </aop:config>-->
    
-</beans>

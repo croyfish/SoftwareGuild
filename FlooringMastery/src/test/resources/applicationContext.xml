@@ -15,7 +15,7 @@
           http://www.springframework.org/schema/aop  
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
 
- <!-- Bean definitions for main Flooring program -->
+ <!-- Bean definitions for test Flooring program -->
     
     <!-- Create UserIOConsoleImpl bean for UserIO-->
     <bean id="userIO" class="com.sg.flooringmastery.ui.UserIOConsoleImpl"/>
@@ -28,30 +28,31 @@
     
     <!-- Create bean for directory string -->
     <bean id="directory" class="java.lang.String">
-        <constructor-arg value="data/"/>
+        <constructor-arg value="test/"/>
     </bean>
     
     
     
     <!-- Create OrderDaoFileImpl bean for OrderDao with directory bean in constructor-->
-    <bean id="orderDao" class="com.sg.flooringmastery.dao.FlooringOrderDaoFileImpl"/>
+    <bean id="orderDao" class="com.sg.flooringmastery.dao.FlooringOrderDaoFileImpl">
         <constructor-arg ref="directory"/>
     </bean>
     
     <!-- Create UniqueOrderNumberDaoFileImpl bean for UniqueOrderNumberDao with dir bean-->
     <bean id="uniqueOrderNumberDao" 
           class="com.sg.flooringmastery.dao.FlooringUniqueOrderNumberDaoFileImpl"/>
-        <constructor-arg ref="directory"/>
-    </bean>
+
     
     <!-- Create ProductDaoFileImpl bean for ProductDao-->
     <bean id="productDao" 
-          class="com.sg.flooringmastery.dao.FlooringProductDaoFileImpl"/>
+          class="com.sg.flooringmastery.dao.FlooringProductDaoFileImpl">
+            <constructor-arg ref="directory"/>
     </bean>
     
     <!-- Create TaxDaoFileImpl bean for TaxDao-->
     <bean id="taxDao" 
-          class="com.sg.flooringmastery.dao.FlooringTaxDaoFileImpl"/>
+          class="com.sg.flooringmastery.dao.FlooringTaxDaoFileImpl">
+            <constructor-arg ref="directory"/>
     </bean>    
     
     
@@ -94,8 +95,9 @@
     <!-- Create bean for Controller and inject Order Service and View beans-->
     <bean id="controller" 
          class="com.sg.flooringmastery.controller.FlooringController">
+        <constructor-arg ref="view"/>        
         <constructor-arg ref="orderService"/>
-        <constructor-arg ref="view"/>
+        <constructor-arg ref="uniqueOrderNumberService"/>        
     </bean>
    
 </beans>

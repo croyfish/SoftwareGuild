@@ -7,6 +7,7 @@ package com.sg.flooringmastery.ui;
 
 import com.sg.flooringmastery.dto.Order;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -118,6 +119,7 @@ public class FlooringView {
             String oldStateMessage = "("+oldState+")";
             String oldProductType = order.getProductType();
             String oldProductTypeMessage = "("+oldProductType+")";
+
         
             
         String customerName = io.readString("Enter customer name " + (editing ? oldNameMessage : "") + ": ");
@@ -128,7 +130,7 @@ public class FlooringView {
         BigDecimal flooringAreaBD = null;
         boolean flooringAreaIsValid = false;
         while (!flooringAreaIsValid) {
-            String flooringArea = io.readString("Enter flooring area " +(editing ? oldFlooringAreaMessage : "")+ ": "); //not sure about this one....
+            String flooringArea = io.readString("Enter flooring area (sq ft.) " +(editing ? oldFlooringAreaMessage : "")+ ": "); //not sure about this one....
 
             if (flooringArea.equals("")) {
                 flooringAreaBD = order.getFlooringArea();
@@ -160,27 +162,31 @@ public class FlooringView {
         waitForEnter();
     }
     
+    public String displayCurrencyFormat(BigDecimal currency) {
+        return NumberFormat.getCurrencyInstance().format(currency);
+    }
+    
     //maybe make a boolean that would only show some of these if it is being used in a list
     public void showInfoForOneOrder(Order fullyEditedOrder, boolean inLargeList) {
         //maybe push all these into a hashmap
         
         String[] infoStrings = {
-                                "Info for order #"+fullyEditedOrder.getOrderNumber(), //
-                                "=============================", //
-                                "Customer name: " + fullyEditedOrder.getCustomerName(), //
-                                "Customer state: "+ fullyEditedOrder.getState(), //
-                                "Tax rate: " + fullyEditedOrder.getTaxRate(), 
-                                "=============================",
-                                "Product type: " + fullyEditedOrder.getProductType(), //
-                                "Flooring area (SqFt): "+fullyEditedOrder.getFlooringArea(), //
-                                "=============================",
-                                "Cost per SqFt for materials: " + fullyEditedOrder.getCostPerSqFt(),
-                                "Cost per SqFt for labor: " + fullyEditedOrder.getLaborCostPerSqFt(),
-                                "Total cost for materials: " + fullyEditedOrder.getMaterialCost(),
-                                "Total cost for labor: " + fullyEditedOrder.getLaborCost(),
-                                "Total tax: " + fullyEditedOrder.getTotalTax(),
-                                "=============================",
-                                "Grand total: " + fullyEditedOrder.getTotalCost() //
+            "Info for order #"+fullyEditedOrder.getOrderNumber(), //
+            "=============================", //
+            "Customer name: " + fullyEditedOrder.getCustomerName(), //
+            "Customer state: "+ fullyEditedOrder.getState(), //
+            "Tax rate: " + fullyEditedOrder.getTaxRate() + "%", 
+            "=============================",
+            "Product type: " + fullyEditedOrder.getProductType(), //
+            "Flooring area (SqFt): "+fullyEditedOrder.getFlooringArea(), //
+            "=============================",
+            "Cost per SqFt for materials: " + displayCurrencyFormat(fullyEditedOrder.getCostPerSqFt()),
+            "Cost per SqFt for labor: " + displayCurrencyFormat(fullyEditedOrder.getLaborCostPerSqFt()),
+            "Total cost for materials: " + displayCurrencyFormat(fullyEditedOrder.getMaterialCost()),
+            "Total cost for labor: " + displayCurrencyFormat(fullyEditedOrder.getLaborCost()),
+            "Total tax: " + displayCurrencyFormat(fullyEditedOrder.getTotalTax()),
+            "=============================",
+            "Grand total: " + displayCurrencyFormat(fullyEditedOrder.getTotalCost()) //
                         };        
         if (inLargeList){
                 io.print(infoStrings[0]);
@@ -214,9 +220,11 @@ public class FlooringView {
 //        io.print("Grand total: " + fullyEditedOrder.getTotalCost());
         waitForEnter();
     }
+    
+    // format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
     public void showAllOrdersForDate(List<Order> listOfOrders, LocalDate date){
         boolean inLargeList = true;
-        io.print("All orders for " + date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)) + ": ");
+        io.print("All orders for " + date + ": ");
         waitForEnter();
         for(Order currentOrder : listOfOrders){
             showInfoForOneOrder(currentOrder, inLargeList);
