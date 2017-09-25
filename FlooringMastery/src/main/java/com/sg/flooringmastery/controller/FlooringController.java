@@ -39,11 +39,11 @@ public class FlooringController {
     
     public void run() {
         
+        view.displayOpeningPage();
         view.displayYouAreInProductionMode();
         view.waitForEnter();
         
         while (keepGoing){
-            // maybe put mode here as a message to user
             int actionChoice = view.printActionMenuAndGetSelection(returnModeString(isTrainingMode));
             useActionMenuChoice(actionChoice);
         }
@@ -76,8 +76,8 @@ public class FlooringController {
         
         LocalDate[] enteredDateInfo = view.askForDate(editing);
         try{
-            List<Order> ordersForDate = orderService.getOrdersByDate(enteredDateInfo[0]); //use Exception inside for missing dates in try-catch // this method will simply pass the date through to the dao method, which
-            view.showAllOrdersForDate(ordersForDate, enteredDateInfo[0]); //view would have showInfoForOrder that we could use enhanced-for for
+            List<Order> ordersForDate = orderService.getOrdersByDate(enteredDateInfo[0]); 
+            view.showAllOrdersForDate(ordersForDate, enteredDateInfo[0]); 
         } catch (FlooringPersistenceException ex){
             view.displayExceptionMessage("Orders not found.");
         } catch (NullPointerException ex) {
@@ -85,44 +85,40 @@ public class FlooringController {
         }
         
     }
-    //commits? YES
+
     void addAnOrderToDate(){
         boolean editing = false;
         view.displayAddAnOrderBanner();
         LocalDate[] dateToFile = view.askForDate(editing);
         Order orderWithAllFieldsFilled 
-                = new Order(uniqueOrderNumberService.getNewUniqueOrderNumber().getOrderNumber()); //NEED service declared above
-                                                                      //CHANGE fillRemainingOrderFields......
+                = new Order(uniqueOrderNumberService.getNewUniqueOrderNumber().getOrderNumber()); 
         
-        Order partialNewOrder = view.setBasicOrderInfoForAdd(orderWithAllFieldsFilled, editing); //have access to dao hashmaps 
+        Order partialNewOrder = view.setBasicOrderInfoForAdd(orderWithAllFieldsFilled, editing);
         
-        //this changes because now we are splitting the product-filling method into two
-        //also the service can talk to each other
         try{
             orderWithAllFieldsFilled = orderService.fillRemainingOrderFields(partialNewOrder);
         } catch(NoStateException ex){
-            view.displayExceptionMessage("This order claimed a state we don't service.");
+            view.displayExceptionMessage("Error: The state entered is not in our service area.");
             return;
         } catch(NoProductException ex){
-            view.displayExceptionMessage("This order claimed a product we don't sell.");
+            view.displayExceptionMessage("Error: That product is not sold.");
             return;
         } catch(FlooringPersistenceException e){
-            view.displayExceptionMessage("Unable to access files.");
+            view.displayExceptionMessage("Error: Data file could not be read.");
             return;
         }
         
         boolean inLargeList = false;
         view.showInfoForOneOrder(orderWithAllFieldsFilled, inLargeList);
         
-        //does the user want to save this new order?
-        boolean commit = view.askToCommit("Your order will be committed."); //"are you sure info is correct?"
+        boolean commit = view.askToCommit("Your order will be committed.");
         if (commit){
             
             try{
-                Order addedOrder = orderService.addNewOrder(orderWithAllFieldsFilled, dateToFile[0]); //adds Order to hashmap and saves to file
+                Order addedOrder = orderService.addNewOrder(orderWithAllFieldsFilled, dateToFile[0]);
                 view.displayOperationSuccessfulMessage("Add Order");
             } catch(FlooringPersistenceException ex){
-                view.displayExceptionMessage("There was a problem with the file system.");
+                view.displayExceptionMessage("There was a problem persisting the order to file.");
             }
             
             
@@ -131,14 +127,12 @@ public class FlooringController {
         }
         
     }
-    //commits? YES
+
     void editAnOrderByDate(){
         boolean editing = true;        
         boolean inLargeList = false;
         view.displayEditAnOrderBanner();
-        LocalDate[] enteredDateInfo = view.askForDate(editing);
-        //need to adjust this for the old/new date stuff, and the LocalDate[]
-        
+        LocalDate[] enteredDateInfo = view.askForDate(editing);     
         
         try{
             List<Order> ordersForOldDate = orderService.getOrdersByDate(enteredDateInfo[0]); //use NoDateException inside for missing dates
@@ -148,7 +142,7 @@ public class FlooringController {
             Order fullyEditedOrder = orderService.fillRemainingOrderFields(partiallyEditedOrder);
             view.showInfoForOneOrder(fullyEditedOrder, inLargeList);//or a view method like "showInfoForFullyEditedOrder"
             
-            boolean commit = view.askToCommit("The old information will be over-written.");
+            boolean commit = view.askToCommit("The previous information will be over-written.");
             if (commit){
                 Order addEditedOrder = orderService.addEditedOrder(fullyEditedOrder, enteredDateInfo[0], enteredDateInfo[1]);
                 view.displayOperationSuccessfulMessage("Edit Order");
@@ -192,7 +186,7 @@ public class FlooringController {
                 view.displayOperationAbandonedMessage("Remove Order");
             }
         } catch (FlooringPersistenceException ex){
-            view.displayExceptionMessage("Error: Unable to load dates from file");
+            view.displayExceptionMessage("Error: Unable to load dates from file.");
         } catch (NullPointerException ex) {
             view.displayExceptionMessage("Error: No order(s) for that date.");
         }
@@ -220,7 +214,7 @@ public class FlooringController {
         
         if (wantToSwitch){
             String doSwitch = "Switch Modes";
-            commit = view.askToCommit("If you have any work in progress, it will be lost.");
+            commit = view.askToCommit("Warning: Any usaved changes will be lost.");
             if (commit){
                 orderService.switchMode(isTrainingMode);
                 isTrainingMode=!isTrainingMode;
@@ -233,9 +227,9 @@ public class FlooringController {
     
     public String returnModeString(boolean isTrainingMode) {
         if (isTrainingMode) {
-            return "Training Mode";
+            return "TRAINING MODE";
         } else {
-            return "Production Mode";
+            return "PRODUCTION MODE";
         }
     } 
 }
