@@ -61,7 +61,7 @@ $('#louisvilleWeatherButton').on('click', function() {
 //         This applies to all rows in all tables except the first (header) row in a given 
 //         table. The first (header) row in any table should not change appearance when 
 //         the mouse pointer hovers over it.
-$('tr:not(:first)').hover(
+$('tr:not(:first-child)').hover(
     // in callback 
     function() {
     $(this).css('background-color', 'WhiteSmoke');
