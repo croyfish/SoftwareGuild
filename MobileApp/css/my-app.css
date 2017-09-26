@@ -1,0 +1,11 @@
+.card img {
+    max-width: 100%;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+.media-list .item-media img {
+    width: 75px;
+}
