@@ -21,7 +21,7 @@ $(document).ready(function () {
     $('#yellowTeamList').css('background-color', 'Yellow');
 
     // Add Joseph Banks and Simon Jones to the Yellow Team list
-    $('#yellowTeamList').append("<li>Jospeh Banks</li><li>Simon Jones</li>"); 
+    $('#yellowTeamList').append("<li>Joseph Banks</li><li>Simon Jones</li>"); 
 
     // Hide the element containing the text “Hide Me!!!”
     $('#oops').find('h1').hide();
