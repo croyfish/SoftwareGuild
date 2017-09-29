@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Vending Machine</title>
+  <link href="css/bootstrap.css" rel="stylesheet">
+  <link href="css/VendingMachineStyles.css" rel="stylesheet">
+</head>
+
+<body>
+  <h1 style="text-align: center">Vending Machine</h1>
+<hr/>
+
+<div class="row" style="border:1px solid black">
+  <div class="col-md-8" style="border:1px solid black">
+    <table class ="col-md-12" style="text-align: center">
+
+      <tr>
+        <th class="col-md-4">Col 1</th>
+        <th class="col-md-4">Col 2</th>
+        <th class="col-md-4">Col 3</th>
+      </tr>
+
+      <tr>
+        <td><div class="slot"><div style="text-align: left">1</div><div id="slot1">hello</div></div></td>
+        <td><div class="slot"><div style="text-align: left">2</div><div id="slot1">hello</div></div></td>
+        <td><div class="slot"><div style="text-align: left">3</div><div id="slot1">hello</div></div></td>
+      </tr>
+      <tr>
+        <td><div class="slot"><div style="text-align: left">4</div><div id="slot1">hello</div></div></td>
+        <td><div class="slot"><div style="text-align: left">5</div><div id="slot1">hello</div></div></td>
+        <td><div class="slot"><div style="text-align: left">6</div><div id="slot1">hello</div></div></td>
+      </tr>
+      <tr>
+        <td><div class="slot"><div style="text-align: left">7</div><div id="slot1">hello</div></div></td>
+        <td><div class="slot"><div style="text-align: left">8</div><div id="slot1">hello</div></div></td>
+        <td><div class="slot"><div style="text-align: left">9</div><div id="slot1">hello</div></div></td>
+      </tr>
+
+    </table>
+  </div>
+
+  <div class="col-md-4" style="border:1px solid black">
+
+    <h2>Money Entered</h2>
+
+    <div class="row">
+      <div class="col-md-12" style="border:1px solid black">
+        <div class="col-md-3" style="border:1px solid black">left</div>
+          <div class="col-md-6">
+            <input type="text" style="border:1px solid black" class="form-control" id="moneyInserted" placeholder="$0.00" readonly="true" />
+          </div>
+        <div class="col-md-3" style="border:1px solid black">right</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12" style="border:1px solid black">
+        <div class="col-md-6" style="border:1px solid black; text-align:right">
+          <button type="button" class="btn btn-default" id="addDollar">Add Dollar</button>
+        </div>
+        <div class="col-md-6" style="border:1px solid black">
+          <button type="button" class="btn btn-default" id="addQuarter">Add Quarter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12" style="border:1px solid black">
+        <div class="col-md-6" style="border:1px solid black; text-align:right">
+          <button type="button" class="btn btn-default" id="addDime">Add Dime</button>
+        </div>
+        <div class="col-md-6" style="border:1px solid black">
+          <button type="button" class="btn btn-default" id="addNickel">Add Nickel</button>
+        </div>
+      </div>
+    </div>
+
+    <hr/>
+
+    <h2>Messages</h2>
+
+    <div class="row">
+      <input type="text" style="border:1px solid black" class="form-control" id="messages" placeholder="(no messages)" readonly="true" />
+    </div>
+
+    <div class="row">
+      <div class="col-md-12" style="border:1px solid black">
+        <div class="col-md-6" style="border:1px solid black; text-align:right">
+          <label for="itemSelection" class="control-label">Item:</label>
+        </div>
+        <div class="col-md-6" style="border:1px solid black">
+          <input type="text" style="border:1px solid black" class="form-control" id="itemSelection" placeholder="(no item seleted)" readonly="true" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="border:1px solid black; text-align:center">
+      <button type="button" class="btn btn-default" id="makePurchase">Make Purchase</button>
+    </div>
+
+    <hr/>
+
+    <h2>Change</h2>
+
+    <div class="row">
+      <div class="col-md-12" style="border:1px solid black">
+        <div class="col-md-3" style="border:1px solid black">left</div>
+        <div class="col-md-6">
+          <input type="text" style="border:1px solid black" class="form-control" id="changeReturned" placeholder="(no change)" readonly="true" />
+        </div>
+        <div class="col-md-3" style="border:1px solid black">right</div>
+      </div>
+    </div>
+
+    <div class="row" style="border:1px solid black; text-align:center">
+      <button type="button" class="btn btn-default" id="returnChange">Return Change</button>
+    </div>
+
+    <div>
+
+    </div>
+  </div>
+</div>
+
+  <script src="js/jquery-2.2.4.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/weatherForecast.js"></script>
+</body>
+
+</html>
