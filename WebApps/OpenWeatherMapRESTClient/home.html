@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Weather Page</title>
+  <link href="css/bootstrap.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <center>
+      <h1>Weather Page</h1>
+    </center>
+
+    <hr/>
+
+    <center>
+      <form class="form-inline" role="form" id="zip-form">
+
+
+        <div class="form-group">
+
+          <label for="zipcode" class="control-label">
+              Zipcode:
+            </label>
+
+          <input type="text" class="form-control" id="zipcode" placeholder="Zipcode" required/>
+
+          <label for="units" class="control-label">
+              Units:
+            </label>
+
+          <select name="cars" id="units" placeholder="Units" required>
+                <option value="imperial">Imperial</option>
+                <option value="metric">Metric</option>
+            </select>
+
+          <button type="button" id="get-weather-button" class="btn btn-default">
+              Get Weather
+            </button>
+
+        </div>
+
+      </form>
+    </center>
+
+
+    <hr/>
+
+    <ul class="list-group" id="errorMessages"></ul>
+
+    <div class="row" id="currentConditionsBanner" style="display: none">
+      <h1>Current Conditions in </h1>
+    </div>
+
+    <table id="currentConditionsTable" class="table" style="display: none">
+      <tr>
+        <th width="10%">Weather Image</th>
+        <th width="30%">Conditions</th>
+        <th width="30%">Weather Statistics</th>
+        <th width="30%"></th>
+      </tr>
+      <tbody id="contentRows"></tbody>
+    </table>
+
+    <hr/>
+
+    <div class="row" id="fiveDayForecastBanner" style="display: none">
+      <h1>Five Day Forecast</h1>
+    </div>
+    <!-- style="display: none" -->
+    <table id="forecastTable" class="table" style="display: none">
+      <tr>
+        <th width="20%">Day 1</th>
+        <th width="20%">Day 2</th>
+        <th width="20%">Day 3</th>
+        <th width="20%">Day 4</th>
+        <th width="20%">Day 5</th>
+      </tr>
+      <tbody id="contentRows2"></tbody>
+    </table>
+    </hr>
+  </div>
+
+  <!-- #5: Placed at the end of the document so the pages load faster -->
+  <script src="js/jquery-2.2.4.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+  <script src="js/weatherForecast.js"></script>
+</body>
+
+</html>

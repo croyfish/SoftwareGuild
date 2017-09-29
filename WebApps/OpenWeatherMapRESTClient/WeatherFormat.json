@@ -1,0 +1,43 @@
+{
+    "coord": {
+        "lon": -81.48,
+        "lat": 41.14
+    },
+    "weather": [
+        {
+            "id": 803,
+            "main": "Clouds",
+            "description": "broken clouds",
+            "icon": "04d"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 291.37,
+        "pressure": 1019,
+        "humidity": 48,
+        "temp_min": 290.15,
+        "temp_max": 292.15
+    },
+    "visibility": 16093,
+    "wind": {
+        "speed": 6.2,
+        "deg": 340,
+        "gust": 8.7
+    },
+    "clouds": {
+        "all": 75
+    },
+    "dt": 1506617760,
+    "sys": {
+        "type": 1,
+        "id": 2158,
+        "message": 0.0107,
+        "country": "US",
+        "sunrise": 1506597630,
+        "sunset": 1506640273
+    },
+    "id": 0,
+    "name": "Cuyahoga Falls",
+    "cod": 200
+}
