@@ -8,124 +8,191 @@
 </head>
 
 <body>
-  <h1 style="text-align: center">Vending Machine</h1>
-<hr/>
 
-<div class="row" style="border:1px solid black">
-  <div class="col-md-8" style="border:1px solid black">
-    <table class ="col-md-12" style="text-align: center">
+  <div class="row" style="background-color: black; text-align: center"><a onclick="getWeather()"><img src="images/snacks.jpg" width="200px"></a></div>
 
-      <tr>
-        <th class="col-md-4">Col 1</th>
-        <th class="col-md-4">Col 2</th>
-        <th class="col-md-4">Col 3</th>
-      </tr>
+  <div class="row">
+    <div class="col-md-8" style="background-color: brown">
+      <table class="col-md-12" style="text-align: center">
 
-      <tr>
-        <td><div class="slot"><div style="text-align: left">1</div><div id="slot1">hello</div></div></td>
-        <td><div class="slot"><div style="text-align: left">2</div><div id="slot1">hello</div></div></td>
-        <td><div class="slot"><div style="text-align: left">3</div><div id="slot1">hello</div></div></td>
-      </tr>
-      <tr>
-        <td><div class="slot"><div style="text-align: left">4</div><div id="slot1">hello</div></div></td>
-        <td><div class="slot"><div style="text-align: left">5</div><div id="slot1">hello</div></div></td>
-        <td><div class="slot"><div style="text-align: left">6</div><div id="slot1">hello</div></div></td>
-      </tr>
-      <tr>
-        <td><div class="slot"><div style="text-align: left">7</div><div id="slot1">hello</div></div></td>
-        <td><div class="slot"><div style="text-align: left">8</div><div id="slot1">hello</div></div></td>
-        <td><div class="slot"><div style="text-align: left">9</div><div id="slot1">hello</div></div></td>
-      </tr>
+        <tr>
+          <th class="col-md-4"></th>
+          <th class="col-md-4"></th>
+          <th class="col-md-4"></th>
+        </tr>
 
-    </table>
-  </div>
+        <tr>
+          <td>
+            <a onclick="selectItem(1)">
+              <div class="slot" id="box1">
+                <div style="text-align: left">1</div>
+                <div id="img1"></div>
+                <div id="slot1"></div>
+              </div>
+            </a>
+          </td>
+          <td>
+            <a onclick="selectItem(2)">
+              <div class="slot" id="box2">
+                <div style="text-align: left">2</div>
+                <div id="img2"></div>
+                <div id="slot2"></div>
+              </div>
+            </a>
+          </td>
+          <td>
+            <a onclick="selectItem(3)">
+              <div class="slot" id="box3">
+                <div style="text-align: left">3</div>
+                <div id="img3"></div>
+                <div id="slot3"></div>
+              </div>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a onclick="selectItem(4)">
+              <div class="slot" id="box4">
+                <div style="text-align: left">4</div>
+                <div id="img4"></div>
+                <div id="slot4"></div>
+              </div>
+            </a>
+          </td>
+          <td>
+            <a onclick="selectItem(5)">
+              <div class="slot" id="box5">
+                <div style="text-align: left">5</div>
+                <div id="img5"></div>
+                <div id="slot5"></div>
+              </div>
+            </a>
+          </td>
+          <td>
+            <a onclick="selectItem(6)">
+              <div class="slot" id="box6">
+                <div style="text-align: left">6</div>
+                <div id="img6"></div>
+                <div id="slot6"></div>
+              </div>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a onclick="selectItem(7)">
+              <div class="slot" id="box7">
+                <div style="text-align: left">7</div>
+                <div id="img7"></div>
+                <div id="slot7"></div>
+              </div>
+            </a>
+          </td>
+          <td>
+            <a onclick="selectItem(8)">
+              <div class="slot" id="box8">
+                <div style="text-align: left">8</div>
+                <div id="img8"></div>
+                <div id="slot8"></div>
+              </div>
+            </a>
+          </td>
+          <td>
+            <a onclick="selectItem(9)">
+              <div class="slot" id="box9">
+                <div style="text-align: left">9</div>
+                <div id="img9"></div>
+                <div id="slot9"></div>
+              </div>
+            </a>
+          </td>
+        </tr>
 
-  <div class="col-md-4" style="border:1px solid black">
+      </table>
+    </div>
 
-    <h2>Money Entered</h2>
+    <div class="col-md-4" style="background-color: silver">
 
-    <div class="row">
-      <div class="col-md-12" style="border:1px solid black">
-        <div class="col-md-3" style="border:1px solid black">left</div>
+      <h2>Money Entered</h2>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-3"></div>
           <div class="col-md-6">
-            <input type="text" style="border:1px solid black" class="form-control" id="moneyInserted" placeholder="$0.00" readonly="true" />
+            <input type="text" class="form-control" id="moneyInserted" placeholder="$0.00" readonly="true" />
           </div>
-        <div class="col-md-3" style="border:1px solid black">right</div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12" style="border:1px solid black">
-        <div class="col-md-6" style="border:1px solid black; text-align:right">
-          <button type="button" class="btn btn-default" id="addDollar">Add Dollar</button>
-        </div>
-        <div class="col-md-6" style="border:1px solid black">
-          <button type="button" class="btn btn-default" id="addQuarter">Add Quarter</button>
+          <div class="col-md-3"></div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-12" style="border:1px solid black">
-        <div class="col-md-6" style="border:1px solid black; text-align:right">
-          <button type="button" class="btn btn-default" id="addDime">Add Dime</button>
-        </div>
-        <div class="col-md-6" style="border:1px solid black">
-          <button type="button" class="btn btn-default" id="addNickel">Add Nickel</button>
-        </div>
-      </div>
-    </div>
-
-    <hr/>
-
-    <h2>Messages</h2>
-
-    <div class="row">
-      <input type="text" style="border:1px solid black" class="form-control" id="messages" placeholder="(no messages)" readonly="true" />
-    </div>
-
-    <div class="row">
-      <div class="col-md-12" style="border:1px solid black">
-        <div class="col-md-6" style="border:1px solid black; text-align:right">
-          <label for="itemSelection" class="control-label">Item:</label>
-        </div>
-        <div class="col-md-6" style="border:1px solid black">
-          <input type="text" style="border:1px solid black" class="form-control" id="itemSelection" placeholder="(no item seleted)" readonly="true" />
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-6" style="text-align:right">
+            <button type="button" class="btn btn-default" id="addDollar">Add Dollar</button>
+          </div>
+          <div class="col-md-6">
+            <button type="button" class="btn btn-default" id="addQuarter">Add Quarter</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="row" style="border:1px solid black; text-align:center">
-      <button type="button" class="btn btn-default" id="makePurchase">Make Purchase</button>
-    </div>
-
-    <hr/>
-
-    <h2>Change</h2>
-
-    <div class="row">
-      <div class="col-md-12" style="border:1px solid black">
-        <div class="col-md-3" style="border:1px solid black">left</div>
-        <div class="col-md-6">
-          <input type="text" style="border:1px solid black" class="form-control" id="changeReturned" placeholder="(no change)" readonly="true" />
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-6" style="text-align:right">
+            <button type="button" class="btn btn-default" id="addDime">Add Dime</button>
+          </div>
+          <div class="col-md-6">
+            <button type="button" class="btn btn-default" id="addNickel">Add Nickel</button>
+          </div>
         </div>
-        <div class="col-md-3" style="border:1px solid black">right</div>
       </div>
-    </div>
 
-    <div class="row" style="border:1px solid black; text-align:center">
-      <button type="button" class="btn btn-default" id="returnChange">Return Change</button>
-    </div>
+      <hr/>
 
-    <div>
+      <h2>Messages</h2>
+
+      <div class="row">
+        <input type="text" class="form-control" id="messages" placeholder="(no messages)" readonly="true" />
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-6" style="text-align:right">
+            <label for="itemSelection" class="control-label">Item:</label>
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control" id="itemSelection" placeholder="(no item seleted)" readonly="true" />
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="text-align:center">
+        <button type="button" class="btn btn-default" id="makePurchase">Make Purchase</button>
+      </div>
+
+      <hr/>
+
+      <h2>Change</h2>
+
+      <div class="row">
+        <a onclick="takeChange()"><input type="text" class="form-control" id="changeReturned" placeholder="(no change)" readonly="true" /></a>
+      </div>
+
+      <div class="row" style="text-align:center">
+        <button type="button" class="btn btn-default" id="returnChange">Return Change</button>
+      </div>
+
+      <div style="height: 14px"></div>
 
     </div>
   </div>
-</div>
+
+  <div style="height:40px; background-color: black"></div>
 
   <script src="js/jquery-2.2.4.min.js"></script>
   <script src="js/bootstrap.js"></script>
-  <script src="js/weatherForecast.js"></script>
+  <script src="js/home.js"></script>
 </body>
 
 </html>
