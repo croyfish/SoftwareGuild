@@ -20,12 +20,12 @@
         <p>
             <form method="POST" action="FlooringCalculatorServlet">
                 <label>Width (in feet): </label>
-                <input type="text" name="width">
+                <input type="text" name="width" />
                 <label>Length (in feet): </label>
-                <input type="text" name="length">
+                <input type="text" name="length" />
                 <label>Cost per square foot (in USD): </label>
-                <input type="text" name="costPerSqFt">
-                <input type ="submit" value="Calculate!!!">
+                <input type="text" name="costPerSqFt" />
+                <input type ="submit" value="Calculate!!!" />
             </form>
         </p>
     </body>
