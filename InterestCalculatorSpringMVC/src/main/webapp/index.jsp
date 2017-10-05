@@ -5,34 +5,34 @@
 <!DOCTYPE html>
 <html>
     <head>
-            <title>Flooring Calculator</title>
+            <title>Interest Calculator</title>
             <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
                   rel="stylesheet">
     </head>
     <body>
         <div class="container">
-            <h1>Flooring Calculator</h1>
+            <h1>Interest Calculator</h1>
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
                     <li role="presentation"
                         class="active">
                         <a href="${pageContext.request.contextPath}/index.jsp">
-                            Flooring Calculator Controller
+                            Interest Calculator Controller
                         </a>    
                     </li>
                 </ul>
             </div>
-            <h2>Choose a number to factor:</h2>
-            <form method="POST" action="calculateFlooringCosts">
-                <label>Width (in feet): </label>
-                <input type="text" name="width" />
-                <label>Length (in feet): </label>
-                <input type="text" name="length" />
-                <label>Cost per square foot (in USD): </label>
-                <input type="text" name="costPerSqFt" />
-                <input type ="submit" value="Calculate!!!" />
-            </form>     
+            <h2>Please enter all of your interest needs:</h2>
+            <form method="POST" action="calculateInterest">
+                <label>Annual Interest Rate (in %): </label>
+                <input type="text" name="annualInterestRate">
+                <label>Amount Of Principle (in USD): </label>
+                <input type="text" name="amountOfPrinciple">
+                <label>Number of Years: </label>
+                <input type="text" name="numberOfYears">
+                <input type ="submit" value="Calculate!!!">
+            </form>   
         </div>
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
