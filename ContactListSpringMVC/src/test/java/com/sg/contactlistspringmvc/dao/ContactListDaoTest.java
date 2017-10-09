@@ -32,8 +32,7 @@ public class ContactListDaoTest {
     
     @BeforeClass
     public static void setUpClass() {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("test-applicationContext.xml");
-        dao = ctx.getBean("contactListDao", ContactListDao.class);
+
     }
     
     @AfterClass

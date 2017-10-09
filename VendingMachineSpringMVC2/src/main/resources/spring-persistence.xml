@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+              xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd"> 
+
+    <!-- Bean definitions go here -->
+    
+    <bean id="vendingMachineItemDao"
+        class="com.sg.vendingmachinespringmvc2.dao.VendingMachineItemDaoInMemImpl"/>
+    
+    <bean id="vendingMachineSelectionDao"
+        class="com.sg.vendingmachinespringmvc2.dao.VendingMachineSelectionDaoInMemImpl"/>       
+    
+    <bean id="vendingMachineUserChangeDao"
+        class="com.sg.vendingmachinespringmvc2.dao.VendingMachineUserChangeDaoInMemImpl"/>
+    
+    <bean id="vendingMachineMachineChangeDao"
+        class="com.sg.vendingmachinespringmvc2.dao.VendingMachineMachineChangeDaoInMemImpl"/>      
+ 
+    <bean id="vendingMachineItemService"
+        class="com.sg.vendingmachinespringmvc2.service.VendingMachineItemServiceImpl">
+        <constructor-arg ref="vendingMachineItemDao"/>
+    </bean>
+    
+    <bean id="vendingMachineSelectionService"
+        class="com.sg.vendingmachinespringmvc2.service.VendingMachineSelectionServiceImpl">
+        <constructor-arg ref="vendingMachineSelectionDao"/>
+    </bean>   
+    
+    <bean id="vendingMachineUserChangeService"
+        class="com.sg.vendingmachinespringmvc2.service.VendingMachineUserChangeServiceImpl">
+        <constructor-arg ref="vendingMachineUserChangeDao"/>
+    </bean> 
+
+    <bean id="vendingMachineMachineChangeService"
+        class="com.sg.vendingmachinespringmvc2.service.VendingMachineMachineChangeServiceImpl">    
+        <constructor-arg ref="vendingMachineMachineChangeDao"/>
+    </bean>
+    
+            
+    
+</beans>

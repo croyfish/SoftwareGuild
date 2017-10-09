@@ -29,7 +29,7 @@ public class ControllerExceptionHandler {
         BindingResult result = e.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
         StringBuilder messageBuilder = new StringBuilder();
-        messageBuilder.append("youru submission has the following errors: ");
+        messageBuilder.append("your submission has the following errors: ");
         
         for (FieldError currentError : fieldErrors) {
             messageBuilder.append("[");
