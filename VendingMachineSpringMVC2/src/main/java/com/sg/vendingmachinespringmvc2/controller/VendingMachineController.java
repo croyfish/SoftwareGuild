@@ -125,8 +125,8 @@ public class VendingMachineController {
 
         List<Item> itemList = itemService.getAllItems();
         model.addAttribute("itemList", itemList);        
-        String button = "";
-        model.addAttribute("button", button);
+//        String button = "";
+//        model.addAttribute("button", button);
         String moneyEntered = userChangeService.getChange().getValueOfChange().toString();
         model.addAttribute("moneyEntered", moneyEntered);
         
