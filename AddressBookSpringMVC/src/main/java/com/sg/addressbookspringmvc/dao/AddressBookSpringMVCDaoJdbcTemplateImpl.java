@@ -56,7 +56,7 @@ public class AddressBookSpringMVCDaoJdbcTemplateImpl implements AddressBookSprin
                 address.getState(),
                 address.getZipCode());
         
-        int addressId = jdbcTemplate.queryForObject("select Last_ID()", Integer.class);
+        int addressId = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
     
         address.setAddressId(addressId);
     }
