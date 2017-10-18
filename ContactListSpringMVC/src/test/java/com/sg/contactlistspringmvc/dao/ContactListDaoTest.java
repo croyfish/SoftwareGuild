@@ -42,8 +42,17 @@ public class ContactListDaoTest {
     
     @Before
     public void setUp() {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("test-applicationContext.xml");
+        // ask Spring for our DAO
+        ApplicationContext ctx
+            = new ClassPathXmlApplicationContext(
+                        "test-applicationContext.xml");
         dao = ctx.getBean("contactListDao", ContactListDao.class);
+
+        // remove all of the Contacts
+        List<Contact> contacts = dao.getAllContacts();
+        for (Contact currentContact : contacts) {
+            dao.removeContact(currentContact.getContactId());
+        }
     }
     
     @After
