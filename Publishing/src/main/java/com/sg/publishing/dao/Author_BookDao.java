@@ -14,6 +14,8 @@ import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -51,10 +53,29 @@ public class Author_BookDao {
     public void delete(Author_Book authorBook) {
             jdbcTemplate.update(SQL_DELETE_AUTHOR_BOOK, authorBook.getId());
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Author_Book create(Author_Book authorBook) {    
+
+        jdbcTemplate.update(SQL_INSERT_AUTHOR_BOOK,
+                authorBook.getAuthor().getId(),
+                authorBook.getBook().getId());
+
+        int authorBookId
+                = jdbcTemplate.queryForObject("select LAST_INSERT_ID()",
+                        Integer.class);
+
+        authorBook.setId(authorBookId);
+        
+        return authorBook;
     
-    public Author_Book create(Author_Book authorBook) {return null;}
+    }
     
-    public List<Author_Book> list() {return null;}
+    public List<Author_Book> list() {
+        return jdbcTemplate.query(SQL_LIST_AUTHORS_BOOKS,
+                new Author_BookDao.Author_BookMapper());    
+    
+    }
     
     private static final class Author_BookMapper implements RowMapper<Author_Book> {
 

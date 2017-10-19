@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author jeffc
  */
 public class DVD {
-    
+
     // Fields for DVD object
     private String SKU;
     private String title;
@@ -25,27 +25,26 @@ public class DVD {
     private String studio;
     private String userNote;
 
-
     @Override
     public String toString() {
         LocalDateTime timestamp = LocalDateTime.now();
         return "Title: " + title;
-    }    
-    
+    }
+
     public long getDVDAge() {
-            Period p = releaseDate.until(LocalDate.now());
-            return p.getYears();
-    }    
-    
+        Period p = releaseDate.until(LocalDate.now());
+        return p.getYears();
+    }
+
     public void setSKU(String SKU) {
         this.SKU = SKU;
     }
-    
+
     // SKU for each DVD object is read-only, because it is the unique identifier
     public String getSKU() {
         return SKU;
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -61,7 +60,7 @@ public class DVD {
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
-    
+
     public String getMPAARating() {
         return MPAARating;
     }
@@ -96,14 +95,14 @@ public class DVD {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.SKU);
-        hash = 97 * hash + Objects.hashCode(this.title);
-        hash = 97 * hash + Objects.hashCode(this.releaseDate);
-        hash = 97 * hash + Objects.hashCode(this.MPAARating);
-        hash = 97 * hash + Objects.hashCode(this.director);
-        hash = 97 * hash + Objects.hashCode(this.studio);
-        hash = 97 * hash + Objects.hashCode(this.userNote);
+        int hash = 3;
+        hash = 89 * hash + Objects.hashCode(this.SKU);
+        hash = 89 * hash + Objects.hashCode(this.title);
+        hash = 89 * hash + Objects.hashCode(this.releaseDate);
+        hash = 89 * hash + Objects.hashCode(this.MPAARating);
+        hash = 89 * hash + Objects.hashCode(this.director);
+        hash = 89 * hash + Objects.hashCode(this.studio);
+        hash = 89 * hash + Objects.hashCode(this.userNote);
         return hash;
     }
 
@@ -125,9 +124,6 @@ public class DVD {
         if (!Objects.equals(this.title, other.title)) {
             return false;
         }
-        if (!Objects.equals(this.releaseDate, other.releaseDate)) {
-            return false;
-        }
         if (!Objects.equals(this.MPAARating, other.MPAARating)) {
             return false;
         }
@@ -140,9 +136,12 @@ public class DVD {
         if (!Objects.equals(this.userNote, other.userNote)) {
             return false;
         }
+        if (!Objects.equals(this.releaseDate, other.releaseDate)) {
+            return false;
+        }
         return true;
     }
-    
-    
-}
 
+
+
+}

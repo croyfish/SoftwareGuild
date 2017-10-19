@@ -7,6 +7,7 @@ package com.sg.dvdlibraryspringmvc.dao;
 
 import com.sg.dvdlibraryspringmvc.model.DVD;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,8 +21,10 @@ public interface DVDLibrarySpringMVCDao {
     
     public void updateDVD(DVD dvd);
     
-    public void getDVDBySKU(int SKU);
+    public DVD getDVDBySKU(int SKU);
     
     public List<DVD> getAllDVDs();
+    
+    public List<DVD> searchDVDs(Map<SearchTerm, String> criteria);
 
 }
