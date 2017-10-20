@@ -16,8 +16,8 @@ CREATE TABLE dvd (
 );
 
 
-DROP DATABASE IF EXISTS address_book_test;
-CREATE DATABASE IF NOT EXISTS address_book_test;
+DROP DATABASE IF EXISTS dvd_library_test;
+CREATE DATABASE IF NOT EXISTS dvd_library_test;
 
 USE dvd_library_test;
 
