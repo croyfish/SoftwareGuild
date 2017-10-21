@@ -5,14 +5,26 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.dao.PowerDao;
 import com.sg.superherosightings.model.Power;
 import java.util.List;
+import static jdk.nashorn.internal.objects.NativeUint16Array.constructor;
 
 /**
  *
  * @author jeffc
  */
 public class PowerServiceImpl implements PowerService {
+    
+    private PowerDao powerDao;
+    private SuperPersonService superPersonService;
+
+    public PowerServiceImpl(PowerDao powerDao, SuperPersonService superPersonService) {
+        this.powerDao = powerDao;
+        this.superPersonService = superPersonService;
+    }
+
+    
 
     @Override
     public Power createPower(Power power) {

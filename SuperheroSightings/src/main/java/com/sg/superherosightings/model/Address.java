@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class Address {
     
-    private Integer addressID;
+    private Integer addressId;
     
     private String street;
     
@@ -21,14 +21,14 @@ public class Address {
     
     private String state;
     
-    private String zipCode;
+    private String zipcode;
 
-    public Integer getAddressID() {
-        return addressID;
+    public Integer getAddressId() {
+        return addressId;
     }
 
-    public void setAddressID(Integer addressID) {
-        this.addressID = addressID;
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
     }
 
     public String getStreet() {
@@ -55,22 +55,22 @@ public class Address {
         this.state = state;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getZipcode() {
+        return zipcode;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 19 * hash + Objects.hashCode(this.addressID);
+        hash = 19 * hash + Objects.hashCode(this.addressId);
         hash = 19 * hash + Objects.hashCode(this.street);
         hash = 19 * hash + Objects.hashCode(this.city);
         hash = 19 * hash + Objects.hashCode(this.state);
-        hash = 19 * hash + Objects.hashCode(this.zipCode);
+        hash = 19 * hash + Objects.hashCode(this.zipcode);
         return hash;
     }
 
@@ -95,10 +95,10 @@ public class Address {
         if (!Objects.equals(this.state, other.state)) {
             return false;
         }
-        if (!Objects.equals(this.zipCode, other.zipCode)) {
+        if (!Objects.equals(this.zipcode, other.zipcode)) {
             return false;
         }
-        if (!Objects.equals(this.addressID, other.addressID)) {
+        if (!Objects.equals(this.addressId, other.addressId)) {
             return false;
         }
         return true;

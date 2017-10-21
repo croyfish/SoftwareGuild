@@ -5,6 +5,13 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.dao.OrganizationDao;
+import com.sg.superherosightings.dao.PowerDao;
+import com.sg.superherosightings.dao.SightingDao;
+import com.sg.superherosightings.dao.SuperPersonDao;
+import com.sg.superherosightings.dao.SuperPersonOrganizationDao;
+import com.sg.superherosightings.dao.SuperPersonPowerDao;
+import com.sg.superherosightings.dao.SuperPersonSightingDao;
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.Power;
@@ -21,6 +28,24 @@ import java.util.List;
  */
 public class SuperPersonServiceImpl implements SuperPersonService {
 
+    private SuperPersonDao superPersonDao;
+    private OrganizationDao organizationDao;
+    private PowerDao powerDao;
+    private SightingDao sightingDao;
+    private SuperPersonOrganizationDao superPersonOrganizationDao;
+    private SuperPersonPowerDao superPersonPowerDao;
+    private SuperPersonSightingDao superPersonSightingDao;
+
+    public SuperPersonServiceImpl(SuperPersonDao superPersonDao, OrganizationDao organizationDao, PowerDao powerDao, SightingDao sightingDao, SuperPersonOrganizationDao superPersonOrganizationDao, SuperPersonPowerDao superPersonPowerDao, SuperPersonSightingDao superPersonSightingDao) {
+        this.superPersonDao = superPersonDao;
+        this.organizationDao = organizationDao;
+        this.powerDao = powerDao;
+        this.sightingDao = sightingDao;
+        this.superPersonOrganizationDao = superPersonOrganizationDao;
+        this.superPersonPowerDao = superPersonPowerDao;
+        this.superPersonSightingDao = superPersonSightingDao;
+    }
+    
     @Override
     public SuperPerson createSuperPerson(SuperPerson superPerson) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

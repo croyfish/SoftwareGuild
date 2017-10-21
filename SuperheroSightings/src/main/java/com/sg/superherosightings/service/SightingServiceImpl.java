@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.dao.SightingDao;
 import com.sg.superherosightings.model.Sighting;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +16,15 @@ import java.util.List;
  */
 public class SightingServiceImpl implements SightingService {
 
+    private SightingDao sightingDao;
+    private SuperPersonService superPersonService;
+
+    public SightingServiceImpl(SightingDao sightingDao, SuperPersonService superPersonService) {
+        this.sightingDao = sightingDao;
+        this.superPersonService = superPersonService;
+    }
+    
+    
     @Override
     public Sighting createSighting(Sighting sighting) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -5,7 +5,7 @@
  */
 package com.sg.superherosightings.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 public class Sighting {
     private Integer sightingId;
-    private LocalDateTime date;
+    private LocalDate date;
     private Location location;
     private String description;
 
@@ -26,11 +26,11 @@ public class Sighting {
         this.sightingId = sightingId;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

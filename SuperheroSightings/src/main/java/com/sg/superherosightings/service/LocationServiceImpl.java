@@ -5,9 +5,11 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.dao.LocationDao;
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -15,6 +17,13 @@ import java.util.List;
  */
 public class LocationServiceImpl implements LocationService {
 
+    LocationDao locationDao;
+    
+    public LocationServiceImpl(LocationDao locationDao) {
+        this.locationDao = locationDao;
+    }      
+    
+    
     @Override
     public Location createLocation(Location location) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

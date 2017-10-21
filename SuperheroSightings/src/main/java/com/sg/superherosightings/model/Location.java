@@ -24,6 +24,7 @@ public class Location {
     private String latitude;
     
     private String longitude;
+    
     public Integer getLocationId() {
         return locationId;
     }

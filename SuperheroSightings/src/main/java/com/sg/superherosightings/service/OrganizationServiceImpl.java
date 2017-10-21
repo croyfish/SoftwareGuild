@@ -5,15 +5,27 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.dao.OrganizationDao;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
+import static jdk.nashorn.internal.objects.NativeUint16Array.constructor;
 
 /**
  *
  * @author jeffc
  */
 public class OrganizationServiceImpl implements OrganizationService {
+    
+    private OrganizationDao organizationDao;
+    private SuperPersonService superPersonService;
+
+    public OrganizationServiceImpl(OrganizationDao organizationDao, SuperPersonService superPersonService) {
+        this.organizationDao = organizationDao;
+        this.superPersonService = superPersonService;
+    }
+
+    
 
     @Override
     public Organization createOrganization(Organization organization) {

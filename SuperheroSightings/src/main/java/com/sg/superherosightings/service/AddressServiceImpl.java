@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.dao.AddressDao;
 import com.sg.superherosightings.model.Address;
 import java.util.List;
 
@@ -14,6 +15,13 @@ import java.util.List;
  */
 public class AddressServiceImpl implements AddressService {
 
+    AddressDao addressDao;
+    
+    // Constructor with DI
+    public AddressServiceImpl(AddressDao addressDao) {
+        this.addressDao = addressDao;
+    }    
+    
     @Override
     public Address createAddress(Address address) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
