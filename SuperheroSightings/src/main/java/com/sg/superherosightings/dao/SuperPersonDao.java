@@ -21,11 +21,11 @@ public interface SuperPersonDao {
     
     public SuperPerson createSuperPerson(SuperPerson superPerson);
     public SuperPerson getSuperPersonById(Integer superPersonId);
-    public List<SuperPerson> getAllSuperPersons();
+    public List<SuperPerson> getAllSuperPersons(int offset, int limit);
     public SuperPerson updateSuperPerson(SuperPerson superPerson);
     public SuperPerson deleteSuperPerson(Integer superPersonId);
     //demo
-    public List<SuperPerson> getAllSuperPersonsBySighting(Sighting sighting);
-    public List<SuperPerson> getAllSuperPersonsBySightingLocation(Location location);
-    public List<SuperPerson> getAllSuperPersonsByOrganization(Organization organization);
+    public List<SuperPerson> getAllSuperPersonsBySighting(Sighting sighting, int offset, int limit);
+    public List<SuperPerson> getAllSuperPersonsBySightingLocation(Location location, int offset, int limit);
+    public List<SuperPerson> getAllSuperPersonsByOrganization(Organization organization, int offset, int limit);
 }

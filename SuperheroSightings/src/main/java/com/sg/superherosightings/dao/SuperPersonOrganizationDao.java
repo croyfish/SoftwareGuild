@@ -18,7 +18,7 @@ public interface SuperPersonOrganizationDao {
     
     public SuperPersonOrganization getSuperPersonOrganizationById(Integer superPersonOrganizationId);
     
-    public List<SuperPersonOrganization> getAllSuperPersonOrganizations();
+    public List<SuperPersonOrganization> getAllSuperPersonOrganizations(int offset, int limit);
     
     public SuperPersonOrganization updateSuperPersonOrganization(SuperPersonOrganization superPersonOrganization);
     

@@ -3,8 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package com.sg.superherosightings.dao;
+package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.model.Address;
 import java.util.List;
@@ -13,17 +12,16 @@ import java.util.List;
  *
  * @author jeffc
  */
-public interface AddressDao {
+public interface AddressService {
     
     public Address createAddress(Address address);
     
     public Address getAddressById(Integer addressId);
     
-    public List<Address> getAllAddresses(int offset, int limit);
+    public List<Address> getAllAddresss(int offset, int limit);
     
     public Address updateAddress(Address address);
     
-    public Address deleteAddress(Address address);    
+    public Address deleteAddress(Address address);
     
 }
-

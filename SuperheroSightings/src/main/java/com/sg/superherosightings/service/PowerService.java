@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.superherosightings.dao;
+package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.model.Power;
 import java.util.List;
@@ -12,16 +12,10 @@ import java.util.List;
  *
  * @author jeffc
  */
-public interface PowerDao {
-    
+public interface PowerService {
     public Power createPower(Power power);
-    
     public Power getPowerById(Integer powerId);
-    
     public List<Power> getAllPowers(int offset, int limit);
-    
     public Power updatePower(Power power);
-    
-    public Power deletePower(Integer powerId);
-    
+    public Power deletePower(Integer powerId);    
 }

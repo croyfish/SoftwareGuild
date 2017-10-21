@@ -18,7 +18,7 @@ public interface SuperPersonPowerDao {
     
     public SuperPersonPower getSuperPersonPowerById(Integer superPersonPowerId);
     
-    public List<SuperPersonPower> getAllSuperPersonPowers();
+    public List<SuperPersonPower> getAllSuperPersonPowers(int offset, int limit);
     
     public SuperPersonPower updateSuperPersonPower(SuperPersonPower superPersonPower);
     

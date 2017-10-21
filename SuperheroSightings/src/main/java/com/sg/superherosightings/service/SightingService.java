@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sg.superherosightings.dao;
+package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.model.Sighting;
 import java.time.LocalDate;
@@ -13,7 +13,8 @@ import java.util.List;
  *
  * @author jeffc
  */
-public interface SightingDao {
+public interface SightingService {
+    
     //basic CRUD
     public Sighting createSighting(Sighting sighting);
     public Sighting getSightingById(Integer sightingId);
@@ -22,4 +23,5 @@ public interface SightingDao {
     public Sighting deleteSighting(Integer sightingId);
     //demo
     public List<Sighting> getAllSightingsByDate(LocalDate date, int offset, int limit);
+    
 }
