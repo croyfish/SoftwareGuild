@@ -5,14 +5,18 @@
  */
 package com.sg.superherosightings.dao;
 
+import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.SuperPerson;
 import com.sg.superherosightings.model.SuperPersonOrganization;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -24,7 +28,7 @@ public class SuperPersonOrganizationDaoDbImpl implements SuperPersonOrganization
     private static String SQL_GET_SUPERPERSON_ORGANIZATION = "SELECT * from superperson_organization where SuperPerson_OrganizationId = ?";
     private static String SQL_UPDATE_SUPERPERSON_ORGANIZATION = "UPDATE superperson_organization set SuperPersonId = ?, OrganizationId WHERE SuperPerson_OrganizationId = ?";
     private static String SQL_DELETE_SUPERPERSON_ORGANIZATION = "DELETE FROM superperson_organization where SuperPerson_OrganizationId = ?";
-    private static String SQL_LIST_SUPERPERSON_ORGANIZATIONS = "SELECT * from superperson_organization";       
+    private static String SQL_LIST_SUPERPERSON_ORGANIZATIONS = "SELECT * from superperson_organization LIMIT ?,?";       
     
     private JdbcTemplate jdbcTemplate;
 
@@ -34,28 +38,56 @@ public class SuperPersonOrganizationDaoDbImpl implements SuperPersonOrganization
     }    
     
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public SuperPersonOrganization createSuperPersonOrganization(SuperPersonOrganization superPersonOrganization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        
+        jdbcTemplate.update(SQL_INSERT_SUPERPERSON_ORGANIZATION,
+                superPersonOrganization.getSuperPerson().getSuperPersonId(),
+                superPersonOrganization.getOrganization().getOrganizationId());
+                
+        
+        int superPersonOrganizationId = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
+
+        superPersonOrganization.setSuperPersonOrganizationId(superPersonOrganizationId);
+
+        return superPersonOrganization;
     }
 
     @Override
     public SuperPersonOrganization getSuperPersonOrganizationById(Integer superPersonOrganizationId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            SuperPersonOrganization superPersonOrganization = 
+                    jdbcTemplate.queryForObject(SQL_GET_SUPERPERSON_ORGANIZATION, new SuperPersonOrganizationMapper(), superPersonOrganizationId);
+            return superPersonOrganization;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public List<SuperPersonOrganization> getAllSuperPersonOrganizations(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbcTemplate.query(SQL_LIST_SUPERPERSON_ORGANIZATIONS, new SuperPersonOrganizationMapper(), offset, limit);
     }
 
-    @Override
-    public SuperPersonOrganization updateSuperPersonOrganization(SuperPersonOrganization superPersonOrganization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public SuperPersonOrganization updateSuperPersonOrganization(SuperPersonOrganization superPersonOrganization) {
+//        Location superPersonOrganizationLocation = superPersonOrganization.getLocation();
+//        
+//        jdbcTemplate.update(SQL_UPDATE_SUPERPERSON_ORGANIZATION,
+//                java.sql.Date.valueOf(superPersonOrganization.getDate()),
+//                superPersonOrganizationLocation.getLocationId(),
+//                superPersonOrganization.getDescription(), 
+//                superPersonOrganization.getSuperPersonOrganizationId()
+//                );
+//
+//        return superPersonOrganization;
+//    }
 
     @Override
     public SuperPersonOrganization deleteSuperPersonOrganization(SuperPersonOrganization superPersonOrganization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcTemplate.update(SQL_DELETE_SUPERPERSON_ORGANIZATION, superPersonOrganization.getSuperPersonOrganizationId());
+        return superPersonOrganization;
     }
     
     private static final class SuperPersonOrganizationMapper implements RowMapper<SuperPersonOrganization> {

@@ -121,7 +121,13 @@ public class SuperPersonDaoTest {
         assertTrue(createdSP1.equals(superPersons.get(0)) || createdSP2.equals(superPersons.get(0)));
         assertTrue(createdSP1.equals(superPersons.get(1)) || createdSP2.equals(superPersons.get(1)));
         
-    }        
+    }
+    
+    @Test
+    public void getAllSuperPersonsBySighting() {
+        
+
+    }
 
     
 }

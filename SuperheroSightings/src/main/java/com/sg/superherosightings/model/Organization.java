@@ -75,13 +75,13 @@ public class Organization {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.organizationId);
-        hash = 97 * hash + Objects.hashCode(this.name);
-        hash = 97 * hash + Objects.hashCode(this.description);
-        hash = 97 * hash + Objects.hashCode(this.location);
-        hash = 97 * hash + Objects.hashCode(this.phone);
-        hash = 97 * hash + Objects.hashCode(this.isGood);
+        int hash = 5;
+        hash = 59 * hash + Objects.hashCode(this.organizationId);
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + Objects.hashCode(this.description);
+        hash = 59 * hash + Objects.hashCode(this.location);
+        hash = 59 * hash + Objects.hashCode(this.phone);
+        hash = 59 * hash + Objects.hashCode(this.isGood);
         return hash;
     }
 
@@ -117,6 +117,8 @@ public class Organization {
         }
         return true;
     }
+
+
     
     
     

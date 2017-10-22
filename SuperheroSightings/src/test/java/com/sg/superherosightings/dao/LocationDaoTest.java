@@ -5,108 +5,141 @@
  */
 package com.sg.superherosightings.dao;
 
+import com.sg.superherosightings.model.Address;
 import com.sg.superherosightings.model.Location;
-import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author jeffc
  */
 public class LocationDaoTest {
-    
+
+    private static LocationDao dao;
+
     public LocationDaoTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        ApplicationContext ctx
+                = new ClassPathXmlApplicationContext("test-applicationContext.xml");
+
+        dao = ctx.getBean("locationDao", LocationDao.class);
+
+        List<Location> locations = dao.getAllLocations(0, Integer.MAX_VALUE);
+        for (Location currentLocation : locations) {
+            dao.deleteLocation(currentLocation);
+        }
     }
-    
+
     @After
     public void tearDown() {
     }
 
-    /**
-     * Test of createLocation method, of class LocationDao.
-     */
     @Test
-    public void testCreateLocation() {
+    public void addGetDeleteLocation() {
+
+        //arrange
+        Location loc = new Location();
+        Address add = new Address();
+        add.setAddressId(1);
+
+        loc.setDescription("Cool place for cool mutants!");
+        loc.setName("The Software Guild");
+        loc.setAddress(add);
+        loc.setLatitude("23,32");
+        loc.setLongitude("23, 23");
+        loc = dao.createLocation(loc);
+
+        Location actualLoc = dao.getLocationById(loc.getLocationId());
+        assertEquals(loc, actualLoc);
+        dao.deleteLocation(dao.getLocationById(loc.getLocationId()));
+        assertNull(dao.getLocationById(loc.getLocationId()));
+
     }
 
-    /**
-     * Test of getLocationById method, of class LocationDao.
-     */
+public void updateLocation() {
+
+         //First Location 
+
+        Location loc = new Location();
+        Address add = new Address(); 
+        add.setAddressId(1);      
+        loc.setLocationId(1);
+        loc.setDescription("Cool place for cool mutants!");
+        loc.setName("The Software Guild");
+        loc.setAddress(add);       
+        loc.setLatitude("23, 32");
+        loc.setLongitude("23, 23");       
+
+        Location loc2 = dao.createLocation(loc);
+
+        //Second location 
+        Address add2 = new Address();
+        add2.setAddressId(1);         
+        loc2.setLocationId(1);
+        loc2.setDescription("Terrible place for awful coders and no lives!");
+        loc2.setName("The Software Guild");
+        loc2.setAddress(add);      
+        loc2.setLatitude("25, 32");
+        loc2.setLongitude("39, 23");     
+
+        Location updated = dao.updateLocation(loc2);
+
+        assertEquals(updated, loc2);
+    }
+
     @Test
-    public void testGetLocationById() {
+    public void getAllLocations() {
+
+        //arrange
+        Location loc = new Location();
+        Address add = new Address(); 
+        add.setAddressId(1);      
+        loc.setLocationId(1);
+        loc.setDescription("Cool place for cool mutants!");
+        loc.setName("The Software Guild");
+        loc.setAddress(add);       
+        loc.setLatitude("23, 32");
+        loc.setLongitude("23, 23"); 
+        
+        loc = dao.createLocation(loc);
+
+        //arrange
+        Location loc2 = new Location();
+        Address add2 = new Address();
+        add2.setAddressId(2);
+        loc2.setLocationId(2);
+        loc2.setDescription("Cool place for cool people with coding powers!");
+        loc2.setName("The Software Guild");
+        loc2.setAddress(add2);       
+        loc2.setLatitude("23, 32");
+        loc2.setLongitude("23, 23");
+        
+        loc2 = dao.createLocation(loc2);
+
+
+        List<Location> Locations = dao.getAllLocations(0, 10);
+        assertEquals(2, Locations.size());
+
     }
 
-    /**
-     * Test of getAllLocations method, of class LocationDao.
-     */
-    @Test
-    public void testGetAllLocations() {
-    }
-
-    /**
-     * Test of updateLocation method, of class LocationDao.
-     */
-    @Test
-    public void testUpdateLocation() {
-    }
-
-    /**
-     * Test of deleteLocation method, of class LocationDao.
-     */
-    @Test
-    public void testDeleteLocation() {
-    }
-
-    /**
-     * Test of getAllLocationsBySuperPerson method, of class LocationDao.
-     */
-    @Test
-    public void testGetAllLocationsBySuperPerson() {
-    }
-
-    public class LocationDaoImpl implements LocationDao {
-
-        public Location createLocation(Location location) {
-            return null;
-        }
-
-        public Location getLocationById(Integer locationId) {
-            return null;
-        }
-
-        public List<Location> getAllLocations(int offset, int limit) {
-            return null;
-        }
-
-        public Location updateLocation(Location location) {
-            return null;
-        }
-
-        public Location deleteLocation(Location location) {
-            return null;
-        }
-
-        public List<Location> getAllLocationsBySuperPerson(SuperPerson superperson, int offset, int limit) {
-            return null;
-        }
-    }
-    
 }

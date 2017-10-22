@@ -5,14 +5,19 @@
  */
 package com.sg.superherosightings.dao;
 
-import com.sg.superherosightings.model.Address;
+import com.sg.superherosightings.dao.OrganizationDao;
+import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.SuperPerson;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -20,17 +25,17 @@ import org.springframework.jdbc.core.RowMapper;
  */
 public class OrganizationDaoDbImpl implements OrganizationDao {
 
-    private static String SQL_INSERT_ORGANIZATION = "INSERT into organization (Name, Description, Phone, IsGood, OrganizationId) VALUES (?,?,?,?,?);";
-    private static String SQL_GET_ORGANIZATION = "SELECT * from organization where Organizationid = ?";
-    private static String SQL_UPDATE_ORGANIZATION = "UPDATE organization set Name = ?, Description = ?, Phone = ?, IsGood = ?, LocationId = ? WHERE OrganizationId = ?";
-    private static String SQL_DELETE_ORGANIZATION = "DELETE FROM organization where OrganizationId = ?";
-    private static String SQL_LIST_ORGANIZATIONS = "SELECT * from organization";
+    private static String SQL_INSERT_ORGANIZATION = "INSERT into Organization (Name, Description, Phone, IsGood, LocationId) VALUES (?,?,?,?,?);";
+    private static String SQL_GET_ORGANIZATION = "SELECT * from Organization WHERE Organizationid = ?";
+    private static String SQL_UPDATE_ORGANIZATION = "UPDATE Organization set Name = ?, Description = ?, Phone = ?, IsGood = ?, LocationId = ? WHERE OrganizationId = ?";
+    private static String SQL_DELETE_ORGANIZATION = "DELETE FROM Organization where OrganizationId = ?";
+    private static String SQL_LIST_ORGANIZATIONS = "SELECT * from organization LIMIT ?,?";
     
-    private static String SQL_LIST_ORGANIZATIONS_BY_SUPERPERSON = "SELECT `organization`.* FROM `organization` "
-            + "INNER JOIN `superperson_organization` ON `organization`.`organizationId` = "
-            + "`superperson_organization`.`organizationId` INNER JOIN `superperson` ON "
-            + "`superperson_organization`.`superpersonId` = `superperson`.`superpersonId` "
-            + "WHERE `superperson`.`superpersonid` = ? ORDER BY `superperson`.`name`";
+    private static String SQL_LIST_ORGANIZATIONS_BY_SUPERPERSON = "SELECT `Organization`.* FROM `Organization` "
+            + "INNER JOIN `SuperPerson_Organization` ON `Organization`.`organizationId` = "
+            + "`Superperson_Organization`.`OrganizationId` INNER JOIN `SuperPerson` ON "
+            + "`Superperson_Organization`.`superpersonId` = `superPerson`.`superersonId` "
+            + "WHERE `SuperPerson`.`superpersonid` = ? ORDER BY `SuperPerson`.`name` LIMIT ?,?";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -40,33 +45,65 @@ public class OrganizationDaoDbImpl implements OrganizationDao {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Organization createOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Name, Description, Phone, IsGood, LocationId
+        jdbcTemplate.update(SQL_INSERT_ORGANIZATION,
+                organization.getName(),
+                organization.getDescription(),
+                organization.getPhone(),
+                organization.getIsGood(),
+                organization.getLocation().getLocationId());
+                
+        
+        int organizationId = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
+
+        organization.setOrganizationId(organizationId);
+
+        return organization;
     }
 
     @Override
     public Organization getOrganizationById(Integer organizationId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Organization organization = 
+                    jdbcTemplate.queryForObject(SQL_GET_ORGANIZATION, new OrganizationMapper(), organizationId);
+            return organization;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public List<Organization> getAllOrganizations(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbcTemplate.query(SQL_LIST_ORGANIZATIONS, new OrganizationMapper(), offset, limit);
     }
 
     @Override
     public Organization updateOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Location organizationLocation = organization.getLocation();
+        
+        jdbcTemplate.update(SQL_UPDATE_ORGANIZATION,
+                organization.getName(),
+                organization.getDescription(),
+                organization.getPhone(),
+                organization.getIsGood(),
+                organization.getLocation().getLocationId(),
+                organization.getOrganizationId());
+
+        return organization;
     }
 
     @Override
     public Organization deleteOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcTemplate.update(SQL_DELETE_ORGANIZATION, organization.getOrganizationId());
+        return organization;
     }
 
     @Override
-    public List<Organization> getAllOrganizationsBySuperPerson(SuperPerson superperson, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Organization> getAllOrganizationsBySuperPerson(SuperPerson superPerson, int offset, int limit) {
+        return jdbcTemplate.query(SQL_LIST_ORGANIZATIONS_BY_SUPERPERSON, new OrganizationMapper(), 
+                superPerson.getSuperPersonId(), offset, limit);
     }
     
     private static final class OrganizationMapper implements RowMapper<Organization> {
@@ -79,6 +116,12 @@ public class OrganizationDaoDbImpl implements OrganizationDao {
             org.setDescription(rs.getString("Description"));
             org.setPhone(rs.getString("Phone"));
             org.setIsGood(rs.getBoolean("IsGood"));
+            
+            //lazy loading FKs -- the service fills in the rest when in use
+            Location location = new Location();
+            location.setLocationId(rs.getInt("LocationId"));
+            org.setLocation(location);
+            
             return org;
         }
     }      

@@ -20,7 +20,7 @@ public interface SuperPersonOrganizationDao {
     
     public List<SuperPersonOrganization> getAllSuperPersonOrganizations(int offset, int limit);
     
-    public SuperPersonOrganization updateSuperPersonOrganization(SuperPersonOrganization superPersonOrganization);
+//    public SuperPersonOrganization updateSuperPersonOrganization(SuperPersonOrganization superPersonOrganization);
     
     public SuperPersonOrganization deleteSuperPersonOrganization(SuperPersonOrganization superPersonOrganization);    
     

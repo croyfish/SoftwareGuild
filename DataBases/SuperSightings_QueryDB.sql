@@ -276,3 +276,10 @@ INSERT INTO `SuperPerson_Sighting` VALUES
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+SET foreign_key_checks = 0;
+DELETE FROM location where locationId = 3;
+INSERT INTO `Sighting` VALUES
+(6, '20151129', 3, NULL);
+select * from sighting
+where sighting.locationId = 3;
