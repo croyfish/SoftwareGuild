@@ -22,6 +22,6 @@ public interface PowerDao {
     
     public Power updatePower(Power power);
     
-    public Power deletePower(Integer powerId);
+    public Power deletePower(Power power);
     
 }

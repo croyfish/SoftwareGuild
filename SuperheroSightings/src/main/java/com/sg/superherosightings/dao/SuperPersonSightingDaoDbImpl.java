@@ -54,7 +54,7 @@ public class SuperPersonSightingDaoDbImpl implements SuperPersonSightingDao {
     }
 
     @Override
-    public SuperPersonSighting deleteSuperPersonSighting(Integer superPersonSightingId) {
+    public SuperPersonSighting deleteSuperPersonSighting(SuperPersonSighting superPersonSighting) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

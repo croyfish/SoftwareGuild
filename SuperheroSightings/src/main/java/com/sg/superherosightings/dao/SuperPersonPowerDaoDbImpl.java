@@ -54,7 +54,7 @@ public class SuperPersonPowerDaoDbImpl implements SuperPersonPowerDao {
     }
 
     @Override
-    public SuperPersonPower deleteSuperPersonPower(Integer superPersonPowerId) {
+    public SuperPersonPower deleteSuperPersonPower(SuperPersonPower superPersonPower) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

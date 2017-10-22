@@ -80,7 +80,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `SuperSighting`.`Power` ;
 
 CREATE TABLE IF NOT EXISTS `SuperSighting`.`Power` (
-  `PowerId` INT NOT NULL,
+  `PowerId` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(50) NULL,
   PRIMARY KEY (`PowerId`))
 ENGINE = InnoDB;
@@ -185,7 +185,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `SuperSighting`.`SuperPerson_Sighting` ;
 
 CREATE TABLE IF NOT EXISTS `SuperSighting`.`SuperPerson_Sighting` (
-  `SuperPerson_SightingId` INT NOT NULL,
+  `SuperPerson_SightingId` INT NOT NULL AUTO_INCREMENT,
   `SuperPersonId` INT NOT NULL,
   `SightingId` INT NOT NULL,
   PRIMARY KEY (`SuperPerson_SightingId`),

@@ -17,5 +17,5 @@ public interface SuperPersonSightingDao {
     public SuperPersonSighting getSuperPersonSightingById(Integer superPersonSightingId);
     public List<SuperPersonSighting> getAllSuperPersonSightings(int offset, int limit);
     public SuperPersonSighting updateSuperPersonSighting(SuperPersonSighting superPersonSighting);
-    public SuperPersonSighting deleteSuperPersonSighting(Integer superPersonSightingId);
+    public SuperPersonSighting deleteSuperPersonSighting(SuperPersonSighting superPersonSighting);
 }

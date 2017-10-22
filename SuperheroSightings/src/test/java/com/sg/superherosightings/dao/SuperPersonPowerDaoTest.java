@@ -74,29 +74,5 @@ public class SuperPersonPowerDaoTest {
     public void testDeleteSuperPersonPower() {
     }
 
-    public class SuperPersonPowerDaoImpl implements SuperPersonPowerDao {
-
-        public SuperPersonPower createSuperPersonPower(SuperPersonPower superPersonPower) {
-            return null;
-        }
-
-        public SuperPersonPower getSuperPersonPowerById(Integer superPersonPowerId) {
-            return null;
-        }
-
-        public List<SuperPersonPower> getAllSuperPersonPowers(int offset, int limit) {
-            return null;
-        }
-
-        public SuperPersonPower updateSuperPersonPower(SuperPersonPower superPersonPower) {
-            return null;
-        }
-
-        public SuperPersonPower deleteSuperPersonPower(Integer superPersonPowerId) {
-            return null;
-        }
-    }
-
-
     
 }

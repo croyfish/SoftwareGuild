@@ -82,31 +82,5 @@ public class SightingDaoTest {
     public void testGetAllSightingsByDate() {
     }
 
-    public class SightingDaoImpl implements SightingDao {
-
-        public Sighting createSighting(Sighting sighting) {
-            return null;
-        }
-
-        public Sighting getSightingById(Integer sightingId) {
-            return null;
-        }
-
-        public List<Sighting> getAllSightings(int offset, int limit) {
-            return null;
-        }
-
-        public Sighting updateSighting(Sighting sighting) {
-            return null;
-        }
-
-        public Sighting deleteSighting(Integer sightingId) {
-            return null;
-        }
-
-        public List<Sighting> getAllSightingsByDate(LocalDate date, int offset, int limit) {
-            return null;
-        }
-    }
     
 }

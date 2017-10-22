@@ -22,6 +22,6 @@ public interface SuperPersonPowerDao {
     
     public SuperPersonPower updateSuperPersonPower(SuperPersonPower superPersonPower);
     
-    public SuperPersonPower deleteSuperPersonPower(Integer superPersonPowerId);
+    public SuperPersonPower deleteSuperPersonPower(SuperPersonPower superPersonPower);
     
 }

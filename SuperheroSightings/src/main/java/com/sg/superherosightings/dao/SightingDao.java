@@ -19,7 +19,7 @@ public interface SightingDao {
     public Sighting getSightingById(Integer sightingId);
     public List<Sighting> getAllSightings(int offset, int limit);
     public Sighting updateSighting(Sighting sighting);
-    public Sighting deleteSighting(Integer sightingId);
+    public Sighting deleteSighting(Sighting sighting);
     //demo
     public List<Sighting> getAllSightingsByDate(LocalDate date, int offset, int limit);
 }

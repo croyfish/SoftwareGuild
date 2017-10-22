@@ -5,23 +5,25 @@
  */
 package com.sg.superherosightings.dao;
 
-import com.sg.superherosightings.model.Location;
-import com.sg.superherosightings.model.Organization;
-import com.sg.superherosightings.model.Sighting;
 import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
-import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author jeffc
  */
 public class SuperPersonDaoTest {
+    
+    private static SuperPersonDao dao;
     
     public SuperPersonDaoTest() {
     }
@@ -36,101 +38,90 @@ public class SuperPersonDaoTest {
     
     @Before
     public void setUp() {
+        // ask Spring for our Dao
+        ApplicationContext ctx
+                = new ClassPathXmlApplicationContext(
+                        "test-applicationContext.xml");
+        dao = ctx.getBean("superPersonDao", SuperPersonDao.class);
+
+        // remove all of the Super People
+        List<SuperPerson> superPersons = dao.getAllSuperPersons(0, Integer.MAX_VALUE);
+        for (SuperPerson currentSuperPerson : superPersons) {
+            dao.deleteSuperPerson(dao.getSuperPersonById(currentSuperPerson.getSuperPersonId()));
+        }
+
     }
     
-    @After
-    public void tearDown() {
-    }
+      @Test
+        public void addGetDeleteSuperPerson() {
+        // Name, Description, IsGood
+        SuperPerson sp = new SuperPerson();
+        sp.setName("The Hulk");
+        sp.setDescription("He's mean and green.");
+        sp.setIsGood(true);
 
-    /**
-     * Test of createSuperPerson method, of class SuperPersonDao.
-     */
+        // act
+        sp = dao.createSuperPerson(sp);
+        SuperPerson actualSuperPerson = dao.getSuperPersonById(sp.getSuperPersonId());
+        // assert
+        assertEquals(sp, actualSuperPerson);
+        // act
+        dao.deleteSuperPerson(dao.getSuperPersonById(sp.getSuperPersonId()));
+        // assert
+        assertNull(dao.getSuperPersonById(sp.getSuperPersonId()));
+    }
+        
     @Test
-    public void testCreateSuperPerson() {
-    }
+    public void updateSuperPerson() {
+        
+        // arrange Street, City, State, Zipcode
+        SuperPerson sp1 = new SuperPerson();
+        sp1.setName("The Hulk");
+        sp1.setDescription("He's mean and green.");
+        sp1.setIsGood(true);
+        
+        SuperPerson added = dao.createSuperPerson(sp1);
+        
+        added.setName("The Bulk");
+        added.setDescription("Not green");
+        added.setIsGood(false);
 
-    /**
-     * Test of getSuperPersonById method, of class SuperPersonDao.
-     */
+        //act
+        SuperPerson updated = dao.updateSuperPerson(added);
+        
+        //assert
+        assertEquals(added, updated);
+        
+    }
+    
     @Test
-    public void testGetSuperPersonById() {
-    }
+    public void getAllSuperPersons() {
+        
+        // arrange Street, City, State, Zipcode
+        SuperPerson sp1 = new SuperPerson();
+        sp1.setName("The Hulk");
+        sp1.setDescription("He's mean and green.");
+        sp1.setIsGood(true);
+        
+        SuperPerson sp2 = new SuperPerson();
+        sp2.setName("The Bulk");
+        sp2.setDescription("Not green.");
+        sp2.setIsGood(false);
+        
+        //Integer numInDb = dao.getAllSuperPersons(0, Integer.MAX_VALUE).size();
+        
+        SuperPerson createdSP1 = dao.createSuperPerson(sp1);
+        SuperPerson createdSP2 = dao.createSuperPerson(sp2);
+        
+        //act
+        List<SuperPerson> superPersons = dao.getAllSuperPersons(0, 10);
+        
+        //assert
+        assertEquals(2, superPersons.size());      
+        assertTrue(createdSP1.equals(superPersons.get(0)) || createdSP2.equals(superPersons.get(0)));
+        assertTrue(createdSP1.equals(superPersons.get(1)) || createdSP2.equals(superPersons.get(1)));
+        
+    }        
 
-    /**
-     * Test of getAllSuperPersons method, of class SuperPersonDao.
-     */
-    @Test
-    public void testGetAllSuperPersons() {
-    }
-
-    /**
-     * Test of updateSuperPerson method, of class SuperPersonDao.
-     */
-    @Test
-    public void testUpdateSuperPerson() {
-    }
-
-    /**
-     * Test of deleteSuperPerson method, of class SuperPersonDao.
-     */
-    @Test
-    public void testDeleteSuperPerson() {
-    }
-
-    /**
-     * Test of getAllSuperPersonsBySighting method, of class SuperPersonDao.
-     */
-    @Test
-    public void testGetAllSuperPersonsBySighting() {
-    }
-
-    /**
-     * Test of getAllSuperPersonsBySightingLocation method, of class SuperPersonDao.
-     */
-    @Test
-    public void testGetAllSuperPersonsBySightingLocation() {
-    }
-
-    /**
-     * Test of getAllSuperPersonsByOrganization method, of class SuperPersonDao.
-     */
-    @Test
-    public void testGetAllSuperPersonsByOrganization() {
-    }
-
-    public class SuperPersonDaoImpl implements SuperPersonDao {
-
-        public SuperPerson createSuperPerson(SuperPerson superPerson) {
-            return null;
-        }
-
-        public SuperPerson getSuperPersonById(Integer superPersonId) {
-            return null;
-        }
-
-        public List<SuperPerson> getAllSuperPersons(int offset, int limit) {
-            return null;
-        }
-
-        public SuperPerson updateSuperPerson(SuperPerson superPerson) {
-            return null;
-        }
-
-        public SuperPerson deleteSuperPerson(Integer superPersonId) {
-            return null;
-        }
-
-        public List<SuperPerson> getAllSuperPersonsBySighting(Sighting sighting, int offset, int limit) {
-            return null;
-        }
-
-        public List<SuperPerson> getAllSuperPersonsBySightingLocation(Location location, int offset, int limit) {
-            return null;
-        }
-
-        public List<SuperPerson> getAllSuperPersonsByOrganization(Organization organization, int offset, int limit) {
-            return null;
-        }
-    }
     
 }

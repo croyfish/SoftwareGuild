@@ -56,7 +56,7 @@ public class SightingDaoDbImpl implements SightingDao {
     }
 
     @Override
-    public Sighting deleteSighting(Integer sightingId) {
+    public Sighting deleteSighting(Sighting sighting) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -45,7 +45,7 @@ public class SuperPerson {
         this.description = description;
     }
 
-    public boolean isIsGood() {
+    public boolean getIsGood() {
         return isGood;
     }
 
@@ -55,11 +55,11 @@ public class SuperPerson {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 47 * hash + Objects.hashCode(this.superPersonId);
-        hash = 47 * hash + Objects.hashCode(this.name);
-        hash = 47 * hash + Objects.hashCode(this.description);
-        hash = 47 * hash + (this.isGood ? 1 : 0);
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.superPersonId);
+        hash = 17 * hash + Objects.hashCode(this.name);
+        hash = 17 * hash + Objects.hashCode(this.description);
+        hash = 17 * hash + (this.isGood ? 1 : 0);
         return hash;
     }
 
@@ -89,6 +89,8 @@ public class SuperPerson {
         }
         return true;
     }
+
+
     
     
     

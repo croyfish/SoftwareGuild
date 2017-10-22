@@ -73,28 +73,5 @@ public class SuperPersonSightingDaoTest {
     @Test
     public void testDeleteSuperPersonSighting() {
     }
-
-    public class SuperPersonSightingDaoImpl implements SuperPersonSightingDao {
-
-        public SuperPersonSighting createSuperPersonSighting(SuperPersonSighting superPersonSighting) {
-            return null;
-        }
-
-        public SuperPersonSighting getSuperPersonSightingById(Integer superPersonSightingId) {
-            return null;
-        }
-
-        public List<SuperPersonSighting> getAllSuperPersonSightings(int offset, int limit) {
-            return null;
-        }
-
-        public SuperPersonSighting updateSuperPersonSighting(SuperPersonSighting superPersonSighting) {
-            return null;
-        }
-
-        public SuperPersonSighting deleteSuperPersonSighting(Integer superPersonSightingId) {
-            return null;
-        }
-    }
     
 }
