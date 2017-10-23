@@ -20,7 +20,7 @@ public interface SuperPersonPowerDao {
     
     public List<SuperPersonPower> getAllSuperPersonPowers(int offset, int limit);
     
-    public SuperPersonPower updateSuperPersonPower(SuperPersonPower superPersonPower);
+    // public SuperPersonPower updateSuperPersonPower(SuperPersonPower superPersonPower);
     
     public SuperPersonPower deleteSuperPersonPower(SuperPersonPower superPersonPower);
     

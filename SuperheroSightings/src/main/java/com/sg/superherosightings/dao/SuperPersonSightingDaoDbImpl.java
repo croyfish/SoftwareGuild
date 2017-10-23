@@ -11,8 +11,11 @@ import com.sg.superherosightings.model.SuperPersonSighting;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -20,63 +23,70 @@ import org.springframework.jdbc.core.RowMapper;
  */
 public class SuperPersonSightingDaoDbImpl implements SuperPersonSightingDao {
 
-    private static String SQL_INSERT_SUPERPERSON_SIGHTING = "INSERT into superperson_sighting (SuperPersonId, SightingId) VALUES (?,?);";
-    private static String SQL_GET_SUPERPERSON_SIGHTING = "SELECT * from superperson_sighting where SuperPerson_SightingId = ?";
-    private static String SQL_UPDATE_SUPERPERSON_SIGHTING = "UPDATE superperson_sighting set SuperPersonId = ?, SightingId = ? WHERE SuperPerson_SightingId = ?";
-    private static String SQL_DELETE_SUPERPERSON_SIGHTING = "DELETE FROM superperson_sighting where SuperPerson_SightingId = ?";
-    private static String SQL_LIST_SUPERPERSON_SIGHTINGS = "SELECT * from power";       
-    
-    private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate; //declare object so we can use query, queryForObject, update methods later
 
-    // Constructor with DI
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }    
-    
-    @Override
-    public SuperPersonSighting createSuperPersonSighting(SuperPersonSighting superPersonSighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    } //constructor, we'll use this with beans later
 
+    private static String SQL_INSERT_SUPERPERSON_SIGHTING = "INSERT INTO SuperPerson_Sighting (SuperPersonId, SightingId) VALUES (?, ?)";
+    private static String SQL_GET_SUPERPERSON_SIGHTING = "SELECT * FROM SuperPerson_Sighting WHERE SuperPerson_SightingId = ?";
+    private static String SQL_UPDATE_SUPERPERSON_SIGHTING = "UPDATE SuperPerson_Sighting SET name = ? WHERE SuperPerson_SightingId = ?";
+    private static String SQL_DELETE_SUPERPERSON_SIGHTING = "DELETE FROM SuperPerson_Sighting WHERE SuperPerson_SightingId = ?";
+    private static String SQL_LIST_SUPERPERSON_SIGHTINGS = "SELECT * FROM SuperPerson_Sighting LIMIT ?, ?";
+    
+        @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    public SuperPersonSighting createSuperPersonSighting(SuperPersonSighting superPersonSighting) {
+        
+        jdbcTemplate.update(SQL_INSERT_SUPERPERSON_SIGHTING,
+                superPersonSighting.getSuperPerson().getSuperPersonId(),
+                superPersonSighting.getSighting().getSightingId());
+                
+        
+        int superPersonSightingId = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
+        superPersonSighting.setSuperPersonSightingId(superPersonSightingId);
+        return superPersonSighting;
+    }
     @Override
     public SuperPersonSighting getSuperPersonSightingById(Integer superPersonSightingId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            SuperPersonSighting superPersonSighting = 
+                    jdbcTemplate.queryForObject(SQL_GET_SUPERPERSON_SIGHTING, new SuperPersonSightingMapper(), superPersonSightingId);
+            return superPersonSighting;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
-
     @Override
     public List<SuperPersonSighting> getAllSuperPersonSightings(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public SuperPersonSighting updateSuperPersonSighting(SuperPersonSighting superPersonSighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<SuperPersonSighting> allTheSightings = jdbcTemplate.query(SQL_LIST_SUPERPERSON_SIGHTINGS, new SuperPersonSightingMapper(), offset, limit);
+        return allTheSightings;
     }
 
     @Override
     public SuperPersonSighting deleteSuperPersonSighting(SuperPersonSighting superPersonSighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcTemplate.update(SQL_DELETE_SUPERPERSON_SIGHTING, superPersonSighting.getSuperPersonSightingId());
+        return superPersonSighting;
     }
     
-    private static final class SuperPersonSightingMapper implements RowMapper<SuperPersonSighting> {
+     private static final class SuperPersonSightingMapper implements RowMapper<SuperPersonSighting> {
 
         @Override
         public SuperPersonSighting mapRow(ResultSet rs, int i) throws SQLException {
-            SuperPersonSighting sps = new SuperPersonSighting();
-            sps.setSuperPersonSightingId(rs.getInt("SuperPerson_SightingId"));
+            SuperPersonSighting spp = new SuperPersonSighting();
             
-            // Lazy load superperson
-            SuperPerson superPerson = new SuperPerson();
-            superPerson.setSuperPersonId(rs.getInt("SuperPersonId"));
-            sps.setSuperPerson(superPerson);
+            SuperPerson sp = new SuperPerson();
+            sp.setSuperPersonId(rs.getInt("SuperPersonId"));
+            spp.setSuperPerson(sp);
             
-            // Lazy load organization
             Sighting sighting = new Sighting();
             sighting.setSightingId(rs.getInt("SightingId"));
-            sps.setSighting(sighting);
+            spp.setSighting(sighting);
             
-            return sps;
+            spp.setSuperPersonSightingId(rs.getInt("SuperPerson_SightingId"));
+            
+            return spp;
         }
-    }       
-    
+    }
 }

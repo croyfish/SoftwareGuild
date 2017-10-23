@@ -11,72 +11,82 @@ import com.sg.superherosightings.model.SuperPersonPower;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author jeffc
  */
-public class SuperPersonPowerDaoDbImpl implements SuperPersonPowerDao {
+public class SuperPersonPowerDaoDbImpl implements SuperPersonPowerDao{
 
-    private static String SQL_INSERT_SUPERPERSON_POWER = "INSERT into superperson_power (SuperPersonId, PowerId) VALUES (?,?);";
-    private static String SQL_GET_SUPERPERSON_POWER = "SELECT * from superperson_power where SuperPerson_PowerId = ?";
-    private static String SQL_UPDATE_SUPERPERSON_POWER = "UPDATE superperson_power set SuperPersonId = ?, PowerId = ? WHERE SuperPerson_PowerId = ?";
-    private static String SQL_DELETE_SUPERPERSON_POWER = "DELETE FROM superperson_power where SuperPerson_PowerId = ?";
-    private static String SQL_LIST_SUPERPERSON_POWERS = "SELECT * from superperson_power";       
-    
-    private JdbcTemplate jdbcTemplate;
+        private JdbcTemplate jdbcTemplate; //declare object so we can use query, queryForObject, update methods later
 
-    // Constructor with DI
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }    
+    } //constructor, we'll use this with beans later
+
+    private static String SQL_INSERT_SUPERPERSON_POWER = "INSERT INTO SuperPerson_Power (SuperPersonId, PowerId) VALUES (?, ?)";
+    private static String SQL_GET_SUPERPERSON_POWER = "SELECT * FROM SuperPerson_Power WHERE SuperPerson_PowerId = ?";
+    //private static String SQL_UPDATE_SUPERPERSON_POWER = "UPDATE SuperPerson_Power SET SuperPersonId = ?, PowerId = ? WHERE SuperPerson_PowerId = ?";
+    private static String SQL_DELETE_SUPERPERSON_POWER = "DELETE FROM SuperPerson_Power WHERE SuperPerson_PowerId = ?";
+    private static String SQL_LIST_SUPERPERSON_POWERS = "SELECT * FROM SuperPerson_Power LIMIT ?, ?";
     
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public SuperPersonPower createSuperPersonPower(SuperPersonPower superPersonPower) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        jdbcTemplate.update(SQL_INSERT_SUPERPERSON_POWER,
+                superPersonPower.getSuperPerson().getSuperPersonId(),
+                superPersonPower.getPower().getPowerId());
+                
+        
+        int superPersonPowerId = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
+        superPersonPower.setSuperPersonPowerId(superPersonPowerId);
+        return superPersonPower;
     }
-
     @Override
     public SuperPersonPower getSuperPersonPowerById(Integer superPersonPowerId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            SuperPersonPower superPersonPower = 
+                    jdbcTemplate.queryForObject(SQL_GET_SUPERPERSON_POWER, new SuperPersonPowerMapper(), superPersonPowerId);
+            return superPersonPower;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
-
     @Override
     public List<SuperPersonPower> getAllSuperPersonPowers(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public SuperPersonPower updateSuperPersonPower(SuperPersonPower superPersonPower) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<SuperPersonPower> allThePowers = jdbcTemplate.query(SQL_LIST_SUPERPERSON_POWERS, new SuperPersonPowerMapper(), offset, limit);
+        return allThePowers;
     }
 
     @Override
     public SuperPersonPower deleteSuperPersonPower(SuperPersonPower superPersonPower) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jdbcTemplate.update(SQL_DELETE_SUPERPERSON_POWER, superPersonPower.getSuperPersonPowerId());
+        return superPersonPower;
     }
     
-    private static final class SuperPersonPowerMapper implements RowMapper<SuperPersonPower> {
+     private static final class SuperPersonPowerMapper implements RowMapper<SuperPersonPower> {
 
         @Override
         public SuperPersonPower mapRow(ResultSet rs, int i) throws SQLException {
             SuperPersonPower spp = new SuperPersonPower();
-            spp.setSuperPersonPowerId(rs.getInt("SuperPerson_PowerId"));
             
-            // Lazy load superperson
-            SuperPerson superPerson = new SuperPerson();
-            superPerson.setSuperPersonId(rs.getInt("SuperPersonId"));
-            spp.setSuperPerson(superPerson);
+            SuperPerson sp = new SuperPerson();
+            sp.setSuperPersonId(rs.getInt("SuperPersonId"));
+            spp.setSuperPerson(sp);
             
-            // Lazy load power
             Power power = new Power();
             power.setPowerId(rs.getInt("PowerId"));
             spp.setPower(power);
             
+            spp.setSuperPersonPowerId(rs.getInt("SuperPerson_PowerId"));
+            
             return spp;
         }
-    }       
-    
+    }
 }
