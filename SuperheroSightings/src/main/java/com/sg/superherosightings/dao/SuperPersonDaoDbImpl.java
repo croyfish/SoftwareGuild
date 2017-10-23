@@ -111,7 +111,8 @@ public class SuperPersonDaoDbImpl implements SuperPersonDao {
 
     @Override
     public List<SuperPerson> getAllSuperPersonsBySighting(Sighting sighting, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String preparedStatement = SQL_LIST_SUPERPERSONS_BY_SIGHTING;
+        return jdbcTemplate.query(SQL_LIST_SUPERPERSONS_BY_SIGHTING, new SuperPersonMapper(), sighting.getSightingId(), offset, limit);
     }
 
     @Override

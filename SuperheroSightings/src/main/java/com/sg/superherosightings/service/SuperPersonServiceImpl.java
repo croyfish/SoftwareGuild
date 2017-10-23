@@ -73,7 +73,7 @@ public class SuperPersonServiceImpl implements SuperPersonService {
 
     @Override
     public List<SuperPerson> getAllSuperPersonsBySighting(Sighting sighting, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return superPersonDao.getAllSuperPersonsBySighting(sighting, offset, limit);
     }
 
     @Override
