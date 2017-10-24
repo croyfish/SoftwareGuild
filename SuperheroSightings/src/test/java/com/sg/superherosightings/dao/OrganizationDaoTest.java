@@ -5,7 +5,8 @@
  */
 package com.sg.superherosightings.dao;
 
-import com.sg.superherosightings.model.Address;
+import com.sg.superherosightings.helpers.ApplicationContextHelper;
+import com.sg.superherosightings.helpers.CompareObjects;
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
 import java.util.List;
@@ -23,209 +24,115 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author jeffc
  */
 public class OrganizationDaoTest {
-
     OrganizationDao dao;
-
+    CompareObjects c = new CompareObjects();
     public OrganizationDaoTest() {
     }
-
     @BeforeClass
     public static void setUpClass() {
     }
-
     @AfterClass
     public static void tearDownClass() {
     }
-
     @Before
     public void setUp() {
-        ApplicationContext ctx
-                = new ClassPathXmlApplicationContext("test-applicationContext.xml");
-
+        ApplicationContext ctx = ApplicationContextHelper.getContext();
         dao = ctx.getBean("organizationDao", OrganizationDao.class);
-
+        
         List<Organization> organizations = dao.getAllOrganizations(0, Integer.MAX_VALUE);
         for (Organization currentOrganization : organizations) {
             dao.deleteOrganization(currentOrganization);
         }
     }
-
     @After
     public void tearDown() {
     }
-
     @Test
     public void addGetDeleteOrganization() {
 
-        //arrange
-        //how is the ID being set? 
         Organization org = new Organization();
         Location loc = new Location();
         loc.setLocationId(1);
 
-//        //Set up address 
-//        Address add = new Address(); 
-//        add.setAddressId(1);
-//        //Set up Location 
-//        loc.setAddress(add);
-//        loc.setDescription("Oranges go great here!");
-//        loc.setLatitude("25,38");
-//        loc.setLongitude("25,37");
-//        loc.setName("California");
         org.setDescription("Cool place for cool mutants!");
-
         org.setName("The Software Guild");
-
         org.setIsGood(Boolean.TRUE);
-        
-        org.setPhone("2169739182");
-
+        org.setPhone("2159739182");
         org.setLocation(loc);
-
         org = dao.createOrganization(org);
-
         Organization actualOrg = dao.getOrganizationById(org.getOrganizationId());
-
-        assertEquals(org, actualOrg);
-
+        String result = c.compareObjects(org, actualOrg);
+        
+        assertEquals(result, "");
         dao.deleteOrganization(dao.getOrganizationById(org.getOrganizationId()));
-
         assertNull(dao.getOrganizationById(org.getOrganizationId()));
-
     }
-
     @Test
     public void updateOrganization() {
         //arrange
         //how is the ID being set? 
         Organization org = new Organization();
         Location loc = new Location();
+        
         loc.setLocationId(1);
-
-//        //Set up address 
-//        Address add = new Address();
-//        add.setAddressId(1);
-////Set up Location 
-//        loc.setAddress(add);
-//        loc.setDescription("Oranges go great here!");
-//        loc.setLatitude("25,38");
-//        loc.setLongitude("25,37");
-//        loc.setName("California");
         org.setDescription("Cool place for cool mutants!");
-
         org.setName("The Software Guild");
-
         org.setIsGood(Boolean.TRUE);
-        
-        org.setPhone("2169739182");
-
+        org.setPhone("2159739182");
         org.setLocation(loc);
-
-
-        Organization org2 = dao.createOrganization(org);
+        Organization added = dao.createOrganization(org);
         
-        //arrange
-        //how is the ID being set? 
-
+        
         Location loc2 = new Location();
         loc2.setLocationId(2);
-
-        //Set up address 
-//      Address add2 = new Address(); 
-//      add2.setAddressId(1);
-//Set up Location 
-//        loc2.setAddress(add);
-//        loc2.setDescription("Oranges go bad here!");
-//        loc2.setLatitude("25,39");
-//        loc2.setLongitude("25,40");
-//        loc2.setName("Virginia");
-        org2.setDescription("Cool place for cool people with coding powers!");
-
-        org2.setName("The Software Guild");
-
-        org2.setIsGood(Boolean.FALSE);
+        org.setDescription("Cool place for cool people with coding powers!");
+        org.setName("The Software Guild");
+        org.setIsGood(Boolean.FALSE);
+        org.setPhone("2159739182");
+        org.setLocation(loc2);
+        Organization updated = dao.updateOrganization(org);
         
-        org2.setPhone("2169739182");
-
-        org2.setLocation(loc);
-
-        org2 = dao.createOrganization(org2);
-
-        Organization updated = dao.updateOrganization(org2);
-        assertEquals(org, org2);
+        String result = c.compareObjects(added, updated);
+        
     }
-
     @Test
     public void getAllOrganizations() {
 
-        //arrange
-        //how is the ID being set? 
         Organization org = new Organization();
         Location loc = new Location();
         loc.setLocationId(1);
-
-//        //Set up address 
-//        Address add = new Address();
-//        add.setAddressId(1);
-//
-////Set up Location 
-//        loc.setAddress(add);
-//        loc.setDescription("Oranges go great here!");
-//        loc.setLatitude("25,38");
-//        loc.setLongitude("25,37");
-//        loc.setName("California");
         org.setDescription("Cool place for cool mutants!");
-
         org.setName("The Software Guild");
-
         org.setIsGood(Boolean.TRUE);
-        
-        org.setPhone("2169739182");
-
+        org.setPhone("2159739182");
         org.setLocation(loc);
+        
 
-        org = dao.createOrganization(org);
-
-        //arrange
-        //how is the ID being set? 
         Organization org2 = new Organization();
         Location loc2 = new Location();
         loc2.setLocationId(2);
 
-//        //Set up address 
-//      Address add2 = new Address(); 
-//      add2.setAddressId(1);
-//        
-////Set up Location 
-//        loc2.setAddress(add);
-//        loc2.setDescription("Oranges go bad here!");
-//        loc2.setLatitude("25,39");
-//        loc2.setLongitude("25,40");
-//        loc2.setName("Virginia");
         org2.setDescription("Cool place for cool people with coding powers!");
-
         org2.setName("The Software Guild");
-
         org2.setIsGood(Boolean.FALSE);
-        
-        org2.setPhone("2169739182");
-
+        org2.setPhone("2159739182");
         org2.setLocation(loc2);
+        
+        Organization createdOrg1 = dao.createOrganization(org);
+        Organization createdOrg2 = dao.createOrganization(org2);
 
-        org2 = dao.createOrganization(org2);
-
-//        Organization createdOrg1 = dao.createOrganization(org);
-//
-//        Organization createdOrg2 = dao.createOrganization(org2);
-
-        //Integer numInDb = dao.getAllAddresses(0, Integer.MAX_VALUE).size();
         List<Organization> organizations = dao.getAllOrganizations(0, 10);
-
         assertEquals(2, organizations.size());
+        
+        String result1 = c.compareObjects(createdOrg1, organizations.get(0));
+        String result2 = c.compareObjects(createdOrg2, organizations.get(0));
+        String result3 = c.compareObjects(createdOrg1, organizations.get(1));
+        String result4 = c.compareObjects(createdOrg2, organizations.get(1));
+        
+        assertTrue(result1.equals("") || result2.equals(""));
+        
+        assertTrue(result3.equals("") || result4.equals(""));
+        
 
-//        assertTrue(createdAddress1.equals(addresses.get(0)) || createdAddress2.equals(addresses.get(0)));
-//
-//        assertTrue(createdAddress1.equals(addresses.get(1)) || createdAddress2.equals(addresses.get(1)));
     }
-
 }

@@ -27,32 +27,32 @@ public class SightingServiceImpl implements SightingService {
     
     @Override
     public Sighting createSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sightingDao.createSighting(sighting);
     }
 
     @Override
     public Sighting getSightingById(Integer sightingId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sightingDao.getSightingById(sightingId);
     }
 
     @Override
     public List<Sighting> getAllSightings(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sightingDao.getAllSightings(offset, limit);
     }
 
     @Override
     public Sighting updateSighting(Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sightingDao.updateSighting(sighting);
     }
 
     @Override
-    public Sighting deleteSighting(Integer sightingId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Sighting deleteSighting(Sighting sighting) {
+        return sightingDao.deleteSighting(sighting);
     }
 
     @Override
     public List<Sighting> getAllSightingsByDate(LocalDate date, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sightingDao.getAllSightingsByDate(date, offset, limit);
     }
     
 }

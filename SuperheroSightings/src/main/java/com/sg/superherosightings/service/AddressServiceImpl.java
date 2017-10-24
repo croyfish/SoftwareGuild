@@ -24,27 +24,27 @@ public class AddressServiceImpl implements AddressService {
     
     @Override
     public Address createAddress(Address address) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return addressDao.createAddress(address);
     }
 
     @Override
     public Address getAddressById(Integer addressId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return addressDao.getAddressById(addressId);
     }
 
     @Override
-    public List<Address> getAllAddresss(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Address> getAllAddresses(int offset, int limit) {
+        return addressDao.getAllAddresses(offset, limit);
     }
 
     @Override
     public Address updateAddress(Address address) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return addressDao.updateAddress(address);
     }
 
     @Override
     public Address deleteAddress(Address address) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return addressDao.deleteAddress(address);
     }
     
 }

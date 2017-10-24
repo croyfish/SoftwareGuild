@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.helpers.CompareObjects;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
@@ -21,6 +22,8 @@ import static org.junit.Assert.*;
  */
 public class OrganizationServiceTest {
     
+    private static CompareObjects compare = new CompareObjects();    
+    
     public OrganizationServiceTest() {
     }
     
@@ -34,6 +37,8 @@ public class OrganizationServiceTest {
     
     @Before
     public void setUp() {
+//        ApplicationContext ctx = ApplicationContextHelper.getContext();
+//        dao = ctx.getBean("addressDao", AddressDao.class);        
     }
     
     @After

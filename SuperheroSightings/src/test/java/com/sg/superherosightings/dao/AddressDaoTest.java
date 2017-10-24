@@ -5,6 +5,9 @@
  */
 package com.sg.superherosightings.dao;
 
+import com.sg.superherosightings.helpers.ApplicationContextHelper;
+import com.sg.superherosightings.helpers.CompareObjects;
+import com.sg.superherosightings.helpers.TearDownHelper;
 import com.sg.superherosightings.model.Address;
 import java.util.List;
 import org.junit.After;
@@ -16,7 +19,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -24,6 +26,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class AddressDaoTest {
 
+    private static CompareObjects compare = new CompareObjects();
+    private static TearDownHelper tdh = new TearDownHelper();
     private static AddressDao dao;
 
     public AddressDaoTest() {
@@ -31,30 +35,25 @@ public class AddressDaoTest {
 
     @BeforeClass
     public static void setUpClass() {
+        ApplicationContext ctx = ApplicationContextHelper.getContext();
+        dao = ctx.getBean("addressDao", AddressDao.class);
+        
+        tdh.clearTables();
     }
 
     @AfterClass
     public static void tearDownClass() {
+
     }
 
     @Before
     public void setUp() {
-        // ask Spring for our Dao
-        ApplicationContext ctx
-                = new ClassPathXmlApplicationContext(
-                        "test-applicationContext.xml");
-        dao = ctx.getBean("addressDao", AddressDao.class);
-
-        // remove all of the Addresses
-        List<Address> addresses = dao.getAllAddresses(0, Integer.MAX_VALUE);
-        for (Address currentAddress : addresses) {
-            dao.deleteAddress(dao.getAddressById(currentAddress.getAddressId()));
-        }
 
     }
 
     @After
     public void tearDown() {
+        tdh.clearTables();
     }
 
     @Test
@@ -70,7 +69,8 @@ public class AddressDaoTest {
         add = dao.createAddress(add);
         Address actualAddress = dao.getAddressById(add.getAddressId());
         // assert
-        assertEquals(add, actualAddress);
+        
+        assertTrue(compare.compareObjects(add, actualAddress).equals(""));
         // act
         dao.deleteAddress(dao.getAddressById(add.getAddressId()));
         // assert
@@ -98,7 +98,7 @@ public class AddressDaoTest {
         Address updated = dao.updateAddress(added);
         
         //assert
-        assertEquals(added, updated);
+        assertTrue(compare.compareObjects(added, updated).equals(""));
         
 //        //teardown
 //        dao.deleteAddress(added);
@@ -130,9 +130,11 @@ public class AddressDaoTest {
         
         //assert
         assertEquals(2, addresses.size());      
-        assertTrue(createdAdd1.equals(addresses.get(0)) || createdAdd2.equals(addresses.get(0)));
-        assertTrue(createdAdd1.equals(addresses.get(1)) || createdAdd2.equals(addresses.get(1)));
+        assertTrue(compare.compareObjects(createdAdd1, addresses.get(0)).equals("") 
+                || compare.compareObjects(createdAdd2, addresses.get(0)).equals(""));
+        assertTrue(compare.compareObjects(createdAdd1, addresses.get(1)).equals("")
+                || compare.compareObjects(createdAdd2, addresses.get(1)).equals(""));
         
-    }
-
+    }   
+    
 }

@@ -27,5 +27,5 @@ public interface LocationService {
 
     public List<Location> getAllLocationsBySuperPerson(SuperPerson superperson, int offset, int limit);
     
-    public List<Location> getAllLocationsBySuperPersonId (Integer superPersonId, int offset, int limit); 
+//    public List<Location> getAllLocationsBySuperPerson(Integer superPersonId, int offset, int limit); 
 }

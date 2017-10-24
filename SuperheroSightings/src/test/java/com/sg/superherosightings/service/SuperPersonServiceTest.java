@@ -12,6 +12,7 @@ import com.sg.superherosightings.dao.SuperPersonDao;
 import com.sg.superherosightings.dao.SuperPersonOrganizationDao;
 import com.sg.superherosightings.dao.SuperPersonPowerDao;
 import com.sg.superherosightings.dao.SuperPersonSightingDao;
+import com.sg.superherosightings.helpers.CompareObjects;
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.Power;
@@ -37,6 +38,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class SuperPersonServiceTest {
     
+        private static CompareObjects compare = new CompareObjects();
+    
         private static SuperPersonDao superPersonDao;
         private static OrganizationDao organizationDao;
         private static PowerDao powerDao;
@@ -50,6 +53,8 @@ public class SuperPersonServiceTest {
     
     @BeforeClass
     public static void setUpClass() {
+//        ApplicationContext ctx = ApplicationContextHelper.getContext();
+//        dao = ctx.getBean("superPerseonService", SuperPersonService.class);        
     }
     
     @AfterClass

@@ -26,27 +26,27 @@ public class LocationServiceImpl implements LocationService {
     
     @Override
     public Location createLocation(Location location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return locationDao.createLocation(location);
     }
 
     @Override
     public Location getLocationById(Integer locationId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return locationDao.getLocationById(locationId);
     }
 
     @Override
     public List<Location> getAllLocations(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return locationDao.getAllLocations(offset, limit);
     }
 
     @Override
     public Location updateLocation(Location location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return locationDao.updateLocation(location);
     }
 
     @Override
     public Location deleteLocation(Location location) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return locationDao.deleteLocation(location);
     }
 
     @Override
@@ -54,9 +54,9 @@ public class LocationServiceImpl implements LocationService {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public List<Location> getAllLocationsBySuperPersonId(Integer superPersonId, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public List<Location> getAllLocationsBySuperPerson(Integer superPersonId, int offset, int limit) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
     
 }

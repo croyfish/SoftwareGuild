@@ -18,7 +18,7 @@ public interface AddressService {
     
     public Address getAddressById(Integer addressId);
     
-    public List<Address> getAllAddresss(int offset, int limit);
+    public List<Address> getAllAddresses(int offset, int limit);
     
     public Address updateAddress(Address address);
     

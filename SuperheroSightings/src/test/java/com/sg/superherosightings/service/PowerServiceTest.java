@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.helpers.CompareObjects;
 import com.sg.superherosightings.model.Power;
 import java.util.List;
 import org.junit.After;
@@ -20,11 +21,15 @@ import static org.junit.Assert.*;
  */
 public class PowerServiceTest {
     
+    private static CompareObjects compare = new CompareObjects();    
+    
     public PowerServiceTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+//        ApplicationContext ctx = ApplicationContextHelper.getContext();
+//        dao = ctx.getBean("powerService", PowerService.class);        
     }
     
     @AfterClass

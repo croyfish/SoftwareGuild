@@ -5,6 +5,9 @@
  */
 package com.sg.superherosightings.dao;
 
+import com.sg.superherosightings.helpers.ApplicationContextHelper;
+import com.sg.superherosightings.helpers.CompareObjects;
+import com.sg.superherosightings.helpers.TearDownHelper;
 import com.sg.superherosightings.model.Address;
 import com.sg.superherosightings.model.Location;
 import java.util.List;
@@ -12,11 +15,11 @@ import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -24,122 +27,143 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class LocationDaoTest {
 
-    private static LocationDao dao;
-
+    private static LocationDao locationDao;
+    private static AddressDao addressDao;
+    private static TearDownHelper tdh = new TearDownHelper();
+    
+    CompareObjects c = new CompareObjects();
+    
     public LocationDaoTest() {
     }
 
     @BeforeClass
     public static void setUpClass() {
+        
+        ApplicationContext ctx = ApplicationContextHelper.getContext();
+        locationDao = ctx.getBean("locationDao", LocationDao.class);
+        addressDao = ctx.getBean("addressDao", AddressDao.class);
+        
+        tdh.clearTables();        
     }
 
     @AfterClass
     public static void tearDownClass() {
+        
     }
 
     @Before
     public void setUp() {
-        ApplicationContext ctx
-                = new ClassPathXmlApplicationContext("test-applicationContext.xml");
 
-        dao = ctx.getBean("locationDao", LocationDao.class);
-
-        List<Location> locations = dao.getAllLocations(0, Integer.MAX_VALUE);
-        for (Location currentLocation : locations) {
-            dao.deleteLocation(currentLocation);
-        }
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() { 
+        tdh.clearTables();
     }
 
     @Test
     public void addGetDeleteLocation() {
-
-        //arrange
-        Location loc = new Location();
+        // arrange
         Address add = new Address();
-        add.setAddressId(1);
-
+        add.setStreet("123 Fake Street");
+        add.setCity("Faketown");
+        add.setState("OX");
+        add.setZipcode("12345");
+        add = addressDao.createAddress(add);
+        
+        
+        Location loc = new Location();
         loc.setDescription("Cool place for cool mutants!");
         loc.setName("The Software Guild");
         loc.setAddress(add);
-        loc.setLatitude("23,32");
-        loc.setLongitude("23, 23");
-        loc = dao.createLocation(loc);
+        loc.setLatitude(" 23, 23");
+        loc.setLongitude(" 23, 23");
+        loc = locationDao.createLocation(loc);
 
-        Location actualLoc = dao.getLocationById(loc.getLocationId());
-        assertEquals(loc, actualLoc);
-        dao.deleteLocation(dao.getLocationById(loc.getLocationId()));
-        assertNull(dao.getLocationById(loc.getLocationId()));
+        Location actualLoc = locationDao.getLocationById(loc.getLocationId());
 
+        String result = c.compareObjects(loc, actualLoc);
+        assertEquals(result, "");
+
+        locationDao.deleteLocation(locationDao.getLocationById(loc.getLocationId()));
+
+        assertNull(locationDao.getLocationById(loc.getLocationId()));
     }
 
-public void updateLocation() {
+    @Test
+    public void updateLocation() {
 
-         //First Location 
-
+        // arrange
+        Address add = new Address();
+        add.setStreet("123 Fake Street");
+        add.setCity("Faketown");
+        add.setState("OX");
+        add.setZipcode("12345");
+        add = addressDao.createAddress(add);
+        
         Location loc = new Location();
-        Address add = new Address(); 
-        add.setAddressId(1);      
-        loc.setLocationId(1);
         loc.setDescription("Cool place for cool mutants!");
         loc.setName("The Software Guild");
-        loc.setAddress(add);       
-        loc.setLatitude("23, 32");
-        loc.setLongitude("23, 23");       
+        loc.setAddress(add);
+        loc.setLatitude(" 23, 23");
+        loc.setLongitude(" 23, 23");
+        Location added = locationDao.createLocation(loc);
 
-        Location loc2 = dao.createLocation(loc);
+        loc.setDescription("Terrible place for awful coders and no lives!");
+        loc.setName("The Software Guild");
+        loc.setAddress(add);
+        loc.setLatitude("25, 32");
+        loc.setLongitude("39, 23");
 
-        //Second location 
-        Address add2 = new Address();
-        add2.setAddressId(1);         
-        loc2.setLocationId(1);
-        loc2.setDescription("Terrible place for awful coders and no lives!");
-        loc2.setName("The Software Guild");
-        loc2.setAddress(add);      
-        loc2.setLatitude("25, 32");
-        loc2.setLongitude("39, 23");     
+        Location updated = locationDao.updateLocation(loc);
 
-        Location updated = dao.updateLocation(loc2);
+        String result = c.compareObjects(added, updated);
+        assertEquals(result, "");
 
-        assertEquals(updated, loc2);
     }
 
     @Test
     public void getAllLocations() {
-
         //arrange
+        //how is the ID being set? 
+
+        Address add = new Address();
+        add.setStreet("123 Fake Street");
+        add.setCity("Faketown");
+        add.setState("OX");
+        add.setZipcode("12345");
+        add = addressDao.createAddress(add);
+
         Location loc = new Location();
-        Address add = new Address(); 
-        add.setAddressId(1);      
-        loc.setLocationId(1);
-        loc.setDescription("Cool place for cool mutants!");
+        loc.setDescription("Cool place for cool mutants");
         loc.setName("The Software Guild");
-        loc.setAddress(add);       
-        loc.setLatitude("23, 32");
-        loc.setLongitude("23, 23"); 
-        
-        loc = dao.createLocation(loc);
-
+        loc.setAddress(add);
+        loc.setLatitude("23, 23");
+        loc.setLongitude("23, 23");
+        Location createdLoc1 = locationDao.createLocation(loc);
         //arrange
+
         Location loc2 = new Location();
-        Address add2 = new Address();
-        add2.setAddressId(2);
-        loc2.setLocationId(2);
-        loc2.setDescription("Cool place for cool people with coding powers!");
+        loc2.setDescription("The home of Pat Toner");
         loc2.setName("The Software Guild");
-        loc2.setAddress(add2);       
-        loc2.setLatitude("23, 32");
-        loc2.setLongitude("23, 23");
+        loc2.setAddress(add);
+        loc2.setLatitude("223, 32");
+        loc2.setLongitude("233, 23");
         
-        loc2 = dao.createLocation(loc2);
+        Location createdLoc2 = locationDao.createLocation(loc2);
 
-
-        List<Location> Locations = dao.getAllLocations(0, 10);
-        assertEquals(2, Locations.size());
-
+        List<Location> locations = locationDao.getAllLocations(0, 10);
+        assertEquals(2, locations.size());
+        
+        String result1 = c.compareObjects(createdLoc1, locations.get(0));
+        String result2 = c.compareObjects(createdLoc2, locations.get(0));
+        String result3 = c.compareObjects(createdLoc1, locations.get(1));
+        String result4 = c.compareObjects(createdLoc2, locations.get(1));
+        
+        assertTrue(result1.equals("") || result2.equals(""));
+        
+        assertTrue(result3.equals("") || result4.equals(""));
+        
+        
     }
-
 }
