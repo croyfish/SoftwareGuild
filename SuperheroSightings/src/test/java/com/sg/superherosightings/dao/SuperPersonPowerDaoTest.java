@@ -7,6 +7,7 @@ package com.sg.superherosightings.dao;
 
 import com.sg.superherosightings.helpers.ApplicationContextHelper;
 import com.sg.superherosightings.helpers.CompareObjects;
+import com.sg.superherosightings.helpers.TearDownHelper;
 import com.sg.superherosightings.model.Power;
 import com.sg.superherosightings.model.SuperPerson;
 import com.sg.superherosightings.model.SuperPersonPower;
@@ -25,33 +26,31 @@ import org.springframework.context.ApplicationContext;
  */
 public class SuperPersonPowerDaoTest {
 
-    private SuperPersonPowerDao dao;
+    private static SuperPersonPowerDao superPersonPowerDao;
+    private static SuperPersonDao superPersonDao;
+    private static PowerDao powerDao;
     private static CompareObjects compare = new CompareObjects();
-
+    private static TearDownHelper tdh = new TearDownHelper();
+    
     public SuperPersonPowerDaoTest() {
     }
-
     @BeforeClass
     public static void setUpClass() {
+        ApplicationContext ctx = ApplicationContextHelper.getContext();
+        superPersonPowerDao = ctx.getBean("superPersonPowerDao", SuperPersonPowerDao.class);
+        superPersonDao = ctx.getBean("superPersonDao", SuperPersonDao.class);
+        powerDao = ctx.getBean("powerDao", PowerDao.class);
+        tdh.clearTables();
     }
-
     @AfterClass
     public static void tearDownClass() {
     }
-
     @Before
     public void setUp() {
-        ApplicationContext ctx = ApplicationContextHelper.getContext();
-        dao = ctx.getBean("superPersonPowerDao", SuperPersonPowerDao.class);
-
-        List<SuperPersonPower> superPersonPowers = dao.getAllSuperPersonPowers(0, Integer.MAX_VALUE);
-        for (SuperPersonPower currentSuperPersonPower : superPersonPowers) {
-            dao.deleteSuperPersonPower(currentSuperPersonPower);
-        }
     }
-
     @After
     public void tearDown() {
+        tdh.clearTables();
     }
 
     /**
@@ -60,23 +59,29 @@ public class SuperPersonPowerDaoTest {
 @Test
     public void addGetDeleteSuperPersonPower() {
         //arrange
-        SuperPersonPower spp = new SuperPersonPower();
+
+      
+        SuperPerson sp = new SuperPerson();
+        sp.setName("Batman");
+        sp.setDescription("some rich dude with gadgets");
+        sp.setIsGood(true);
+        sp = superPersonDao.createSuperPerson(sp);
         
-        SuperPerson superPerson = new SuperPerson();
-        superPerson.setSuperPersonId(1);
         Power power = new Power();
-        power.setPowerId(1);
+        power.setName("Super Sneezing");
+        power = powerDao.createPower(power);        
         
-        spp.setSuperPerson(superPerson);
+        SuperPersonPower spp = new SuperPersonPower();
+        spp.setSuperPerson(sp);
         spp.setPower(power);        
-        spp = dao.createSuperPersonPower(spp);
-        SuperPersonPower fromDb = dao.getSuperPersonPowerById(spp.getSuperPersonPowerId());
+        spp = superPersonPowerDao.createSuperPersonPower(spp);
+        SuperPersonPower fromDb = superPersonPowerDao.getSuperPersonPowerById(spp.getSuperPersonPowerId());
         
         String result = compare.compareObjects(spp, fromDb);
         assertEquals(result, "");
         
-        dao.deleteSuperPersonPower(dao.getSuperPersonPowerById(spp.getSuperPersonPowerId()));
-        assertNull(dao.getSuperPersonPowerById(spp.getSuperPersonPowerId()));
+        superPersonPowerDao.deleteSuperPersonPower(superPersonPowerDao.getSuperPersonPowerById(spp.getSuperPersonPowerId()));
+        assertNull(superPersonPowerDao.getSuperPersonPowerById(spp.getSuperPersonPowerId()));
     }
 
     /**
@@ -85,31 +90,45 @@ public class SuperPersonPowerDaoTest {
     @Test
     public void testGetAllSuperPersonPowers() {
 
-        SuperPersonPower spp1 = new SuperPersonPower();
-
-        SuperPerson superPerson = new SuperPerson();
-        superPerson.setSuperPersonId(1);
+        SuperPerson sp = new SuperPerson();
+        sp.setName("Batman");
+        sp.setDescription("some rich dude with gadgets");
+        sp.setIsGood(true);
+        sp = superPersonDao.createSuperPerson(sp);
+        
         Power power = new Power();
-        power.setPowerId(1);
+        power.setName("Super Sneezing");
+        power = powerDao.createPower(power);        
+        
+        SuperPersonPower spp = new SuperPersonPower();
+        spp.setSuperPerson(sp);
+        spp.setPower(power);        
+        spp = superPersonPowerDao.createSuperPersonPower(spp);
 
-        spp1.setSuperPerson(superPerson);
-        spp1.setPower(power);
-        spp1 = dao.createSuperPersonPower(spp1);
-
-        SuperPersonPower spp2 = new SuperPersonPower();
-
-        SuperPerson superPerson2 = new SuperPerson();
-        superPerson2.setSuperPersonId(2);
+        SuperPerson sp2 = new SuperPerson();
+        sp2.setName("Ratman");
+        sp2.setDescription("some rich dude with Radgets");
+        sp2.setIsGood(true);
+        sp2 = superPersonDao.createSuperPerson(sp2);
+        
         Power power2 = new Power();
-        power2.setPowerId(2);
-
-        spp2.setSuperPerson(superPerson2);
-        spp2.setPower(power2);
-        spp2 = dao.createSuperPersonPower(spp2);
-
-        List<SuperPersonPower> superPersonPowers = dao.getAllSuperPersonPowers(0, 10);
+        power2.setName("Super Sleezing");
+        power2 = powerDao.createPower(power2);        
+        
+        SuperPersonPower spp2 = new SuperPersonPower();
+        spp2.setSuperPerson(sp2);
+        spp2.setPower(power2);        
+        spp2 = superPersonPowerDao.createSuperPersonPower(spp2);
+        
+        List<SuperPersonPower> superPersonPowers = superPersonPowerDao.getAllSuperPersonPowers(0, 10);
         assertEquals(2, superPersonPowers.size());
-        assertTrue(spp1.equals(superPersonPowers.get(0)) || spp2.equals(superPersonPowers.get(0)));
-        assertTrue(spp1.equals(superPersonPowers.get(1)) || spp2.equals(superPersonPowers.get(1)));
+        
+        String result1 = compare.compareObjects(spp, superPersonPowers.get(0));
+        String result2 = compare.compareObjects(spp2, superPersonPowers.get(0));
+        String result3 = compare.compareObjects(spp, superPersonPowers.get(1));
+        String result4 = compare.compareObjects(spp2, superPersonPowers.get(1));
+        // don't know what order they'll be in
+        assertTrue(result1.equals("") || result2.equals(""));
+        assertTrue(result3.equals("") || result4.equals(""));
     }
 }

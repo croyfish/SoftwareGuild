@@ -24,7 +24,7 @@ public interface SuperPersonService {
     public SuperPerson getSuperPersonById(Integer superPersonId);
     public List<SuperPerson> getAllSuperPersons(int offset, int limit);
     public SuperPerson updateSuperPerson(SuperPerson superPerson);
-    public SuperPerson deleteSuperPerson(Integer superPersonId);
+    public SuperPerson deleteSuperPerson(SuperPerson superPerson);
     //demo
     public List<SuperPerson> getAllSuperPersonsBySighting(Sighting sighting, int offset, int limit);
     public List<SuperPerson> getAllSuperPersonsBySightingLocation(Location location, int offset, int limit);

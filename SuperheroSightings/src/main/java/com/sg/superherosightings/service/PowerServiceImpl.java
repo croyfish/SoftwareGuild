@@ -14,41 +14,39 @@ import static jdk.nashorn.internal.objects.NativeUint16Array.constructor;
  *
  * @author jeffc
  */
-public class PowerServiceImpl implements PowerService {
+public class PowerServiceImpl implements PowerService{
     
-    private PowerDao powerDao;
-    private SuperPersonService superPersonService;
-
-    public PowerServiceImpl(PowerDao powerDao, SuperPersonService superPersonService) {
+    PowerDao powerDao;
+    SuperPersonService superPersonService;
+    
+    public PowerServiceImpl(PowerDao powerDao, SuperPersonService superPersonService){
         this.powerDao = powerDao;
         this.superPersonService = superPersonService;
     }
 
-    
-
     @Override
     public Power createPower(Power power) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return powerDao.createPower(power);
     }
 
     @Override
     public Power getPowerById(Integer powerId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return powerDao.getPowerById(powerId);
     }
 
     @Override
     public List<Power> getAllPowers(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return powerDao.getAllPowers(offset, limit);
     }
 
     @Override
     public Power updatePower(Power power) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return powerDao.updatePower(power);
     }
 
     @Override
-    public Power deletePower(Integer powerId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Power deletePower(Power power) {
+        return powerDao.deletePower(power);
     }
     
 }

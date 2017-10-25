@@ -7,6 +7,7 @@ package com.sg.superherosightings.dao;
 
 import com.sg.superherosightings.helpers.ApplicationContextHelper;
 import com.sg.superherosightings.helpers.CompareObjects;
+import com.sg.superherosightings.helpers.TearDownHelper;
 import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
 import org.junit.After;
@@ -26,6 +27,7 @@ import org.springframework.context.ApplicationContext;
 public class SuperPersonDaoTest {
 
     private static SuperPersonDao dao;
+    private static TearDownHelper tdh = new TearDownHelper();
     CompareObjects c = new CompareObjects();
 
     public SuperPersonDaoTest() {
@@ -33,6 +35,11 @@ public class SuperPersonDaoTest {
 
     @BeforeClass
     public static void setUpClass() {
+
+        ApplicationContext ctx = ApplicationContextHelper.getContext();
+        dao = ctx.getBean("superPersonDao", SuperPersonDao.class);
+
+        tdh.clearTables();        
     }
 
     @AfterClass
@@ -41,18 +48,11 @@ public class SuperPersonDaoTest {
 
     @Before
     public void setUp() {
-
-        ApplicationContext ctx = ApplicationContextHelper.getContext();
-        dao = ctx.getBean("superPersonDao", SuperPersonDao.class);
-        // remove all
-        List<SuperPerson> superPersons = dao.getAllSuperPersons(0, Integer.MAX_VALUE);
-        for (SuperPerson currentSuperPerson : superPersons) {
-            dao.deleteSuperPerson(dao.getSuperPersonById(currentSuperPerson.getSuperPersonId()));
-        }
     }
 
     @After
     public void tearDown() {
+        tdh.clearTables();
     }
 
     @Test
@@ -80,6 +80,7 @@ public class SuperPersonDaoTest {
         sp.setDescription("some rich dude with gadgets");
         sp.setIsGood(true);
         SuperPerson added = dao.createSuperPerson(sp);
+        
         added.setName("Trumpus");
         added.setDescription("builds walls");
         added.setIsGood(false);
@@ -124,5 +125,6 @@ public class SuperPersonDaoTest {
 
     @Test
     public void getAllSuperPersonsBySighting() {
+        
     }
 }

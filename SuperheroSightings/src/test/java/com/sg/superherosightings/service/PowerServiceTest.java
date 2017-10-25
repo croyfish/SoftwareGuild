@@ -5,7 +5,9 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.helpers.ApplicationContextHelper;
 import com.sg.superherosightings.helpers.CompareObjects;
+import com.sg.superherosightings.helpers.TearDownHelper;
 import com.sg.superherosightings.model.Power;
 import java.util.List;
 import org.junit.After;
@@ -14,6 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -21,85 +24,92 @@ import static org.junit.Assert.*;
  */
 public class PowerServiceTest {
     
-    private static CompareObjects compare = new CompareObjects();    
-    
+    private static TearDownHelper tearDown = new TearDownHelper();
+    CompareObjects compare = new CompareObjects();
+    private static PowerService powerService;
+
     public PowerServiceTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
-//        ApplicationContext ctx = ApplicationContextHelper.getContext();
-//        dao = ctx.getBean("powerService", PowerService.class);        
+         tearDown.clearTables();
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        // ask Spring for our Service
+        ApplicationContext ctx = ApplicationContextHelper.getContext();
+        powerService = ctx.getBean("powerService", PowerService.class);
+        
     }
-    
+
     @After
     public void tearDown() {
+        tearDown.clearTables();
     }
 
-    /**
-     * Test of createPower method, of class PowerService.
-     */
     @Test
-    public void testCreatePower() {
+    public void addGetDeletePower() {
+        // arrange Street, City, State, Zipcode
+        Power pow = new Power();
+        pow.setName("Super Sneezing");
+        // act
+        powerService.createPower(pow);
+        Power actualPower = powerService.getPowerById(pow.getPowerId());
+        // assert
+
+        String result = compare.compareObjects(pow, actualPower);
+        assertEquals(result, "");
+        // act
+        powerService.deletePower(powerService.getPowerById(pow.getPowerId()));
+        // assert
+        assertNull(powerService.getPowerById(pow.getPowerId()));
     }
 
-    /**
-     * Test of getPowerById method, of class PowerService.
-     */
     @Test
-    public void testGetPowerById() {
+    public void updatePower() {
+        // arrange Street, City, State, Zipcode
+        Power pow = new Power();
+        pow.setName("Super Sneezing");
+        Power added = powerService.createPower(pow);
+        added.setName("Super Sleezing");
+        //act
+        Power updated = powerService.updatePower(added);
+        //assert
+        assertEquals(added, updated);
     }
 
-    /**
-     * Test of getAllPowers method, of class PowerService.
-     */
     @Test
-    public void testGetAllPowers() {
+
+    public void getAllPowers() {
+
+        // arrange Street, City, State, Zipcode
+        Power pow1 = new Power();
+        pow1.setName("Super Sneezing");
+        Power pow2 = new Power();
+        pow2.setName("Super Sleezing");
+
+        //Integer numInDb = powerService.getAllPoweres(0, Integer.MAX_VALUE).size();
+        Power createdPow1 = powerService.createPower(pow1);
+        Power createdPow2 = powerService.createPower(pow2);
+
+        //act
+        List<Power> powers = powerService.getAllPowers(0, 10);
+
+        //assert
+        assertEquals(2, powers.size());
+        String result1 = compare.compareObjects(createdPow1, powers.get(0));
+        String result2 = compare.compareObjects(createdPow2, powers.get(0));
+        String result3 = compare.compareObjects(createdPow1, powers.get(1));
+        String result4 = compare.compareObjects(createdPow2, powers.get(1));
+        assertTrue(result1.equals("") || result2.equals(""));
+        assertTrue(result3.equals("") || result4.equals(""));
+
     }
 
-    /**
-     * Test of updatePower method, of class PowerService.
-     */
-    @Test
-    public void testUpdatePower() {
-    }
-
-    /**
-     * Test of deletePower method, of class PowerService.
-     */
-    @Test
-    public void testDeletePower() {
-    }
-
-    public class PowerServiceImpl implements PowerService {
-
-        public Power createPower(Power power) {
-            return null;
-        }
-
-        public Power getPowerById(Integer powerId) {
-            return null;
-        }
-
-        public List<Power> getAllPowers(int offset, int limit) {
-            return null;
-        }
-
-        public Power updatePower(Power power) {
-            return null;
-        }
-
-        public Power deletePower(Integer powerId) {
-            return null;
-        }
-    }
-    
 }

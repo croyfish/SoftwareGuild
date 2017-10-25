@@ -17,5 +17,5 @@ public interface PowerService {
     public Power getPowerById(Integer powerId);
     public List<Power> getAllPowers(int offset, int limit);
     public Power updatePower(Power power);
-    public Power deletePower(Integer powerId);    
+    public Power deletePower(Power power);    
 }

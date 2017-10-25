@@ -67,7 +67,7 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     }
 
     @Override
-    public SuperPerson deleteSuperPerson(Integer superPersonId) {
+    public SuperPerson deleteSuperPerson(SuperPerson superPerson) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -86,9 +86,15 @@ public class SuperPersonServiceImpl implements SuperPersonService {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    // Added get
+    
+    
     @Override
     public SuperPersonPower addSuperPersonToPower(SuperPerson superPerson, Power power) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SuperPersonPower spp = new SuperPersonPower();
+        spp.setSuperPerson(superPerson);
+        spp.setPower(power);
+        return superPersonPowerDao.createSuperPersonPower(spp);
     }
 
     @Override

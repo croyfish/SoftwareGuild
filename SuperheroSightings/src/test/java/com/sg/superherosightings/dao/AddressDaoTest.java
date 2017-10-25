@@ -70,7 +70,7 @@ public class AddressDaoTest {
         Address actualAddress = dao.getAddressById(add.getAddressId());
         // assert
         
-        assertTrue(compare.compareObjects(add, actualAddress).equals(""));
+        assertEquals(compare.compareObjects(add, actualAddress),"");
         // act
         dao.deleteAddress(dao.getAddressById(add.getAddressId()));
         // assert

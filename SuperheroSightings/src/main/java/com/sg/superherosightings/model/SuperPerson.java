@@ -14,11 +14,8 @@ import java.util.Objects;
 public class SuperPerson {
     
     private Integer superPersonId;
-    
     private String name;
-    
     private String description;
-    
     private boolean isGood;
 
     public Integer getSuperPersonId() {

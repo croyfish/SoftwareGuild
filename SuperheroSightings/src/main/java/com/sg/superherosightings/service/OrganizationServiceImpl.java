@@ -9,7 +9,6 @@ import com.sg.superherosightings.dao.OrganizationDao;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
-import static jdk.nashorn.internal.objects.NativeUint16Array.constructor;
 
 /**
  *
@@ -29,32 +28,32 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Organization createOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.createOrganization(organization);
     }
 
     @Override
     public Organization getOrganizationById(Integer organizationId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.getOrganizationById(organizationId);
     }
 
     @Override
     public List<Organization> getAllOrganizations(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.getAllOrganizations(offset, limit);
     }
 
     @Override
     public Organization updateOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.updateOrganization(organization);
     }
 
     @Override
     public Organization deleteOrganization(Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.deleteOrganization(organization);
     }
 
     @Override
     public List<Organization> getAllOrganizationsBySuperPerson(SuperPerson superperson, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return organizationDao.getAllOrganizationsBySuperPerson(superperson, offset, limit);
     }
     
 }
