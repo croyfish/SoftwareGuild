@@ -45,7 +45,7 @@ public class SuperPersonServiceImpl implements SuperPersonService {
         this.superPersonPowerDao = superPersonPowerDao;
         this.superPersonSightingDao = superPersonSightingDao;
     }
-    
+
     @Override
     public SuperPerson createSuperPerson(SuperPerson superPerson) {
         return superPersonDao.createSuperPerson(superPerson);
@@ -87,8 +87,6 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     }
 
     // Added get
-    
-    
     @Override
     public SuperPersonPower addSuperPersonToPower(SuperPerson superPerson, Power power) {
         SuperPersonPower spp = new SuperPersonPower();
@@ -104,13 +102,17 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     }
 
     @Override
-    public SuperPersonPower deleteSuperPersonFromPower(SuperPerson superPerson, Power power) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public SuperPersonPower deletePowerFromSuperPerson(SuperPerson superPerson, Power power) {
+        SuperPersonPower superPersonPower = superPersonPowerDao.getSuperPersonPowerBySuperPersonAndPower(superPerson, power);
+        return superPersonPowerDao.deleteSuperPersonPower(superPersonPower);
     }
 
     @Override
-    public SuperPersonPower deleteSuperPersonFromPower(Integer superPersonId, Integer powerId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public SuperPersonPower deletePowerFromSuperPerson(Integer superPersonId, Integer powerId) {
+        SuperPerson superPerson = superPersonDao.getSuperPersonById(superPersonId);
+        Power power = powerDao.getPowerById(powerId);
+        SuperPersonPower superPersonPower = superPersonPowerDao.getSuperPersonPowerBySuperPersonAndPower(superPerson, power);
+        return superPersonPowerDao.deleteSuperPersonPower(superPersonPower);
     }
 
     @Override
@@ -124,17 +126,23 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     @Override
     public SuperPersonOrganization addSuperPersonToOrganization(Integer superPersonId, Integer organizationId) {
         return addSuperPersonToOrganization(superPersonDao.getSuperPersonById(superPersonId),
-           organizationDao.getOrganizationById(organizationId));
+                organizationDao.getOrganizationById(organizationId));
     }
 
     @Override
-    public SuperPersonOrganization deleteSuperPersonFromOrganization(SuperPerson superPerson, Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public SuperPersonOrganization deleteOrganizationFromSuperPerson(SuperPerson superPerson, Organization organization) {
+        SuperPersonOrganization superPersonOrganization
+                = superPersonOrganizationDao.getSuperPersonOrganizationBySuperPersonAndOrganization(superPerson, organization);
+        return superPersonOrganizationDao.deleteSuperPersonOrganization(superPersonOrganization);
     }
 
     @Override
-    public SuperPersonOrganization deleteSuperPersonFromOrganization(Integer superPersonId, Integer organizationId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public SuperPersonOrganization deleteOrganizationFromSuperPerson(Integer superPersonId, Integer organizationId) {
+        SuperPerson superPerson = superPersonDao.getSuperPersonById(superPersonId);
+        Organization organization = organizationDao.getOrganizationById(organizationId);
+        SuperPersonOrganization superPersonOrganization = 
+                superPersonOrganizationDao.getSuperPersonOrganizationBySuperPersonAndOrganization(superPerson, organization);
+        return superPersonOrganizationDao.deleteSuperPersonOrganization(superPersonOrganization);
     }
 
     @Override
@@ -152,13 +160,19 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     }
 
     @Override
-    public SuperPersonSighting deleteSuperPersonFromSighting(SuperPerson superPerson, Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public SuperPersonSighting deleteSightingFromSuperPerson(SuperPerson superPerson, Sighting sighting) {
+        SuperPersonSighting superPersonSighting
+                = superPersonSightingDao.getSuperPersonSightingBySuperPersonAndSighting(superPerson, sighting);
+        return superPersonSightingDao.deleteSuperPersonSighting(superPersonSighting);    
     }
 
     @Override
-    public SuperPersonSighting deleteSuperPersonFromSighting(Integer superPersonId, Integer sightingId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public SuperPersonSighting deleteSightingFromSuperPerson(Integer superPersonId, Integer sightingId) {
+        SuperPerson superPerson = superPersonDao.getSuperPersonById(superPersonId);
+        Sighting sighting = sightingDao.getSightingById(sightingId);
+        SuperPersonSighting superPersonSighting = 
+                superPersonSightingDao.getSuperPersonSightingBySuperPersonAndSighting(superPerson, sighting);
+        return superPersonSightingDao.deleteSuperPersonSighting(superPersonSighting);
     }
-    
+
 }

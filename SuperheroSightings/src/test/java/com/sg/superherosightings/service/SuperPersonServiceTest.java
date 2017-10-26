@@ -197,13 +197,13 @@ public class SuperPersonServiceTest {
         sp2.setDescription("The Next Best");
         sp2.setIsGood(true);
 
-        sp2 = superPersonService.createSuperPerson(sp1);
+        sp2 = superPersonService.createSuperPerson(sp2);
         SuperPerson sp3 = new SuperPerson();
         sp3.setName("Wayne Gretzky");
         sp3.setDescription("The Great One");
         sp3.setIsGood(true);
 
-        sp3 = superPersonService.createSuperPerson(sp1);
+        sp3 = superPersonService.createSuperPerson(sp3);
 
         Sighting s1 = new Sighting();
         s1.setDate(LocalDate.parse("1992-01-01"));
@@ -348,13 +348,20 @@ public class SuperPersonServiceTest {
     /**
      * Test of deleteSuperPersonFromPower method, of class SuperPersonService.
      */
-    @Test // not done
+    @Test 
     public void testDeleteSuperPersonFromPower_SuperPerson_Power() {
+        
+        SuperPerson sp = co.createAndAddSuperPerson();
+        Power pow = co.createAndAddPower();
+        
+        SuperPersonPower spp = superPersonService.addSuperPersonToPower(sp, pow);
+        Integer sppId = spp.getSuperPersonPowerId();
+        superPersonService.deletePowerFromSuperPerson(sp, pow);
+        
+        assertNull(superPersonPowerDao.getSuperPersonPowerById(sppId));
+                
     }
 
-    /**
-     * Test of deleteSuperPersonFromPower method, of class SuperPersonService.
-     */
     @Test
     public void testAddSuperPersonToOrganization_SuperPerson_Organization() {
 
@@ -406,8 +413,18 @@ public class SuperPersonServiceTest {
      * Test of deleteSuperPersonFromOrganization method, of class
      * SuperPersonService.
      */
-    @Test // not done
+    @Test
     public void testDeleteSuperPersonFromOrganization_SuperPerson_Organization() {
+        
+        SuperPerson sp = co.createAndAddSuperPerson();
+        Organization org = co.createAndAddOrganization();
+        
+        SuperPersonOrganization spo = superPersonService.addSuperPersonToOrganization(sp, org);
+        Integer spoId = spo.getSuperPersonOrganizationId();
+        superPersonService.deleteOrganizationFromSuperPerson(sp, org);
+        
+        assertNull(superPersonOrganizationDao.getSuperPersonOrganizationById(spoId));        
+        
     }
 
     /**
@@ -415,6 +432,7 @@ public class SuperPersonServiceTest {
      */
     @Test
     public void testAddSuperPersonToSighting_SuperPerson_Sighting() {
+        
         SuperPerson sp = createAndAddSuperPerson();
         Sighting s = co.createAndAddSighting();
         SuperPersonSighting sps = superPersonService.addSuperPersonToSighting(sp, s);
@@ -430,8 +448,18 @@ public class SuperPersonServiceTest {
      * Test of deleteSuperPersonFromSighting method, of class
      * SuperPersonService.
      */
-    @Test // not done
+    @Test
     public void testDeleteSuperPersonFromSighting_SuperPerson_Sighting() {
+
+        SuperPerson sp = co.createAndAddSuperPerson();
+        Sighting sighting = co.createAndAddSighting();
+        
+        SuperPersonSighting sps = superPersonService.addSuperPersonToSighting(sp, sighting);
+        Integer spsId = sps.getSuperPersonSightingId();
+        superPersonService.deleteSightingFromSuperPerson(sp, sighting);
+        
+        assertNull(superPersonOrganizationDao.getSuperPersonOrganizationById(spsId));         
+        
     }
 
     public SuperPerson createAndAddSuperPerson() {

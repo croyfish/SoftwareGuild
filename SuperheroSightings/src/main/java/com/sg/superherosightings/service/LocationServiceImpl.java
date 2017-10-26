@@ -51,7 +51,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<Location> getAllLocationsBySuperPerson(SuperPerson superperson, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return locationDao.getAllLocationsBySuperPerson(superperson, offset, limit);
     }
 
 //    @Override

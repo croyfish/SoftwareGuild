@@ -5,6 +5,8 @@
  */
 package com.sg.superherosightings.dao;
 
+import com.sg.superherosightings.model.Power;
+import com.sg.superherosightings.model.SuperPerson;
 import com.sg.superherosightings.model.SuperPersonPower;
 import java.util.List;
 
@@ -23,5 +25,8 @@ public interface SuperPersonPowerDao {
     // public SuperPersonPower updateSuperPersonPower(SuperPersonPower superPersonPower);
     
     public SuperPersonPower deleteSuperPersonPower(SuperPersonPower superPersonPower);
+    
+    public SuperPersonPower getSuperPersonPowerBySuperPersonAndPower(SuperPerson superPerson, Power power);
+
     
 }

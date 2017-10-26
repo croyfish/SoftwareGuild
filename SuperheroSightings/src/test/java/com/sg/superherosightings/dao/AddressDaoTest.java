@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -33,6 +34,7 @@ public class AddressDaoTest {
     public AddressDaoTest() {
     }
 
+    @Transactional
     @BeforeClass
     public static void setUpClass() {
         ApplicationContext ctx = ApplicationContextHelper.getContext();
@@ -51,6 +53,7 @@ public class AddressDaoTest {
 
     }
 
+    @Transactional
     @After
     public void tearDown() {
         tdh.clearTables();

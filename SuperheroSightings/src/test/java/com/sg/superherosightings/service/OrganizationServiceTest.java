@@ -7,10 +7,12 @@ package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.helpers.ApplicationContextHelper;
 import com.sg.superherosightings.helpers.CompareObjects;
+import com.sg.superherosightings.helpers.CreateAndAddObjectsForServiceTests;
 import com.sg.superherosightings.helpers.TearDownHelper;
 import com.sg.superherosightings.model.Address;
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
+import com.sg.superherosightings.model.SuperPerson;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.After;
@@ -28,8 +30,10 @@ import org.springframework.context.ApplicationContext;
 public class OrganizationServiceTest {
     private static OrganizationService organizationService;
     private static LocationService locationService;
-    private static AddressService addressService;        
+    private static AddressService addressService;
+    private static SuperPersonService superPersonService;
     private static CompareObjects c = new CompareObjects();
+    private static CreateAndAddObjectsForServiceTests co = new CreateAndAddObjectsForServiceTests();
     private static TearDownHelper tdh = new TearDownHelper();
     
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -44,6 +48,7 @@ public class OrganizationServiceTest {
         organizationService = ctx.getBean("organizationService", OrganizationService.class);
         locationService = ctx.getBean("locationService", LocationService.class);
         addressService = ctx.getBean("addressService", AddressService.class);
+        superPersonService = ctx.getBean("superPersonService", SuperPersonService.class);
         
         tdh.clearTables();          
         
@@ -63,7 +68,7 @@ public class OrganizationServiceTest {
     }
     
     @Test
-    public void addGetDeleteOrganization() {
+    public void testAddGetDeleteOrganization() {
 
         //arrange
         Address add = new Address();
@@ -97,7 +102,7 @@ public class OrganizationServiceTest {
         assertNull(organizationService.getOrganizationById(org.getOrganizationId()));
     }
     @Test
-    public void updateOrganization() {
+    public void testUpdateOrganization() {
 
         Address add = new Address();
         add.setStreet("123 Fake Street");
@@ -134,7 +139,7 @@ public class OrganizationServiceTest {
         
     }
     @Test
-    public void getAllOrganizations() {
+    public void testGetAllOrganizations() {
         
         Address add = new Address();
         add.setStreet("123 Fake Street");
@@ -179,5 +184,45 @@ public class OrganizationServiceTest {
         assertTrue(result3.equals("") || result4.equals(""));
         
 
+    }
+    
+    @Test
+    public void testGetAllOrganizationsBySuperPerson() {
+
+        //make some people
+        SuperPerson sp1 = co.createAndAddSuperPerson();
+        SuperPerson sp2 = co.createAndAddSuperPerson();
+        
+        //make some orgs
+        Organization o1 = co.createAndAddOrganization();
+        Organization o2 = co.createAndAddOrganization();
+        
+        //associate them 
+        
+        superPersonService.addSuperPersonToOrganization(sp1, o1);
+        superPersonService.addSuperPersonToOrganization(sp2, o1);
+        superPersonService.addSuperPersonToOrganization(sp2, o2);
+        
+        //pull them out lists
+        
+        List<Organization> listOfOrg1 = organizationService.getAllOrganizationsBySuperPerson(sp1, 0, 10);
+        List<Organization> listOfOrg2 = organizationService.getAllOrganizationsBySuperPerson(sp2, 0, 10);
+        
+        //assertions
+        
+        assertEquals(1, listOfOrg1.size());
+        assertEquals(2, listOfOrg2.size());
+
+        for (Organization currentOrg : listOfOrg2) {
+            
+            String result1 = c.compareObjects(o1, currentOrg);
+            String result2 = c.compareObjects(o2, currentOrg);
+            
+            assertTrue(result1.equals("") ^ result2.equals(""));
+        }
+        
+        String result3 = c.compareObjects(o1, listOfOrg1.get(0));
+        assertEquals("", result3);        
+        
     }
 }

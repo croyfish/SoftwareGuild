@@ -5,6 +5,8 @@
  */
 package com.sg.superherosightings.dao;
 
+import com.sg.superherosightings.model.Sighting;
+import com.sg.superherosightings.model.SuperPerson;
 import com.sg.superherosightings.model.SuperPersonSighting;
 import java.util.List;
 
@@ -18,4 +20,5 @@ public interface SuperPersonSightingDao {
     public List<SuperPersonSighting> getAllSuperPersonSightings(int offset, int limit);
     //public SuperPersonSighting updateSuperPersonSighting(SuperPersonSighting superPersonSighting);
     public SuperPersonSighting deleteSuperPersonSighting(SuperPersonSighting superPersonSighting);
+    public SuperPersonSighting getSuperPersonSightingBySuperPersonAndSighting(SuperPerson superPerson, Sighting sighting);    
 }

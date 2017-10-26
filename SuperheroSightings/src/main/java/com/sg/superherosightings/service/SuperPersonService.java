@@ -32,18 +32,18 @@ public interface SuperPersonService {
     //bridge management
     public SuperPersonPower addSuperPersonToPower(SuperPerson superPerson, Power power);
     public SuperPersonPower addSuperPersonToPower(Integer superPersonId, Integer powerId);
-    public SuperPersonPower deleteSuperPersonFromPower(SuperPerson superPerson, Power power);
-    public SuperPersonPower deleteSuperPersonFromPower(Integer superPersonId, Integer powerId);
+    public SuperPersonPower deletePowerFromSuperPerson(SuperPerson superPerson, Power power);
+    public SuperPersonPower deletePowerFromSuperPerson(Integer superPersonId, Integer powerId);
     
     public SuperPersonOrganization addSuperPersonToOrganization(SuperPerson superPerson, Organization organization);
     public SuperPersonOrganization addSuperPersonToOrganization(Integer superPersonId, Integer organizationId);
-    public SuperPersonOrganization deleteSuperPersonFromOrganization(SuperPerson superPerson, Organization organization);
-    public SuperPersonOrganization deleteSuperPersonFromOrganization(Integer superPersonId, Integer organizationId);
+    public SuperPersonOrganization deleteOrganizationFromSuperPerson(SuperPerson superPerson, Organization organization);
+    public SuperPersonOrganization deleteOrganizationFromSuperPerson(Integer superPersonId, Integer organizationId);
     
     public SuperPersonSighting addSuperPersonToSighting(SuperPerson superPerson, Sighting sighting);
     public SuperPersonSighting addSuperPersonToSighting(Integer superPersonId, Integer sightingId);
-    public SuperPersonSighting deleteSuperPersonFromSighting(SuperPerson superPerson, Sighting sighting);
-    public SuperPersonSighting deleteSuperPersonFromSighting(Integer superPersonId, Integer sightingId);
+    public SuperPersonSighting deleteSightingFromSuperPerson(SuperPerson superPerson, Sighting sighting);
+    public SuperPersonSighting deleteSightingFromSuperPerson(Integer superPersonId, Integer sightingId);
     
     //demo
     

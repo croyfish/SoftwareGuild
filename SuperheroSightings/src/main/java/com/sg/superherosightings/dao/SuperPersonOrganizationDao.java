@@ -5,6 +5,8 @@
  */
 package com.sg.superherosightings.dao;
 
+import com.sg.superherosightings.model.Organization;
+import com.sg.superherosightings.model.SuperPerson;
 import com.sg.superherosightings.model.SuperPersonOrganization;
 import java.util.List;
 
@@ -24,4 +26,5 @@ public interface SuperPersonOrganizationDao {
     
     public SuperPersonOrganization deleteSuperPersonOrganization(SuperPersonOrganization superPersonOrganization);    
     
+    public SuperPersonOrganization getSuperPersonOrganizationBySuperPersonAndOrganization(SuperPerson superPerson, Organization organization);    
 }

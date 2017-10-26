@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `SuperSightings-test`.`SuperPerson_Organization` (
   PRIMARY KEY (`SuperPerson_OrganizationId`),
   INDEX `fk_SuperPerson_Organization_SuperPerson1_idx` (`SuperPersonId` ASC),
   INDEX `fk_SuperPerson_Organization_Organization1_idx` (`OrganizationId` ASC),
+  UNIQUE INDEX `index4` (`SuperPersonId` ASC, `OrganizationId` ASC),
   CONSTRAINT `fk_SuperPerson_Organization_SuperPerson1`
     FOREIGN KEY (`SuperPersonId`)
     REFERENCES `SuperSightings-test`.`SuperPerson` (`SuperPersonId`)
@@ -131,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `SuperSightings-test`.`SuperPerson_Power` (
   PRIMARY KEY (`SuperPerson_PowerId`),
   INDEX `fk_SuperPerson_Power_SuperPerson1_idx` (`SuperPersonId` ASC),
   INDEX `fk_SuperPerson_Power_Power1_idx` (`PowerId` ASC),
+  UNIQUE INDEX `index4` (`SuperPersonId` ASC, `PowerId` ASC),
   CONSTRAINT `fk_SuperPerson_Power_SuperPerson1`
     FOREIGN KEY (`SuperPersonId`)
     REFERENCES `SuperSightings-test`.`SuperPerson` (`SuperPersonId`)
@@ -153,6 +155,7 @@ CREATE TABLE IF NOT EXISTS `SuperSightings-test`.`SuperPerson_Sighting` (
   PRIMARY KEY (`SuperPerson_SightingId`),
   INDEX `fk_SuperPerson_Sighting_SuperPerson1_idx` (`SuperPersonId` ASC),
   INDEX `fk_SuperPerson_Sighting_Sighting1_idx` (`SightingId` ASC),
+  UNIQUE INDEX `index4` (`SuperPersonId` ASC, `SightingId` ASC),
   CONSTRAINT `fk_SuperPerson_Sighting_SuperPerson1`
     FOREIGN KEY (`SuperPersonId`)
     REFERENCES `SuperSightings-test`.`SuperPerson` (`SuperPersonId`)

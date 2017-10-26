@@ -63,7 +63,7 @@ public class OrganizationDaoTest {
     }
     
     @Test
-    public void addGetDeleteOrganization() {
+    public void testAddGetDeleteOrganization() {
 
         //arrange
         Address add = new Address();
@@ -97,7 +97,7 @@ public class OrganizationDaoTest {
         assertNull(organizationDao.getOrganizationById(org.getOrganizationId()));
     }
     @Test
-    public void updateOrganization() {
+    public void testUpdateOrganization() {
 
         Address add = new Address();
         add.setStreet("123 Fake Street");
@@ -134,7 +134,7 @@ public class OrganizationDaoTest {
         
     }
     @Test
-    public void getAllOrganizations() {
+    public void testGetAllOrganizations() {
         
         Address add = new Address();
         add.setStreet("123 Fake Street");
@@ -177,7 +177,13 @@ public class OrganizationDaoTest {
         
         assertTrue(result1.equals("") || result2.equals(""));
         assertTrue(result3.equals("") || result4.equals(""));
-        
-
     }
+    
+//    @Test
+//    public void testGetAllOrganizationsBySuperPerson() {
+//        
+//        
+//        
+//    }
+    
 }

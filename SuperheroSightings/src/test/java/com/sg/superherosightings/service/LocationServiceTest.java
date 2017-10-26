@@ -7,10 +7,16 @@ package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.helpers.ApplicationContextHelper;
 import com.sg.superherosightings.helpers.CompareObjects;
+import com.sg.superherosightings.helpers.CreateAndAddObjectsForServiceTests;
 import com.sg.superherosightings.helpers.TearDownHelper;
 import com.sg.superherosightings.model.Address;
 import com.sg.superherosightings.model.Location;
+import com.sg.superherosightings.model.Organization;
+import com.sg.superherosightings.model.Sighting;
+import com.sg.superherosightings.model.SuperPerson;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -28,9 +34,15 @@ import org.springframework.context.ApplicationContext;
 public class LocationServiceTest {
     
     private static CompareObjects c = new CompareObjects();
+    private static TearDownHelper tdh = new TearDownHelper();    
+    private static CreateAndAddObjectsForServiceTests co = new CreateAndAddObjectsForServiceTests();
+    
     private static LocationService locationService;
     private static AddressService addressService;
-    private static TearDownHelper tdh = new TearDownHelper();
+    private static SuperPersonService superPersonService;
+    private static SightingService sightingService;
+    
+
     
     
     public LocationServiceTest() {
@@ -41,7 +53,8 @@ public class LocationServiceTest {
         ApplicationContext ctx = ApplicationContextHelper.getContext();
         locationService = ctx.getBean("locationService", LocationService.class);
         addressService = ctx.getBean("addressService", AddressService.class);
-        
+        superPersonService = ctx.getBean("superPersonService", SuperPersonService.class);
+        sightingService = ctx.getBean("sightingService", SightingService.class);
         tdh.clearTables();
     }
     
@@ -170,6 +183,49 @@ public class LocationServiceTest {
      */
     @Test
     public void testGetAllLocationsBySuperPerson() {
+
+        //make some people
+        SuperPerson sp1 = co.createAndAddSuperPerson();
+        SuperPerson sp2 = co.createAndAddSuperPerson();
+        
+        //make some orgs
+        Sighting s1 = co.createAndAddSighting();
+        Sighting s2 = co.createAndAddSighting();
+        
+        Location loc1 = s1.getLocation();
+        Location loc2 = s2.getLocation();
+        loc2.setName("A Differet Location");
+        loc2 = locationService.createLocation(loc2);
+
+        s2.setLocation(loc2);
+        Sighting s3 = sightingService.createSighting(s2);
+
+        
+        //associate them 
+        superPersonService.addSuperPersonToSighting(sp1, s1);
+        superPersonService.addSuperPersonToSighting(sp2, s1);
+        superPersonService.addSuperPersonToSighting(sp2, s3);
+        
+        //pull them out lists
+        
+        List<Location> listOfLoc1 = locationService.getAllLocationsBySuperPerson(sp1, 0, 10);
+        List<Location> listOfLoc2 = locationService.getAllLocationsBySuperPerson(sp2, 0, 10);
+        
+        //assertions
+        
+        assertEquals(1, listOfLoc1.size());
+        assertEquals(2, listOfLoc2.size());
+
+        for (Location currentLoc : listOfLoc2) {
+            
+            String result1 = c.compareObjects(loc1, currentLoc);
+            String result2 = c.compareObjects(loc2, currentLoc);
+            
+            assertTrue(result1.equals("") ^ result2.equals(""));
+        }
+        
+        String result3 = c.compareObjects(loc2, listOfLoc2.get(0));
+        assertEquals("", result3);      
         
     }
     

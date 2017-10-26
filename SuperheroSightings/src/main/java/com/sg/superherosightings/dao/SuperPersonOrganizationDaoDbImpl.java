@@ -28,25 +28,24 @@ public class SuperPersonOrganizationDaoDbImpl implements SuperPersonOrganization
     private static String SQL_GET_SUPERPERSON_ORGANIZATION = "SELECT * from superperson_organization where SuperPerson_OrganizationId = ?";
     private static String SQL_UPDATE_SUPERPERSON_ORGANIZATION = "UPDATE superperson_organization set SuperPersonId = ?, OrganizationId WHERE SuperPerson_OrganizationId = ?";
     private static String SQL_DELETE_SUPERPERSON_ORGANIZATION = "DELETE FROM superperson_organization where SuperPerson_OrganizationId = ?";
-    private static String SQL_LIST_SUPERPERSON_ORGANIZATIONS = "SELECT * from superperson_organization LIMIT ?,?";       
-    
+    private static String SQL_LIST_SUPERPERSON_ORGANIZATIONS = "SELECT * from superperson_organization LIMIT ?,?";
+    private static String SQL_GET_SUPERPERSONORGANIZATION_BY_SUPERPERSON_AND_ORGANIZATION = "SELECT * FROM SuperPerson_Organization WHERE SuperPersonId = ? AND OrganizationId = ?";
+
     private JdbcTemplate jdbcTemplate;
 
     // Constructor with DI
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }    
-    
+    }
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public SuperPersonOrganization createSuperPersonOrganization(SuperPersonOrganization superPersonOrganization) {
 
-        
         jdbcTemplate.update(SQL_INSERT_SUPERPERSON_ORGANIZATION,
                 superPersonOrganization.getSuperPerson().getSuperPersonId(),
                 superPersonOrganization.getOrganization().getOrganizationId());
-                
-        
+
         int superPersonOrganizationId = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
 
         superPersonOrganization.setSuperPersonOrganizationId(superPersonOrganizationId);
@@ -57,8 +56,8 @@ public class SuperPersonOrganizationDaoDbImpl implements SuperPersonOrganization
     @Override
     public SuperPersonOrganization getSuperPersonOrganizationById(Integer superPersonOrganizationId) {
         try {
-            SuperPersonOrganization superPersonOrganization = 
-                    jdbcTemplate.queryForObject(SQL_GET_SUPERPERSON_ORGANIZATION, new SuperPersonOrganizationMapper(), superPersonOrganizationId);
+            SuperPersonOrganization superPersonOrganization
+                    = jdbcTemplate.queryForObject(SQL_GET_SUPERPERSON_ORGANIZATION, new SuperPersonOrganizationMapper(), superPersonOrganizationId);
             return superPersonOrganization;
         } catch (EmptyResultDataAccessException e) {
             return null;
@@ -83,32 +82,39 @@ public class SuperPersonOrganizationDaoDbImpl implements SuperPersonOrganization
 //
 //        return superPersonOrganization;
 //    }
-
     @Override
     public SuperPersonOrganization deleteSuperPersonOrganization(SuperPersonOrganization superPersonOrganization) {
         jdbcTemplate.update(SQL_DELETE_SUPERPERSON_ORGANIZATION, superPersonOrganization.getSuperPersonOrganizationId());
         return superPersonOrganization;
     }
-    
+
     private static final class SuperPersonOrganizationMapper implements RowMapper<SuperPersonOrganization> {
 
         @Override
         public SuperPersonOrganization mapRow(ResultSet rs, int i) throws SQLException {
             SuperPersonOrganization spo = new SuperPersonOrganization();
             spo.setSuperPersonOrganizationId(rs.getInt("SuperPerson_OrganizationId"));
-            
+
             // Lazy load superperson
             SuperPerson superPerson = new SuperPerson();
             superPerson.setSuperPersonId(rs.getInt("SuperPersonId"));
             spo.setSuperPerson(superPerson);
-            
+
             // Lazy load organization
             Organization organization = new Organization();
             organization.setOrganizationId(rs.getInt("OrganizationId"));
             spo.setOrganization(organization);
-            
+
             return spo;
         }
-    }    
-    
+    }
+
+    @Override
+    public SuperPersonOrganization getSuperPersonOrganizationBySuperPersonAndOrganization(SuperPerson superPerson, Organization organization) {
+        Integer superPersonId = superPerson.getSuperPersonId();
+        Integer organizationId = organization.getOrganizationId();
+        return jdbcTemplate.queryForObject(SQL_GET_SUPERPERSONORGANIZATION_BY_SUPERPERSON_AND_ORGANIZATION, new SuperPersonOrganizationMapper(), superPersonId, organizationId);
+
+    }
+
 }

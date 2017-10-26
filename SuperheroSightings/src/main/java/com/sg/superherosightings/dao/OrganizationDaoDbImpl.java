@@ -34,8 +34,8 @@ public class OrganizationDaoDbImpl implements OrganizationDao {
     private static String SQL_LIST_ORGANIZATIONS_BY_SUPERPERSON = "SELECT `Organization`.* FROM `Organization` "
             + "INNER JOIN `SuperPerson_Organization` ON `Organization`.`organizationId` = "
             + "`Superperson_Organization`.`OrganizationId` INNER JOIN `SuperPerson` ON "
-            + "`Superperson_Organization`.`superpersonId` = `superPerson`.`superersonId` "
-            + "WHERE `SuperPerson`.`superpersonid` = ? ORDER BY `SuperPerson`.`name` LIMIT ?,?";
+            + "`Superperson_Organization`.`superpersonId` = `superPerson`.`superpersonId` "
+            + "WHERE `SuperPerson`.`superpersonId` = ? ORDER BY `SuperPerson`.`name` LIMIT ?,?";
 
     private JdbcTemplate jdbcTemplate;
 

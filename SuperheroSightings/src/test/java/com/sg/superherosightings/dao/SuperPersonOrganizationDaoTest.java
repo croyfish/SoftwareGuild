@@ -149,7 +149,7 @@ public class SuperPersonOrganizationDaoTest {
         
         SuperPersonOrganization spo2 = new SuperPersonOrganization();
         spo2.setSuperPerson(sp);
-        spo2.setOrganization(org);
+        spo2.setOrganization(org2);
         spo2 = superPersonOrganizationDao.createSuperPersonOrganization(spo2); 
         
         List<SuperPersonOrganization> spos = superPersonOrganizationDao.getAllSuperPersonOrganizations(0, 10);

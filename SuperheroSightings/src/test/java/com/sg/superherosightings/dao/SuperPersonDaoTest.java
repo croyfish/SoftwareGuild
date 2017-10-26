@@ -92,7 +92,7 @@ public class SuperPersonDaoTest {
     }
 
     @Test
-    public void getAllSuperPersones() {
+    public void getAllSuperPersons() {
 // Arrange  
         SuperPerson sp1 = new SuperPerson();
         sp1.setName("Batman");
@@ -123,8 +123,8 @@ public class SuperPersonDaoTest {
 // will call on DAOs that we haven't implemented yet, but unit tests shouldn't rely on others
 // should we just test these from the service?    
 
-    @Test
-    public void getAllSuperPersonsBySighting() {
-        
-    }
+//    @Test
+//    public void getAllSuperPersonsBySighting() {
+//        
+//    }
 }

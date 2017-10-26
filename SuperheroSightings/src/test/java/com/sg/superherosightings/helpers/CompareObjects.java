@@ -25,7 +25,7 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (add1.getAddressId() != add2.getAddressId()) {
+            if ((int)add1.getAddressId() != (int)add2.getAddressId()) {
                 result += "AddressId doesn't match, ";
             }
         } catch (NullPointerException e) {
@@ -64,14 +64,14 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (loc1.getLocationId() != loc2.getLocationId()) {
+            if ((int)loc1.getLocationId() != (int)loc2.getLocationId()) {
                 result += "LocationId doesn't match, ";
             }
         } catch (NullPointerException e) {
             result += "id is null!";
         }
         try {
-            if (loc1.getAddress().getAddressId() != loc2.getAddress().getAddressId()) {
+            if ((int)loc1.getAddress().getAddressId() != (int)loc2.getAddress().getAddressId()) {
                 result += "AddressId doesn't match,";
             }
         } catch (NullPointerException e) {
@@ -108,7 +108,7 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (orga1.getOrganizationId() != orga2.getOrganizationId()) {
+            if ((int)orga1.getOrganizationId() != (int)orga2.getOrganizationId()) {
                 result += "OrganizationId doesn't match, ";
             }
         } catch (NullPointerException e) {
@@ -151,7 +151,7 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (pow1.getPowerId() != pow2.getPowerId()) {
+            if ((int)pow1.getPowerId() != (int)pow2.getPowerId()) {
                 result += "PowerId doesn't match, ";
             }
         } catch (NullPointerException e) {
@@ -171,7 +171,7 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (sighting1.getSightingId() != sighting2.getSightingId()) {
+            if ((int)sighting1.getSightingId() != (int)sighting2.getSightingId()) {
                 result += "SightingId doesn't match, ";
             }
         } catch (NullPointerException e) {
@@ -204,7 +204,7 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (sp1.getSuperPersonId() != sp2.getSuperPersonId()) {
+            if ((int)sp1.getSuperPersonId() != (int)sp2.getSuperPersonId()) {
                 result += "SuperPersonId doesn't match, ";
             }
         } catch (NullPointerException e) {
@@ -236,19 +236,19 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (spo1.getSuperPersonOrganizationId() != spo2.getSuperPersonOrganizationId()) {
+            if ((int)spo1.getSuperPersonOrganizationId() != (int)spo2.getSuperPersonOrganizationId()) {
                 result += "SuperPersonOrganizationId doesn't match, ";
             }
         } catch (NullPointerException e) {
         }
         try {
-            if (spo1.getOrganization().getOrganizationId() != spo2.getOrganization().getOrganizationId()) {
+            if ((int)spo1.getOrganization().getOrganizationId() != (int)spo2.getOrganization().getOrganizationId()) {
                 result += "OrganizationId doesn't match,";
             }
         } catch (NullPointerException e) {
         }
         try {
-            if (spo1.getSuperPerson().getSuperPersonId() != spo2.getSuperPerson().getSuperPersonId()) {
+            if ((int)spo1.getSuperPerson().getSuperPersonId() != (int)spo2.getSuperPerson().getSuperPersonId()) {
                 result += "SuperPersonId doesn't match, ";
             }
         } catch (NullPointerException e) {
@@ -262,19 +262,19 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (spp1.getSuperPersonPowerId() != spp2.getSuperPersonPowerId()) {
+            if ((int)spp1.getSuperPersonPowerId() != (int)spp2.getSuperPersonPowerId()) {
                 result += "SuperPersonPowerId doesn't match, ";
             }
         } catch (NullPointerException e) {
         }
         try {
-            if (spp1.getSuperPerson().getSuperPersonId() != spp2.getSuperPerson().getSuperPersonId()) {
+            if ((int)spp1.getSuperPerson().getSuperPersonId() != (int)spp2.getSuperPerson().getSuperPersonId()) {
                 result += "SuperPersonId doesn't match,";
             }
         } catch (NullPointerException e) {
         }
         try {
-            if (spp1.getPower().getPowerId() != spp2.getPower().getPowerId()) {
+            if ((int)spp1.getPower().getPowerId() != (int)spp2.getPower().getPowerId()) {
                 result += "PowerId doesn't match, ";
             }
         } catch (NullPointerException e) {
@@ -288,20 +288,20 @@ public class CompareObjects {
         String result = "";
 
         try {
-            if (sps1.getSuperPersonSightingId() != sps2.getSuperPersonSightingId()) {
+            if ((int)sps1.getSuperPersonSightingId() != (int)sps2.getSuperPersonSightingId()) {
                 result += "SuperPersonSightingId doesn't match, ";
             }
         } catch (NullPointerException e) {
             result += "id is null!";
         }
         try {
-            if (sps1.getSuperPerson().getSuperPersonId() != sps2.getSuperPerson().getSuperPersonId()) {
+            if ((int)sps1.getSuperPerson().getSuperPersonId() != (int)sps2.getSuperPerson().getSuperPersonId()) {
                 result += "SuperPersonId doesn't match,";
             }
         } catch (NullPointerException e) {
         }
         try {
-            if (sps1.getSighting().getSightingId()!= sps2.getSighting().getSightingId()) {
+            if ((int)sps1.getSighting().getSightingId()!= (int)sps2.getSighting().getSightingId()) {
                 result += "SightingId doesn't match, ";
             }
         } catch (NullPointerException e) {

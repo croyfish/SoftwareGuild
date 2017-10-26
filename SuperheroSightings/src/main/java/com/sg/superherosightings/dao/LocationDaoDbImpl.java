@@ -9,7 +9,6 @@ import com.sg.superherosightings.dao.LocationDao;
 import com.sg.superherosightings.model.Address;
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.SuperPerson;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -32,12 +31,12 @@ public class LocationDaoDbImpl implements LocationDao {
     private static String SQL_LIST_LOCATIONS = "SELECT * from location LIMIT ?,?";
     
     private static String SQL_LIST_LOCATIONS_BY_SUPERPERSON = "SELECT `location`.* FROM `location` "
-            + "INNER JOIN `location` "
-            + "ON `location`.`LocationId` = `location`.`LocationId` "
-            + "INNER JOIN `superperson_location` "
-            + "ON `superperson_location`.`LocationId` = `location`.`LocationId` "
+            + "INNER JOIN `sighting` "
+            + "ON `sighting`.`LocationId` = `location`.`LocationId` "            
+            + "INNER JOIN `superperson_sighting` "
+            + "ON `superperson_sighting`.`SightingId` = `sighting`.`SightingId` "
             + "INNER JOIN `superperson` "
-            + "ON `superperson_location`.`SuperpersonId` = `superperson`.`SuperPersonId` "
+            + "ON `superperson_sighting`.`SuperpersonId` = `superperson`.`SuperPersonId` "
             + "WHERE `superperson`.`SuperPersonId` = ? ORDER BY `location`.`Name` LIMIT ?,?;";
             
           
@@ -107,7 +106,7 @@ public class LocationDaoDbImpl implements LocationDao {
 
     @Override
     public List<Location> getAllLocationsBySuperPerson(SuperPerson superPerson, int offset, int limit) {
-        return jdbcTemplate.query(SQL_LIST_LOCATIONS_BY_SUPERPERSON, new LocationMapper(), superPerson, offset, limit);
+        return jdbcTemplate.query(SQL_LIST_LOCATIONS_BY_SUPERPERSON, new LocationMapper(), superPerson.getSuperPersonId(), offset, limit);
     }
     
     private static final class LocationMapper implements RowMapper<Location> {

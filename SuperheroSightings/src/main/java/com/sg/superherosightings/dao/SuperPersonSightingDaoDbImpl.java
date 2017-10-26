@@ -34,30 +34,32 @@ public class SuperPersonSightingDaoDbImpl implements SuperPersonSightingDao {
     private static String SQL_UPDATE_SUPERPERSON_SIGHTING = "UPDATE SuperPerson_Sighting SET name = ? WHERE SuperPerson_SightingId = ?";
     private static String SQL_DELETE_SUPERPERSON_SIGHTING = "DELETE FROM SuperPerson_Sighting WHERE SuperPerson_SightingId = ?";
     private static String SQL_LIST_SUPERPERSON_SIGHTINGS = "SELECT * FROM SuperPerson_Sighting LIMIT ?, ?";
-    
-        @Override
+    private static String SQL_GET_SUPERPERSONSIGHTING_BY_SUPERPERSON_AND_SIGHTING = "SELECT * FROM SuperPerson_Sighting WHERE SuperPersonId = ? AND SightingId = ?";
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public SuperPersonSighting createSuperPersonSighting(SuperPersonSighting superPersonSighting) {
-        
+
         jdbcTemplate.update(SQL_INSERT_SUPERPERSON_SIGHTING,
                 superPersonSighting.getSuperPerson().getSuperPersonId(),
                 superPersonSighting.getSighting().getSightingId());
-                
-        
+
         int superPersonSightingId = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
         superPersonSighting.setSuperPersonSightingId(superPersonSightingId);
         return superPersonSighting;
     }
+
     @Override
     public SuperPersonSighting getSuperPersonSightingById(Integer superPersonSightingId) {
         try {
-            SuperPersonSighting superPersonSighting = 
-                    jdbcTemplate.queryForObject(SQL_GET_SUPERPERSON_SIGHTING, new SuperPersonSightingMapper(), superPersonSightingId);
+            SuperPersonSighting superPersonSighting
+                    = jdbcTemplate.queryForObject(SQL_GET_SUPERPERSON_SIGHTING, new SuperPersonSightingMapper(), superPersonSightingId);
             return superPersonSighting;
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
     }
+
     @Override
     public List<SuperPersonSighting> getAllSuperPersonSightings(int offset, int limit) {
         List<SuperPersonSighting> allTheSightings = jdbcTemplate.query(SQL_LIST_SUPERPERSON_SIGHTINGS, new SuperPersonSightingMapper(), offset, limit);
@@ -69,23 +71,31 @@ public class SuperPersonSightingDaoDbImpl implements SuperPersonSightingDao {
         jdbcTemplate.update(SQL_DELETE_SUPERPERSON_SIGHTING, superPersonSighting.getSuperPersonSightingId());
         return superPersonSighting;
     }
-    
-     private static final class SuperPersonSightingMapper implements RowMapper<SuperPersonSighting> {
+
+    @Override
+    public SuperPersonSighting getSuperPersonSightingBySuperPersonAndSighting(SuperPerson superPerson, Sighting sighting) {
+        Integer superPersonId = superPerson.getSuperPersonId();
+        Integer sightingId = sighting.getSightingId();
+        return jdbcTemplate.queryForObject(SQL_GET_SUPERPERSONSIGHTING_BY_SUPERPERSON_AND_SIGHTING, new SuperPersonSightingDaoDbImpl.SuperPersonSightingMapper(), superPersonId, sightingId);
+
+    }
+
+    private static final class SuperPersonSightingMapper implements RowMapper<SuperPersonSighting> {
 
         @Override
         public SuperPersonSighting mapRow(ResultSet rs, int i) throws SQLException {
             SuperPersonSighting spp = new SuperPersonSighting();
-            
+
             SuperPerson sp = new SuperPerson();
             sp.setSuperPersonId(rs.getInt("SuperPersonId"));
             spp.setSuperPerson(sp);
-            
+
             Sighting sighting = new Sighting();
             sighting.setSightingId(rs.getInt("SightingId"));
             spp.setSighting(sighting);
-            
+
             spp.setSuperPersonSightingId(rs.getInt("SuperPerson_SightingId"));
-            
+
             return spp;
         }
     }
