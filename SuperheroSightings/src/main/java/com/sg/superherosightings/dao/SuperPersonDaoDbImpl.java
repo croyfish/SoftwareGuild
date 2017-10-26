@@ -116,12 +116,14 @@ public class SuperPersonDaoDbImpl implements SuperPersonDao {
 
     @Override
     public List<SuperPerson> getAllSuperPersonsBySightingLocation(Location location, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbcTemplate.query(SQL_LIST_SUPERPERSONS_BY_SIGHTING_LOCATION, 
+                new SuperPersonMapper(), location.getLocationId(), offset, limit);    
     }
 
     @Override
     public List<SuperPerson> getAllSuperPersonsByOrganization(Organization organization, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return jdbcTemplate.query(SQL_LIST_SUPERPERSONS_BY_ORGANIZATION, 
+                new SuperPersonMapper(), organization.getOrganizationId(), offset, limit);
     }
     
     private static final class SuperPersonMapper implements RowMapper<SuperPerson> {

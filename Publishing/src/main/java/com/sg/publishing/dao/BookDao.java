@@ -22,7 +22,7 @@ public class BookDao {
     private static String SQL_LIST_BOOKS_BY_AUTHOR = "select b.* from b " +
                                                     "inner join author_book ab ON ab.book_id = b.id " +
                                                     "where ab.author_id = ? limit ?, ?";
-                                    
+    private JdbcTemplate jdbcTemplate;      
     
     public Book get(Integer id) {return null;}
     public void update(Book book) {}

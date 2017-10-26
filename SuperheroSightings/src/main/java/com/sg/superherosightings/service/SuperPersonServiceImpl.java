@@ -48,27 +48,27 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     
     @Override
     public SuperPerson createSuperPerson(SuperPerson superPerson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return superPersonDao.createSuperPerson(superPerson);
     }
 
     @Override
     public SuperPerson getSuperPersonById(Integer superPersonId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return superPersonDao.getSuperPersonById(superPersonId);
     }
 
     @Override
     public List<SuperPerson> getAllSuperPersons(int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return superPersonDao.getAllSuperPersons(offset, limit);
     }
 
     @Override
     public SuperPerson updateSuperPerson(SuperPerson superPerson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return superPersonDao.updateSuperPerson(superPerson);
     }
 
     @Override
     public SuperPerson deleteSuperPerson(SuperPerson superPerson) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return superPersonDao.deleteSuperPerson(superPerson);
     }
 
     @Override
@@ -78,12 +78,12 @@ public class SuperPersonServiceImpl implements SuperPersonService {
 
     @Override
     public List<SuperPerson> getAllSuperPersonsBySightingLocation(Location location, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return superPersonDao.getAllSuperPersonsBySightingLocation(location, offset, limit);
     }
 
     @Override
     public List<SuperPerson> getAllSuperPersonsByOrganization(Organization organization, int offset, int limit) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return superPersonDao.getAllSuperPersonsByOrganization(organization, offset, limit);
     }
 
     // Added get
@@ -99,7 +99,8 @@ public class SuperPersonServiceImpl implements SuperPersonService {
 
     @Override
     public SuperPersonPower addSuperPersonToPower(Integer superPersonId, Integer powerId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return addSuperPersonToPower(superPersonDao.getSuperPersonById(superPersonId),
+                powerDao.getPowerById(powerId));
     }
 
     @Override
@@ -114,12 +115,16 @@ public class SuperPersonServiceImpl implements SuperPersonService {
 
     @Override
     public SuperPersonOrganization addSuperPersonToOrganization(SuperPerson superPerson, Organization organization) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SuperPersonOrganization spo = new SuperPersonOrganization();
+        spo.setSuperPerson(superPerson);
+        spo.setOrganization(organization);
+        return superPersonOrganizationDao.createSuperPersonOrganization(spo);
     }
 
     @Override
     public SuperPersonOrganization addSuperPersonToOrganization(Integer superPersonId, Integer organizationId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return addSuperPersonToOrganization(superPersonDao.getSuperPersonById(superPersonId),
+           organizationDao.getOrganizationById(organizationId));
     }
 
     @Override
@@ -134,12 +139,16 @@ public class SuperPersonServiceImpl implements SuperPersonService {
 
     @Override
     public SuperPersonSighting addSuperPersonToSighting(SuperPerson superPerson, Sighting sighting) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SuperPersonSighting sps = new SuperPersonSighting();
+        sps.setSuperPerson(superPerson);
+        sps.setSighting(sighting);
+        return superPersonSightingDao.createSuperPersonSighting(sps);
     }
 
     @Override
     public SuperPersonSighting addSuperPersonToSighting(Integer superPersonId, Integer sightingId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return addSuperPersonToSighting(superPersonDao.getSuperPersonById(superPersonId),
+                sightingDao.getSightingById(sightingId));
     }
 
     @Override
