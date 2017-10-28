@@ -124,9 +124,14 @@
           class="com.sg.superherosightings.service.SightingServiceImpl">
         <constructor-arg ref="sightingDao"/>
         <constructor-arg ref="superPersonService"/>
+        <constructor-arg ref="locationService"/>
     </bean>
     
-                                                                                                                                                       
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    <!-- Service Beans Go Here -->                                                                                                                                                       
 
+    <bean id="homeController"
+          class="com.sg.superherosightings.controller.HomeController">
+        <constructor-arg ref="sightingService"/>
+    </bean>        
+      
 </beans>

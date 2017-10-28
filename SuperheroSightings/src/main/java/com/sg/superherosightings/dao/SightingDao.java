@@ -6,6 +6,7 @@
 package com.sg.superherosightings.dao;
 
 import com.sg.superherosightings.model.Sighting;
+import com.sg.superherosightings.model.SuperPerson;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface SightingDao {
     public Sighting deleteSighting(Sighting sighting);
     //demo
     public List<Sighting> getAllSightingsByDate(LocalDate date, int offset, int limit);
+    
+    public List<Sighting> getAllSightingsBySuperPerson(SuperPerson sp, int offset, int limit)  ;  
 }

@@ -13,6 +13,7 @@ import com.sg.superherosightings.model.SuperPerson;
 import com.sg.superherosightings.model.SuperPersonOrganization;
 import com.sg.superherosightings.model.SuperPersonPower;
 import com.sg.superherosightings.model.SuperPersonSighting;
+import com.sg.superherosightings.viewmodel.SuperPersonViewModel;
 import java.util.List;
 
 /**
@@ -46,6 +47,9 @@ public interface SuperPersonService {
     public SuperPersonSighting deleteSightingFromSuperPerson(Integer superPersonId, Integer sightingId);
     
     //demo
+    
+    public List<SuperPersonViewModel> getSuperPersonViewModels(int offset, int limit);
+    public SuperPersonViewModel getSuperPersonViewModelBySuperPersonId(Integer superPersonId);    
     
     
 }

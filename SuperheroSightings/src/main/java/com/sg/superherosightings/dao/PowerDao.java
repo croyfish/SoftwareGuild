@@ -6,6 +6,7 @@
 package com.sg.superherosightings.dao;
 
 import com.sg.superherosightings.model.Power;
+import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
 
 /**
@@ -23,5 +24,7 @@ public interface PowerDao {
     public Power updatePower(Power power);
     
     public Power deletePower(Power power);
+    
+    public List<Power> getAllPowersBySuperPerson(SuperPerson superPerson, int offset, int limit);
     
 }

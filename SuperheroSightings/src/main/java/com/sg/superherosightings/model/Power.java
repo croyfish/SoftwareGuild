@@ -6,6 +6,8 @@
 package com.sg.superherosightings.model;
 
 import java.util.Objects;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -15,6 +17,8 @@ public class Power {
     
     private Integer powerId;
     
+    @NotEmpty(message = "You must supply a value for name.")
+    @Length(max = 50, message = "Name must be no more than 50 characters in length.")       
     private String name;
 
     public Integer getPowerId() {

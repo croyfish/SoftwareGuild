@@ -102,8 +102,9 @@ public class OrganizationDaoDbImpl implements OrganizationDao {
 
     @Override
     public List<Organization> getAllOrganizationsBySuperPerson(SuperPerson superPerson, int offset, int limit) {
-        return jdbcTemplate.query(SQL_LIST_ORGANIZATIONS_BY_SUPERPERSON, new OrganizationMapper(), 
+        List<Organization> orgs = jdbcTemplate.query(SQL_LIST_ORGANIZATIONS_BY_SUPERPERSON, new OrganizationMapper(), 
                 superPerson.getSuperPersonId(), offset, limit);
+        return orgs;
     }
     
     private static final class OrganizationMapper implements RowMapper<Organization> {

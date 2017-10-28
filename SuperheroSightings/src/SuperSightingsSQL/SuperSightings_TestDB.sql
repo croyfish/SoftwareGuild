@@ -17,10 +17,10 @@ USE `SuperSightings-test` ;
 DROP TABLE IF EXISTS `SuperSightings-test`.`Address` ;
 CREATE TABLE IF NOT EXISTS `SuperSightings-test`.`Address` (
   `AddressId` INT NOT NULL AUTO_INCREMENT,
-  `Street` VARCHAR(45) NOT NULL,
-  `City` VARCHAR(45) NOT NULL,
-  `State` VARCHAR(45) NOT NULL,
-  `Zipcode` VARCHAR(20) NOT NULL,
+  `Street` VARCHAR(50) NOT NULL,
+  `City` VARCHAR(50) NOT NULL,
+  `State` VARCHAR(2) NOT NULL,
+  `Zipcode` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`AddressId`))
 ENGINE = InnoDB;
 -- -----------------------------------------------------
@@ -29,10 +29,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `SuperSightings-test`.`Location` ;
 CREATE TABLE IF NOT EXISTS `SuperSightings-test`.`Location` (
   `LocationId` INT NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(45) NOT NULL,
+  `Name` VARCHAR(50) NOT NULL,
   `Description` TEXT NULL,
-  `Latitude` VARCHAR(45) NOT NULL,
-  `Longitude` VARCHAR(45) NOT NULL,
+  `Latitude` VARCHAR(15) NOT NULL,
+  `Longitude` VARCHAR(15) NOT NULL,
   `AddressId` INT NOT NULL,
   PRIMARY KEY (`LocationId`),
   INDEX `fk_Location_Address1_idx` (`AddressId` ASC),
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `SuperSightings-test`.`Organization` (
   `OrganizationId` INT NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(50) NOT NULL,
   `Description` TEXT NULL,
-  `Phone` VARCHAR(10) NOT NULL,
+  `Phone` VARCHAR(15) NOT NULL,
   `isGood` TINYINT(1) NULL,
   `LocationId` INT NOT NULL,
   PRIMARY KEY (`OrganizationId`),

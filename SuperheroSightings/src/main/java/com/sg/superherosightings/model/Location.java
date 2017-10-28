@@ -6,6 +6,8 @@
 package com.sg.superherosightings.model;
 
 import java.util.Objects;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -14,15 +16,23 @@ import java.util.Objects;
 public class Location {
     
     private Integer locationId;
-    
+
+    @NotEmpty(message = "You must supply a value for name.")
+    @Length(max = 50, message = "Name must be no more than 50 characters in length.")    
     private String name;
-    
+      
+    @Length(max = 65535, message = "Description must be no more than 65,535 characters in length.") 
     private String description;
-    
+       
+    @NotEmpty(message = "You must supply an address.")
     private Address address;
     
+    @NotEmpty(message = "You must supply a value for latitude.")
+    @Length(min = 9, max = 50, message = "Coordinate values must be between 9 and 50 characters in length.")       
     private String latitude;
     
+    @NotEmpty(message = "You must supply a value for longitude.")
+    @Length(min = 9, max = 50, message = "Coordinate values must be between 9 and 50 characters in length.")           
     private String longitude;
     
     public Integer getLocationId() {

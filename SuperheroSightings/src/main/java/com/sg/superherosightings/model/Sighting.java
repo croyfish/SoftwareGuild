@@ -7,15 +7,28 @@ package com.sg.superherosightings.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import javax.validation.constraints.Past;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
  * @author jeffc
  */
 public class Sighting {
+    
     private Integer sightingId;
+    
+    @Past
+    @NotEmpty(message = "You must supply a value for date")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate date;
+    
+    @NotEmpty(message = "You must supply a value for location")
     private Location location;
+    
+    @Length(max = 65535, message = "Description must be no more than 65,535 characters in length.")      
     private String description;
 
     public Integer getSightingId() {

@@ -6,6 +6,8 @@
 package com.sg.superherosightings.model;
 
 import java.util.Objects;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -14,8 +16,14 @@ import java.util.Objects;
 public class SuperPerson {
     
     private Integer superPersonId;
+    
+    @NotEmpty(message = "You must supply a value for name.")
+    @Length(max = 50, message = "Name must be no more than 50 characters in length.")     
     private String name;
+    
+    @Length(max = 65535, message = "Description must be no more than 65,535 characters in length.")
     private String description;
+    
     private boolean isGood;
 
     public Integer getSuperPersonId() {

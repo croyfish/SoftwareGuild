@@ -48,8 +48,8 @@ public class SuperPersonDaoDbImpl implements SuperPersonDao {
             + "on `superperson`.`superpersonId` = `superperson_organization`.`superpersonId` "
             + "inner join `organization` "
             + "on `superperson_organization`.`OrganizationId` = `organization`.`OrganizationId` "
-            + "where `organization`.`organizationId` = ? ORDER BY `superperson`.`Name` LIMIT ?,?;";
-
+            + "where `organization`.`organizationId` = ? ORDER BY `superperson`.`Name` LIMIT ?,?;";   
+    
     private JdbcTemplate jdbcTemplate;
 
     // Constructor with DI
@@ -125,6 +125,7 @@ public class SuperPersonDaoDbImpl implements SuperPersonDao {
         return jdbcTemplate.query(SQL_LIST_SUPERPERSONS_BY_ORGANIZATION, 
                 new SuperPersonMapper(), organization.getOrganizationId(), offset, limit);
     }
+     
     
     private static final class SuperPersonMapper implements RowMapper<SuperPerson> {
 

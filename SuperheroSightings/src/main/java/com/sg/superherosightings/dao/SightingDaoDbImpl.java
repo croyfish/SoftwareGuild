@@ -7,6 +7,7 @@ package com.sg.superherosightings.dao;
 
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Sighting;
+import com.sg.superherosightings.model.SuperPerson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -33,10 +34,15 @@ public class SightingDaoDbImpl implements SightingDao {
     private static String SQL_GET_SIGHTING = "SELECT * FROM Sighting WHERE SightingId = ?";
     private static String SQL_UPDATE_SIGHTING = "UPDATE Sighting SET Date = ?, Locationid = ?, Description = ? WHERE SightingId = ?";
     private static String SQL_DELETE_SIGHTING = "DELETE FROM Sighting WHERE SightingId = ?";
-    private static String SQL_LIST_SIGHTINGS = "SELECT * FROM Sighting LIMIT ?, ?";
+    private static String SQL_LIST_SIGHTINGS = "SELECT * FROM Sighting ORDER BY `Sighting`.`Date` DESC LIMIT ?, ?";
 
-    private static String SQL_LIST_SIGHTINGS_BY_DATE = "SELECT `Sighting`.* FROM `Sighting`\n"
-            + "WHERE `date`= ? ORDER BY Sighting.SightingId LIMIT ?, ?;";
+    private static String SQL_LIST_SIGHTINGS_BY_DATE = "SELECT `Sighting`.* FROM `Sighting`"
+            + "WHERE `date`= ? LIMIT ?, ?;";
+
+    private static String SQL_LIST_SIGHTINGS_BY_SUPERPERSON = "Select s.* from Sighting s\n"
+            + "inner join SuperPerson_Sighting sps on sps.sightingId = s.sightingId\n"
+            + "inner join SuperPerson sp on sp.SuperPersonId = sps.SuperPersonId\n"
+            + "where sp.SuperPersonId = ? ORDER BY Sighting.Date DESC LIMIT ?,?;";     
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -97,6 +103,12 @@ public class SightingDaoDbImpl implements SightingDao {
         java.sql.Date convertedDate = java.sql.Date.valueOf(date);
         return jdbcTemplate.query(SQL_LIST_SIGHTINGS_BY_DATE, new SightingMapper(), convertedDate, offset, limit);
     }
+    
+    @Override
+    public List<Sighting> getAllSightingsBySuperPerson(SuperPerson sp, int offset, int limit){
+        return jdbcTemplate.query(SQL_LIST_SIGHTINGS_BY_SUPERPERSON, 
+                new SightingMapper(), sp.getSuperPersonId(), offset, limit);
+    }       
 
     private static final class SightingMapper implements RowMapper<Sighting> {
 

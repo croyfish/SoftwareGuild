@@ -6,6 +6,7 @@
 package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.model.Sighting;
+import com.sg.superherosightings.viewmodel.SightingViewModel;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,5 +24,9 @@ public interface SightingService {
     public Sighting deleteSighting(Sighting sighting);
     //demo
     public List<Sighting> getAllSightingsByDate(LocalDate date, int offset, int limit);
+    
+    public List<SightingViewModel> getSightingViewModels(int offset, int limit);
+    
+    public SightingViewModel getSightingViewModelBySightingId(Integer sightingClicked);
     
 }

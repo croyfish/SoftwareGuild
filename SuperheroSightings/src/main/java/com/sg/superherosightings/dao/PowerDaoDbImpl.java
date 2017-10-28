@@ -6,8 +6,10 @@
 package com.sg.superherosightings.dao;
 
 import com.sg.superherosightings.model.Power;
+import com.sg.superherosightings.model.SuperPerson;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import static java.time.Clock.offset;
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,7 +27,14 @@ public class PowerDaoDbImpl implements PowerDao {
     private static String SQL_GET_POWER = "SELECT * from power where PowerId = ?";
     private static String SQL_UPDATE_POWER = "UPDATE power set Name = ? WHERE PowerId = ?";
     private static String SQL_DELETE_POWER = "DELETE FROM power where PowerId = ?";
-    private static String SQL_LIST_POWERS = "SELECT * from power LIMIT ?,?";      
+    private static String SQL_LIST_POWERS = "SELECT * from power LIMIT ?,?";
+    
+    private static String SQL_LIST_POWERS_BY_SUPERPERSON = "SELECT `Power`.* FROM `Power`\n" +
+            "INNER JOIN `SuperPerson_Power` \n" +
+            "ON `SuperPerson_Power`.`powerId` = `Power`.`powerId` \n" +
+            "INNER JOIN `SuperPerson` \n" +
+            "ON `Superperson_Power`.`superpersonId` = `superPerson`.`superpersonId` \n" +
+            "WHERE `SuperPerson`.`superpersonId` = ? ORDER BY `Power`.`Name` LIMIT ?,?;";
     
     private JdbcTemplate jdbcTemplate;
 
@@ -79,6 +88,11 @@ public class PowerDaoDbImpl implements PowerDao {
     public Power deletePower(Power power) {
         jdbcTemplate.update(SQL_DELETE_POWER, power.getPowerId());
         return power;
+    }
+    
+    @Override
+    public List<Power> getAllPowersBySuperPerson(SuperPerson superPerson, int offset, int limit) {
+        return jdbcTemplate.query(SQL_LIST_POWERS_BY_SUPERPERSON, new PowerMapper(), superPerson.getSuperPersonId(), offset, limit);
     }
     
     private static final class PowerMapper implements RowMapper<Power> {

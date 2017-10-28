@@ -20,7 +20,10 @@ import com.sg.superherosightings.model.SuperPerson;
 import com.sg.superherosightings.model.SuperPersonOrganization;
 import com.sg.superherosightings.model.SuperPersonPower;
 import com.sg.superherosightings.model.SuperPersonSighting;
+import com.sg.superherosightings.viewmodel.SuperPersonViewModel;
+import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  *
@@ -35,6 +38,9 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     private SuperPersonOrganizationDao superPersonOrganizationDao;
     private SuperPersonPowerDao superPersonPowerDao;
     private SuperPersonSightingDao superPersonSightingDao;
+    
+    @Inject
+    private LocationService locationService;
 
     public SuperPersonServiceImpl(SuperPersonDao superPersonDao, OrganizationDao organizationDao, PowerDao powerDao, SightingDao sightingDao, SuperPersonOrganizationDao superPersonOrganizationDao, SuperPersonPowerDao superPersonPowerDao, SuperPersonSightingDao superPersonSightingDao) {
         this.superPersonDao = superPersonDao;
@@ -165,6 +171,45 @@ public class SuperPersonServiceImpl implements SuperPersonService {
                 = superPersonSightingDao.getSuperPersonSightingBySuperPersonAndSighting(superPerson, sighting);
         return superPersonSightingDao.deleteSuperPersonSighting(superPersonSighting);    
     }
+    
+@Override
+    public List<SuperPersonViewModel> getSuperPersonViewModels(int offset, int limit) {
+        List<SuperPersonViewModel> spvmList = new ArrayList();
+        List<SuperPerson> viewSuperPersons = getAllSuperPersons(offset, limit);
+
+        for (int i = 0; i < viewSuperPersons.size(); i++) {
+            SuperPersonViewModel currentModel = new SuperPersonViewModel();
+            SuperPerson currentSuperPerson = viewSuperPersons.get(i);
+            currentModel.setSuperPerson(currentSuperPerson);
+            spvmList.add(currentModel);
+        }
+
+        return spvmList;
+    }
+
+    @Override
+    public SuperPersonViewModel getSuperPersonViewModelBySuperPersonId(Integer superPersonId) {
+        SuperPersonViewModel spvm = new SuperPersonViewModel();
+        SuperPerson superPerson = getSuperPersonById(superPersonId);
+        List<Sighting> sightingsForSuperPersonNoLocation = sightingDao.getAllSightingsBySuperPerson(superPerson, 0, 10);
+        List<Organization> orgsForSuperPerson = organizationDao.getAllOrganizationsBySuperPerson(superPerson, 0, 10);
+        List<Sighting> sightingsForSuperPersonWithLocation = new ArrayList<Sighting>();
+        List<Power> powersForSuperPerson = powerDao.getAllPowersBySuperPerson(superPerson, 0, 10);
+        
+        for(Sighting currentSighting : sightingsForSuperPersonNoLocation) {
+            Location currentLocation = locationService.getLocationById(currentSighting.getLocation().getLocationId());
+            currentSighting.setLocation(currentLocation);
+            sightingsForSuperPersonWithLocation.add(currentSighting);
+        }
+        
+        spvm.setSuperPerson(superPerson);
+        spvm.setSightings(sightingsForSuperPersonWithLocation);
+        spvm.setOrganizations(orgsForSuperPerson);
+        spvm.setPowers(powersForSuperPerson);
+        
+        return spvm;
+    }    
+    
 
     @Override
     public SuperPersonSighting deleteSightingFromSuperPerson(Integer superPersonId, Integer sightingId) {

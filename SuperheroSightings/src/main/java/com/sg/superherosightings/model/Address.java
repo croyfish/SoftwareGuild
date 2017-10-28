@@ -6,6 +6,8 @@
 package com.sg.superherosightings.model;
 
 import java.util.Objects;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *
@@ -15,12 +17,20 @@ public class Address {
     
     private Integer addressId;
     
+    @NotEmpty(message = "You must supply a value for street address.")
+    @Length(max = 50, message = "Street address must be no more than 50 characters in length.")
     private String street;
     
+    @NotEmpty(message = "You must supply a value for city.")
+    @Length(max = 50, message = "City must be no more than 50 characters in length.")
     private String city;
     
+    @NotEmpty(message = "You must supply a value for state.")
+    @Length(min = 2, max = 2, message = "State must be 2 characters in length.")  
     private String state;
     
+    @NotEmpty(message = "You must supply a value for zipcode.")
+    @Length(min = 5, max = 10, message = "Zipcode must be between 5 and 10 characters in length.")    
     private String zipcode;
 
     public Integer getAddressId() {

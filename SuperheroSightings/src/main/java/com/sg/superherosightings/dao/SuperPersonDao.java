@@ -28,4 +28,5 @@ public interface SuperPersonDao {
     public List<SuperPerson> getAllSuperPersonsBySighting(Sighting sighting, int offset, int limit);
     public List<SuperPerson> getAllSuperPersonsBySightingLocation(Location location, int offset, int limit);
     public List<SuperPerson> getAllSuperPersonsByOrganization(Organization organization, int offset, int limit);
+
 }
