@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.dao.LocationDao;
 import com.sg.superherosightings.dao.OrganizationDao;
 import com.sg.superherosightings.dao.PowerDao;
 import com.sg.superherosightings.dao.SightingDao;
@@ -40,7 +41,7 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     private SuperPersonSightingDao superPersonSightingDao;
     
     @Inject
-    private LocationService locationService;
+    private LocationDao locationDao;
 
     public SuperPersonServiceImpl(SuperPersonDao superPersonDao, OrganizationDao organizationDao, PowerDao powerDao, SightingDao sightingDao, SuperPersonOrganizationDao superPersonOrganizationDao, SuperPersonPowerDao superPersonPowerDao, SuperPersonSightingDao superPersonSightingDao) {
         this.superPersonDao = superPersonDao;
@@ -197,7 +198,7 @@ public class SuperPersonServiceImpl implements SuperPersonService {
         List<Power> powersForSuperPerson = powerDao.getAllPowersBySuperPerson(superPerson, 0, 10);
         
         for(Sighting currentSighting : sightingsForSuperPersonNoLocation) {
-            Location currentLocation = locationService.getLocationById(currentSighting.getLocation().getLocationId());
+            Location currentLocation = locationDao.getLocationById(currentSighting.getLocation().getLocationId());
             currentSighting.setLocation(currentLocation);
             sightingsForSuperPersonWithLocation.add(currentSighting);
         }

@@ -7,6 +7,7 @@ package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.SuperPerson;
+import com.sg.superherosightings.viewmodel.LocationViewModel;
 import java.util.List;
 
 /**
@@ -26,6 +27,10 @@ public interface LocationService {
     public Location deleteLocation(Location location);
 
     public List<Location> getAllLocationsBySuperPerson(SuperPerson superperson, int offset, int limit);
+    
+    public LocationViewModel getLocationViewModelByLocationId(Integer locationClicked);
+
+    public List<LocationViewModel> getLocationViewModels(int offset, int limit);
     
 //    public List<Location> getAllLocationsBySuperPerson(Integer superPersonId, int offset, int limit); 
 }

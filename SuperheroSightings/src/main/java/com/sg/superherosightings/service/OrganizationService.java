@@ -7,6 +7,7 @@ package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.SuperPerson;
+import com.sg.superherosightings.viewmodel.OrganizationViewModel;
 import java.util.List;
 
 /**
@@ -26,5 +27,9 @@ public interface OrganizationService {
     public Organization deleteOrganization(Organization organization);
 
     public List<Organization> getAllOrganizationsBySuperPerson(SuperPerson superperson, int offset, int limit);
+    
+    public OrganizationViewModel getOrganizationViewModelByOrganizationId(Integer organizationId);
+    
+    public List<OrganizationViewModel> getOrganizationViewModels(int offset, int limit);
 
 }

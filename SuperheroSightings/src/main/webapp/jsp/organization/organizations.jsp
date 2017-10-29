@@ -9,14 +9,14 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>HERO - Sightings Page</title>
+        <title>HERO - Organization Page</title>
         <!-- Bootstrap core CSS -->
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">        
         <link href="${pageContext.request.contextPath}/css/herostyle.css" rel="stylesheet">        
     </head>
     <body>
         <div class="container">
-            <h1>HERO - Super Person Sightings</h1>
+            <h1>HERO - Super Person Organizations</h1>
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
@@ -54,12 +54,34 @@
                 <!-- 
                     Add a col to hold the summary table - have it take up half the row 
                 -->
-                <div class="col-md-6">
-                    <div class="col-md-12">
+                <div class="col-md-9">
+                    <h2>Selected Organization: <c:out value="${ovm.organization.name}"/> </h2>
+                    <div class="col-md-6">
                         <div class="row">
-                            <h2>Selected Sighting</h2>
-                            Date: <c:out value="${svm.sighting.date}"/><br/>
-                            Location: <c:out value="${svm.location.name}"/>
+                            <img src="${pageContext.request.contextPath}/images/organizations/${ovm.organization.organizationId}.jpg" width="300px" 
+                                 style="border: solid black;"/><br/><br/>
+                            <p>Location: <c:out value="${ovm.location.name}     "/></p>
+                            <p>Reputation: 
+                                <c:choose>
+                                    <c:when test="${empty ovm.organization.isGood}">
+                                        <c:out value="Undetermined"/>
+                                    </c:when>
+                                    <c:when test="${not ovm.organization.isGood}">
+                                        <c:out value="Evil"/>
+                                    </c:when>
+                                    <c:when test="${ovm.organization.isGood}">
+                                        <c:out value="Good"/>
+                                    </c:when>
+                                </c:choose>
+                            </p>
+                            <p>Description:<br/>
+                                <c:out value="${ovm.organization.description}"/><br/>
+                            </p>
+                            <p>Address:<br/>
+                                <c:out value="${ovm.address.street}"/><br/>
+                                <c:out value="${ovm.address.city}, ${ovm.address.state}"/><br/>
+                                <c:out value="${ovm.address.zipcode}"/><br/>
+                            </p>
                         </div>
                     </div>
                     <div class="row">
@@ -70,26 +92,37 @@
                                     <tr>
                                         <th width="5%">#</th>
                                         <th width="25%">Name</th>
-                                        <th width="70%">Image</th>
+                                        <th width="50%">Image</th>
+                                        <th width="20">Reputation</th>
                                     </tr>
                                     <tbody> <!-- will this throw a null pointer if the initial page load doesn't have svm on the model?  if so, just put an empty svm on the model in the initial page load.... -->
                                         <c:forEach 
-                                            items="${svm.superPersons}" 
+                                            items="${ovm.superPersons}" 
                                             var="currentSuperPerson" 
                                             varStatus="loop">
                                             <tr> <!-- should include links to the locations page, sightings page, and superperson page -->
                                                 <td><c:out value="${loop.count}"/></td>
                                                 <td><c:out value="${currentSuperPerson.name}"/></td><!-- name -->                                           
-                                                <td><c:out value=""/></td><!-- image -->                                           
+                                                <td><img src="${pageContext.request.contextPath}/images/superpersons/${currentSuperPerson.superPersonId}.jpg" width="100px" 
+                                                         style="border: solid black;"/></td>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${empty currentSuperPerson.isGood}">
+                                                            <c:out value="Undetermined"/>
+                                                        </c:when>
+                                                        <c:when test="${not currentSuperPerson.isGood}">
+                                                            <c:out value="Evil"/>
+                                                        </c:when>
+                                                        <c:when test="${currentSuperPerson.isGood}">
+                                                            <c:out value="Good"/>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <h3>Description</h3>
-                            <c:out value="${svm.sighting.description}"/> <!-- big box of text -->
                         </div>
                     </div>
                 </div> <!-- End col div -->
@@ -97,45 +130,44 @@
                     Add col to hold the search form - have it take up the other 
                     half of the row
                 -->
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <sf:form class="form-horizontal" role="form" modelAttribute="button"
                              action="displayCreateSighting" method="POST">                             
-                        <input type="submit" class="btn btn-default" name="button" value="Report Sighting" />
+                        <input type="submit" class="btn btn-default" name="button" value="Add Organization" />
                     </sf:form>
 
-                    <h2>Sightings</h2>
+                    <h2>Organizations</h2>
 
                     <div><!-- should be a table -->
-                        <table id="sightingTable" class="table table-hover">
+                        <table id="organizationTable" class="table table-hover">
                             <tr>
                                 <th width="5%">#</th>
-                                <th width="20%">Date</th>
-                                <th width="35%">Super Persons</th>
-                                <th width="25%">Location</th>
-                                <th width="15%"></th>
+                                <th width="65%">Organization</th>
+                                <th width="30%">Reputation</th>
                             </tr>
                             <tbody>
                                 <c:forEach 
-                                    items="${svmList}" 
-                                    var="currentSVM" 
+                                    items="${ovmList}" 
+                                    var="currentOVM" 
                                     varStatus="loop">
 
                                     <tr> 
-                                        <td><a href="chooseSighting?sightingClicked=${currentSVM.sighting.sightingId}"><c:out value="${loop.count}"/></a></td>
-                                        <td><c:out value="${currentSVM.sighting.date}"/></td>                                           
+                                        <td><a href="chooseOrganization?organizationClicked=${currentOVM.organization.organizationId}"><c:out value="${loop.count}"/></a></td>
+                                        <td><c:out value="${currentOVM.organization.name}"/></td>                                           
                                         <td>
-                                            <c:forEach 
-                                                items = "${currentSVM.superPersons}"
-                                                var = "currentSuperPerson"
-                                                varStatus = "innerLoop">
-                                                <c:out value="${innerLoop.count}. ${currentSuperPerson.name}" /><br/>
-                                            </c:forEach>
+                                            <c:choose>
+                                                <c:when test="${empty currentOVM.organization.isGood}">
+                                                    <c:out value="Undetermined"/>
+                                                </c:when>
+                                                <c:when test="${not currentOVM.organization.isGood}">
+                                                    <c:out value="Evil"/>
+                                                </c:when>
+                                                <c:when test="${currentOVM.organization.isGood}">
+                                                    <c:out value="Good"/>
+                                                </c:when>
+                                            </c:choose>
                                         </td>                                         
-                                        <td><c:out value="${currentSVM.location.name}"/></td>
-                                        <td><a href="${pageContext.request.contextPath}/sighting/edit_sighting">Edit</a><br/>
-                                            <a href="${pageContext.request.contextPath}/sighting/delete_sighting?sightingToDelete=${currentSVM.sighting.sightingId}">Delete</a></td>
                                     </tr>
-
                                 </c:forEach>
 
                             </tbody>

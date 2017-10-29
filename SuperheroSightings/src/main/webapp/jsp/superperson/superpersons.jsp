@@ -57,7 +57,7 @@
                     <div class="row">
                         <div class="col-md-4"> <!-- left side with pic -->
                             <!-- pic -->
-                            <img src="${pageContext.request.contextPath}/images/0.jpg" width="200px" 
+                            <img src="${pageContext.request.contextPath}/images/superpersons/${spvm.superPerson.superPersonId}.jpg" width="200px" 
                                  style="border: solid black;"/><br/><br/>
                             <!-- good or evil -->
                             <p>Reputation: 

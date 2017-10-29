@@ -13,7 +13,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Company Contacts</title>
+        <title>HERO</title>
         <!-- Bootstrap core CSS -->
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">        
     </head>
@@ -39,12 +39,12 @@
                         </a> 
                     </li>
                     <li role="presentation">
-                        <a href="${pageContext.request.contextPath}organization/organizations">
+                        <a href="${pageContext.request.contextPath}/organization/organizations">
                             Organizations
                         </a> 
                     </li>
                     <li role="presentation">
-                        <a href="${pageContext.request.contextPath}location/locations">
+                        <a href="${pageContext.request.contextPath}/location/locations">
                             Locations
                         </a> 
                     </li>

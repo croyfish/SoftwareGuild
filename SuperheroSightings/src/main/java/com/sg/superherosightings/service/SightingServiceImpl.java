@@ -54,6 +54,10 @@ public class SightingServiceImpl implements SightingService {
 
     @Override
     public Sighting deleteSighting(Sighting sighting) {
+        List<SuperPerson> superPersonsAtSighting = superPersonService.getAllSuperPersonsBySighting(sighting, 0, Integer.MAX_VALUE);
+        for(SuperPerson currentSuperPerson : superPersonsAtSighting) {
+            superPersonService.deleteSightingFromSuperPerson(currentSuperPerson, sighting);
+        }
         return sightingDao.deleteSighting(sighting);
     }
 

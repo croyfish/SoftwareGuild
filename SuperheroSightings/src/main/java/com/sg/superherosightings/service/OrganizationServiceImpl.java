@@ -6,25 +6,33 @@
 package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.dao.OrganizationDao;
+import com.sg.superherosightings.model.Address;
+import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.SuperPerson;
+import com.sg.superherosightings.viewmodel.OrganizationViewModel;
+import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
 
 /**
  *
  * @author jeffc
  */
 public class OrganizationServiceImpl implements OrganizationService {
-    
+
     private OrganizationDao organizationDao;
     private SuperPersonService superPersonService;
+    
+    @Inject
+    private LocationService locationService;
+    @Inject
+    private AddressService addressService;
 
     public OrganizationServiceImpl(OrganizationDao organizationDao, SuperPersonService superPersonService) {
         this.organizationDao = organizationDao;
         this.superPersonService = superPersonService;
     }
-
-    
 
     @Override
     public Organization createOrganization(Organization organization) {
@@ -55,5 +63,46 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<Organization> getAllOrganizationsBySuperPerson(SuperPerson superperson, int offset, int limit) {
         return organizationDao.getAllOrganizationsBySuperPerson(superperson, offset, limit);
     }
-    
+
+    @Override
+    public OrganizationViewModel getOrganizationViewModelByOrganizationId(Integer organizationId) {
+        
+        OrganizationViewModel ovm = new OrganizationViewModel();
+        
+        Organization organization = getOrganizationById(organizationId);
+        ovm.setOrganization(organization);
+        
+        Integer locationId = organization.getLocation().getLocationId();
+        Location location = locationService.getLocationById(locationId);
+        ovm.setLocation(location);
+        
+        Integer addressId = location.getAddress().getAddressId();
+        Address address = addressService.getAddressById(addressId);
+        ovm.setAddress(address);
+        
+        List<SuperPerson> superPersonsInOrganization = superPersonService.getAllSuperPersonsByOrganization(
+                ovm.getOrganization(), 0, 10);
+        
+        ovm.setSuperPersons(superPersonsInOrganization);
+ 
+        return ovm;
+    }
+
+    @Override
+    public List<OrganizationViewModel> getOrganizationViewModels(int offset, int limit) {
+        List<OrganizationViewModel> ovmList = new ArrayList();
+        List<Organization> viewOrganizations = getAllOrganizations(offset, limit);
+
+        for (int i = 0; i < viewOrganizations.size(); i++) {
+            // Make new Model object for each iteration
+            OrganizationViewModel currentModel = new OrganizationViewModel();
+            // Get the current organization and set it on the model
+            Organization currentOrganization = viewOrganizations.get(i);
+            currentModel.setOrganization(currentOrganization);
+            ovmList.add(currentModel);
+        }
+        // return the list of models
+        return ovmList;
+    }
+
 }

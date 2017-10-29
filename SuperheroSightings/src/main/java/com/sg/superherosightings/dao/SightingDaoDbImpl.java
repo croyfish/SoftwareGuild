@@ -42,7 +42,7 @@ public class SightingDaoDbImpl implements SightingDao {
     private static String SQL_LIST_SIGHTINGS_BY_SUPERPERSON = "Select s.* from Sighting s\n"
             + "inner join SuperPerson_Sighting sps on sps.sightingId = s.sightingId\n"
             + "inner join SuperPerson sp on sp.SuperPersonId = sps.SuperPersonId\n"
-            + "where sp.SuperPersonId = ? ORDER BY Sighting.Date DESC LIMIT ?,?;";     
+            + "where sp.SuperPersonId = ? ORDER BY `s`.`Date` DESC LIMIT ?,?;";     
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
