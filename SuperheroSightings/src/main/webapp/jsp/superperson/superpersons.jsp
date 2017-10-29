@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -165,7 +166,7 @@
                 <div class="col-md-3">
                     
                     <sf:form class="form-horizontal" role="form" modelAttribute="button"
-                             action="displayCreateSuperPersonPage" method="POST">                             
+                             action="${pageContext.request.contextPath}/superperson/displayCreateSuperPersonPage" method="POST">                             
                         <input type="submit" class="btn btn-default" name="button" value="Add Super Person" />
                     </sf:form>                       
 
