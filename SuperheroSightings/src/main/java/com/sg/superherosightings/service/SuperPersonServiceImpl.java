@@ -39,7 +39,7 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     private SuperPersonOrganizationDao superPersonOrganizationDao;
     private SuperPersonPowerDao superPersonPowerDao;
     private SuperPersonSightingDao superPersonSightingDao;
-    
+
     @Inject
     private LocationDao locationDao;
 
@@ -75,6 +75,22 @@ public class SuperPersonServiceImpl implements SuperPersonService {
 
     @Override
     public SuperPerson deleteSuperPerson(SuperPerson superPerson) {
+
+        List<Sighting> sightingsForSuperPerson = sightingDao.getAllSightingsBySuperPerson(superPerson, 0, Integer.MAX_VALUE);
+        for (Sighting currentSighting : sightingsForSuperPerson) {
+            deleteSightingFromSuperPerson(superPerson, currentSighting);
+        }
+
+        List<Organization> organizationsForSuperPerson = organizationDao.getAllOrganizationsBySuperPerson(superPerson, 0, Integer.MAX_VALUE);
+        for (Organization currentOrganization : organizationsForSuperPerson) {
+            deleteOrganizationFromSuperPerson(superPerson, currentOrganization);
+        }
+
+        List<Power> powersForSuperPerson = powerDao.getAllPowersBySuperPerson(superPerson, 0, Integer.MAX_VALUE);
+        for (Power currentPower : powersForSuperPerson) {
+            deletePowerFromSuperPerson(superPerson, currentPower);
+        }
+
         return superPersonDao.deleteSuperPerson(superPerson);
     }
 
@@ -147,8 +163,8 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     public SuperPersonOrganization deleteOrganizationFromSuperPerson(Integer superPersonId, Integer organizationId) {
         SuperPerson superPerson = superPersonDao.getSuperPersonById(superPersonId);
         Organization organization = organizationDao.getOrganizationById(organizationId);
-        SuperPersonOrganization superPersonOrganization = 
-                superPersonOrganizationDao.getSuperPersonOrganizationBySuperPersonAndOrganization(superPerson, organization);
+        SuperPersonOrganization superPersonOrganization
+                = superPersonOrganizationDao.getSuperPersonOrganizationBySuperPersonAndOrganization(superPerson, organization);
         return superPersonOrganizationDao.deleteSuperPersonOrganization(superPersonOrganization);
     }
 
@@ -170,10 +186,10 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     public SuperPersonSighting deleteSightingFromSuperPerson(SuperPerson superPerson, Sighting sighting) {
         SuperPersonSighting superPersonSighting
                 = superPersonSightingDao.getSuperPersonSightingBySuperPersonAndSighting(superPerson, sighting);
-        return superPersonSightingDao.deleteSuperPersonSighting(superPersonSighting);    
+        return superPersonSightingDao.deleteSuperPersonSighting(superPersonSighting);
     }
-    
-@Override
+
+    @Override
     public List<SuperPersonViewModel> getSuperPersonViewModels(int offset, int limit) {
         List<SuperPersonViewModel> spvmList = new ArrayList();
         List<SuperPerson> viewSuperPersons = getAllSuperPersons(offset, limit);
@@ -196,28 +212,27 @@ public class SuperPersonServiceImpl implements SuperPersonService {
         List<Organization> orgsForSuperPerson = organizationDao.getAllOrganizationsBySuperPerson(superPerson, 0, 10);
         List<Sighting> sightingsForSuperPersonWithLocation = new ArrayList<Sighting>();
         List<Power> powersForSuperPerson = powerDao.getAllPowersBySuperPerson(superPerson, 0, 10);
-        
-        for(Sighting currentSighting : sightingsForSuperPersonNoLocation) {
+
+        for (Sighting currentSighting : sightingsForSuperPersonNoLocation) {
             Location currentLocation = locationDao.getLocationById(currentSighting.getLocation().getLocationId());
             currentSighting.setLocation(currentLocation);
             sightingsForSuperPersonWithLocation.add(currentSighting);
         }
-        
+
         spvm.setSuperPerson(superPerson);
         spvm.setSightings(sightingsForSuperPersonWithLocation);
         spvm.setOrganizations(orgsForSuperPerson);
         spvm.setPowers(powersForSuperPerson);
-        
+
         return spvm;
-    }    
-    
+    }
 
     @Override
     public SuperPersonSighting deleteSightingFromSuperPerson(Integer superPersonId, Integer sightingId) {
         SuperPerson superPerson = superPersonDao.getSuperPersonById(superPersonId);
         Sighting sighting = sightingDao.getSightingById(sightingId);
-        SuperPersonSighting superPersonSighting = 
-                superPersonSightingDao.getSuperPersonSightingBySuperPersonAndSighting(superPerson, sighting);
+        SuperPersonSighting superPersonSighting
+                = superPersonSightingDao.getSuperPersonSightingBySuperPersonAndSighting(superPerson, sighting);
         return superPersonSightingDao.deleteSuperPersonSighting(superPersonSighting);
     }
 

@@ -54,7 +54,7 @@
                 <!-- 
                     Add a col to hold the summary table - have it take up half the row 
                 -->
-                <div class="col-md-9">
+                <div class="col-md-8">
                     <h2>Selected Organization: <c:out value="${ovm.organization.name}"/> </h2>
                     <div class="col-md-6">
                         <div class="row">
@@ -130,9 +130,9 @@
                     Add col to hold the search form - have it take up the other 
                     half of the row
                 -->
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <sf:form class="form-horizontal" role="form" modelAttribute="button"
-                             action="displayCreateSighting" method="POST">                             
+                             action="displayCreateOrganization" method="POST">                             
                         <input type="submit" class="btn btn-default" name="button" value="Add Organization" />
                     </sf:form>
 
@@ -142,8 +142,9 @@
                         <table id="organizationTable" class="table table-hover">
                             <tr>
                                 <th width="5%">#</th>
-                                <th width="65%">Organization</th>
-                                <th width="30%">Reputation</th>
+                                <th width="55%">Organization</th>
+                                <th width="25%">Reputation</th>
+                                <th width="15%"></th>
                             </tr>
                             <tbody>
                                 <c:forEach 
@@ -166,7 +167,9 @@
                                                     <c:out value="Good"/>
                                                 </c:when>
                                             </c:choose>
-                                        </td>                                         
+                                        </td>
+                                        <td><a href="${pageContext.request.contextPath}/sighting/edit_sighting">Edit</a><br/>
+                                            <a href="${pageContext.request.contextPath}/sighting/delete_sighting?sightingToDelete=${currentSVM.sighting.sightingId}">Delete</a></td>
                                     </tr>
                                 </c:forEach>
 

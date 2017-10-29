@@ -163,10 +163,16 @@
                 </div> <!-- End col div -->
 
                 <div class="col-md-3">
+                    
+                    <sf:form class="form-horizontal" role="form" modelAttribute="button"
+                             action="displayCreateSuperPersonPage" method="POST">                             
+                        <input type="submit" class="btn btn-default" name="button" value="Add Super Person" />
+                    </sf:form>                       
+
                     <h2>Super Persons</h2>
 
                     <div><!-- should be a table -->
-                        <table id="sightingTable" class="table table-hover">
+                        <table id="superPersonTable" class="table table-hover">
                             <tr>
                                 <th width="5%">#</th>
                                 <th width="50%">Super Person</th>
@@ -181,7 +187,8 @@
                                     <tr> <!-- should include links to the locations page, sightings page, and superperson page -->
                                         <td><a href="chooseSuperPerson?superPersonClicked=${currentSPVM.superPerson.superPersonId}"><c:out value="${loop.count}"/></a></td>
                                         <td><c:out value="${currentSPVM.superPerson.name}"/></td>
-                                        <td><a href="REQUESTMAPPING">Edit</a> | <a href="REQUESTMAPPING">Delete</a></td>
+                                        <td><a href="REQUESTMAPPING">Edit</a>
+                                            <a href="${pageContext.request.contextPath}/superperson/delete_superperson?superPersonToDelete=${currentSPVM.superPerson.superPersonId}">Delete</a></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

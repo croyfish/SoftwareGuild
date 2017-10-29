@@ -83,6 +83,25 @@ public class SightingController {
         return "redirect:/sighting/sightings";
     }
     
+    @RequestMapping(value = "sighting/create_sighting", method = RequestMethod.GET)
+    public String displayCreateSightingPage() {
+        return "sighting/create_sighting";
+    }
+    
+//    @RequestMapping(value = "sighting/createSighting", method = RequestMethod.POST)
+//    public String createSighting(Model model, HttpServletRequest request,
+//            @RequestParam(value="sightingDate") String sightingDate,
+//            @RequestParam(value="sightingLocationId") Integer sightingLocationId,
+//            @RequestParam(value=""))
+//    {
+//        Sighting sightingToCreate = new Sighting();
+//        
+//        
+//        sightingService.createSighting(sightingToCreate);
+//        return "redirect:/sighting/sightings";
+//    }
+
+    
     
             
             

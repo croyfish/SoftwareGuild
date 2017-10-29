@@ -56,6 +56,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Organization deleteOrganization(Organization organization) {
+        List<SuperPerson> superPersonsAtOrganization = superPersonService.getAllSuperPersonsByOrganization(organization, 0, Integer.MAX_VALUE);
+        for(SuperPerson currentSuperPerson : superPersonsAtOrganization) {
+            superPersonService.deleteOrganizationFromSuperPerson(currentSuperPerson, organization);
+        }
         return organizationDao.deleteOrganization(organization);
     }
 

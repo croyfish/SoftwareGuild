@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -29,10 +30,17 @@ public class SuperPersonController {
     }
 
     @RequestMapping(value = "/superperson/superpersons", method = RequestMethod.GET)
-    public String displaySuperPersonsPage(Model model) {
+    public String displaySuperPersonsPage(Model model, RedirectAttributes redirectAttrs) {
 
         List<SuperPersonViewModel> spvmList = superPersonService.getSuperPersonViewModels(0, 10);
-        //will we need a count method to help us with the paging?
+
+        if (spvmList.size() != 0) {
+            Integer superPersonClicked = spvmList.get(0).getSuperPerson().getSuperPersonId();
+            redirectAttrs.addAttribute("superPersonClicked", superPersonClicked);
+            return "redirect:/superperson/chooseSuperPerson?superPersonClicked={superPersonClicked}";
+        }        
+        
+        
         model.addAttribute("spvmList", spvmList);
 
         return "/superperson/superpersons";
@@ -49,4 +57,40 @@ public class SuperPersonController {
         
         return "/superperson/superpersons";
     }
+    
+    @RequestMapping(value = "superperson/delete_superperson", method = RequestMethod.GET)
+    public String displayDeleteSuperPersonPage(Model model, HttpServletRequest request, @RequestParam Integer superPersonToDelete) {
+        model.addAttribute("superPersonToDelete", superPersonToDelete);
+        return "superperson/delete_superperson";
+    }
+    
+    @RequestMapping(value = "superperson/deleteSuperPerson", method = RequestMethod.POST)
+    public String deleteSuperPerson(@RequestParam(value="superPersonToDelete") String superPersonToDelete, Model model) {
+        superPersonService.deleteSuperPerson(superPersonService.getSuperPersonById(Integer.parseInt(superPersonToDelete)));
+        return "redirect:/superperson/superpersons";
+    }
+
+    @RequestMapping(value = "superperson/redirectToSuperPersonsPage", method = RequestMethod.POST)
+    public String redirectToSuperPersonsPage(Model model) {
+
+        return "redirect:/superperson/superpersons";
+    }
+
+    @RequestMapping(value = "/displayCreateSuperPersonPage", method = RequestMethod.GET)
+    public String displayCreateSuperPersonPage(Model model) {
+        SuperPersonViewModel spvm = new SuperPersonViewModel();
+        
+        
+        return "superperson/create_superperson";
+    }
+    
+    @RequestMapping(value = "superperson/deleteSuperPerson", method = RequestMethod.POST)
+    public String createSuperPerson(@RequestParam(value="superPersonToDelete") String superPersonToDelete, Model model) {
+        superPersonService.deleteSuperPerson(superPersonService.getSuperPersonById(Integer.parseInt(superPersonToDelete)));
+        return "redirect:/superperson/superpersons";
+    }
+
+
+
+    
 }
