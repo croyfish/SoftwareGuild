@@ -10,11 +10,12 @@
     <head>
         <title>HERO - Super Persons Page</title>
         <!-- Bootstrap core CSS -->
-        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">        
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet">        
     </head>
     <body>
         <div class="container">
-            <h1>HERO - Super Person Sightings</h1>
+            <h1>HERO - Super Persons</h1>
             <hr/>
             <div class="navbar">
                 <ul class="nav nav-tabs">
@@ -53,7 +54,7 @@
                     Add a col to hold the summary table - have it take up half the row 
                 -->
                 <div class="col-md-9">
-                    <h3>Selected Super Person: <c:out value="${spvm.superPerson.name}"/> </h3>
+                    <h2>Selected Super Person: <c:out value="${spvm.superPerson.name}"/> </h2>
 
                     <div class="row">
                         <div class="col-md-4"> <!-- left side with pic -->
@@ -164,7 +165,7 @@
                 </div> <!-- End col div -->
 
                 <div class="col-md-3">
-                    
+
                     <sf:form class="form-horizontal" role="form" modelAttribute="button"
                              action="${pageContext.request.contextPath}/superperson/displayCreateSuperPersonPage" method="POST">                             
                         <input type="submit" class="btn btn-default" name="button" value="Add Super Person" />

@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -30,8 +31,15 @@ public class LocationController {
     }
 
     @RequestMapping(value = "/location/locations", method = RequestMethod.GET)
-    public String displayLocationsPage(Model model) {
+    public String displayLocationsPage(Model model, RedirectAttributes redirectAttrs) {
         List<LocationViewModel> lvmList = locationService.getLocationViewModels(0, 10);
+        
+        if (lvmList.size() != 0) {
+            Integer locationClicked = lvmList.get(0).getLocation().getLocationId();
+            redirectAttrs.addAttribute("locationClicked", locationClicked);
+            return "redirect:/location/chooseLocation?locationClicked={locationClicked}";
+        }
+        
         model.addAttribute("lvmList", lvmList);
 
         return "/location/locations";

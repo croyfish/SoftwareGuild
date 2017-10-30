@@ -7,8 +7,8 @@
 <head>
     <title>Create New Location</title>
     <!-- Bootstrap core CSS -->
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet">
 </head>
 <body>
 <div class="container">

@@ -163,6 +163,6 @@
             }
         </script>
 
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC84zAyiffzxBzIApQHoin_5xQUp83eHSo&callback=initMap"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBeBZ2aABqwmMSTDIozMvU9SONhE7YVk6c&callback=initMap"></script>
     </body>
 </html>
