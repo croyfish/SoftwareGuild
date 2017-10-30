@@ -93,7 +93,7 @@
                                         <th width="5%">#</th>
                                         <th width="25%">Name</th>
                                         <th width="50%">Image</th>
-                                        <th width="20">Reputation</th>
+                                        <th width="20%">Reputation</th>
                                     </tr>
                                     <tbody> <!-- will this throw a null pointer if the initial page load doesn't have svm on the model?  if so, just put an empty svm on the model in the initial page load.... -->
                                         <c:forEach 
@@ -103,7 +103,7 @@
                                             <tr> <!-- should include links to the locations page, sightings page, and superperson page -->
                                                 <td><c:out value="${loop.count}"/></td>
                                                 <td><c:out value="${currentSuperPerson.name}"/></td><!-- name -->                                           
-                                                <td><img src="${pageContext.request.contextPath}/images/superpersons/${currentSuperPerson.superPersonId}.jpg" width="100px" 
+                                                <td><img src="${pageContext.request.contextPath}/images/superpersons/${currentSuperPerson.superPersonId}.jpg" width="80px" 
                                                          style="border: solid black;"/></td>
                                                 <td>
                                                     <c:choose>

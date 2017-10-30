@@ -98,7 +98,7 @@ public class SuperPersonController {
     }
 
     @RequestMapping(value = "superperson/createSuperPerson", method = RequestMethod.POST)
-    public String createSuperPerson(Model model, HttpServletRequest request) {
+    public String createSuperPerson(HttpServletRequest request) {
 
         SuperPerson newSuperPerson = new SuperPerson();
         newSuperPerson.setName(request.getParameter("name"));
@@ -113,25 +113,8 @@ public class SuperPersonController {
             }
         }
 
-        model.addAttribute(newSuperPerson);
-
         String[] powers = request.getParameterValues("powers");
         String[] orgs = request.getParameterValues("organizations");
-        model.addAttribute(powers);
-        model.addAttribute(orgs);
-
-        return "redirect:/superperson/createSuperPersonValidation";
-
-    }
-
-    @RequestMapping(value = "superperson/createSuperPersonValidation", method = RequestMethod.POST)
-    public String createSuperPersonValidation(@Valid @ModelAttribute("superPerson") SuperPerson newSuperPerson, BindingResult result,
-            @ModelAttribute("powers") String[] powers,
-            @ModelAttribute("orgs") String[] orgs) {
-
-        if (result.hasErrors()) {
-            return "superperson/displayCreateSuperPersonPage";
-        }
 
         newSuperPerson = superPersonService.createSuperPerson(newSuperPerson);
 
@@ -146,7 +129,5 @@ public class SuperPersonController {
         }
 
         return "redirect:/superperson/superpersons";
-
     }
-
 }

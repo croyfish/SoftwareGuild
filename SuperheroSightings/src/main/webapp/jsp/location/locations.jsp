@@ -60,7 +60,7 @@
                         <h4>Information</h4>
                         <div style = "border: 1px black solid">
                             <!-- this is where the pic and google map go -->
-                            <img class="large-img" src="${pageContext.request.contextPath}/images/location/${lvm.location.locationId}.jpg" />
+                            <img src="${pageContext.request.contextPath}/images/locations/${lvm.location.locationId}.jpg" width="200px"/>
                             <br>
                             <p class="left-padding-plus" style="margin-bottom:0"><c:out value="${lvm.address.street}"/></p>
 
@@ -84,13 +84,13 @@
 
                     </div>
                     <div class="col-md-4">
-                        <h4>Super Persons Seen Here</h4>
+                        <h5>Super Persons Seen Here</h5>
                         <div><!-- should be a table -->
                             <table class="table table-hover">
                                 <tr>
                                     <th width="5%">#</th>
-                                    <th width="25%">Name</th>
-                                    <th width="70%">Image</th>
+                                    <th width="35%">Name</th>
+                                    <th width="60%">Image</th>
                                 </tr>
                                 <tbody> <!-- will this throw a null pointer if the initial page load doesn't have svm on the model?  if so, just put an empty svm on the model in the initial page load.... -->
                                     <c:forEach 
@@ -100,7 +100,8 @@
                                         <tr> <!-- should include links to the locations page, sightings page, and superperson page -->
                                             <td><c:out value="${loop.count}"/></td>
                                             <td><c:out value="${currentSuperPerson.name}"/></td><!-- name -->                                           
-                                            <td><c:out value=""/></td><!-- image -->                                           
+                                            <td><img src="${pageContext.request.contextPath}/images/superpersons/${currentSuperPerson.superPersonId}.jpg" width="60px" 
+                                                         style="border: solid black;"/></td>                                          
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -134,7 +135,7 @@
                                     <tr> 
                                         <td><a href="chooseLocation?locationClicked=${currentLVM.location.locationId}"><c:out value="${loop.count}"/></a></td>
                                         <td><c:out value="${currentLVM.location.name}"/></td>                                                                                    
-                                        <td><a href="REQUESTMAPPING">Edit</a> | <a href="REQUESTMAPPING">Delete</a></td>
+                                        <td><a href="REQUESTMAPPING">Edit</a><br/><a href="REQUESTMAPPING">Delete</a></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
