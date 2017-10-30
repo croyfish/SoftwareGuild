@@ -7,8 +7,8 @@ package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.dao.PowerDao;
 import com.sg.superherosightings.model.Power;
+import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
-import static jdk.nashorn.internal.objects.NativeUint16Array.constructor;
 
 /**
  *
@@ -47,6 +47,11 @@ public class PowerServiceImpl implements PowerService{
     @Override
     public Power deletePower(Power power) {
         return powerDao.deletePower(power);
+    }
+    
+    @Override
+    public List<Power> getAllPowersBySuperPerson(SuperPerson superperson, int offset, int limit) {
+        return powerDao.getAllPowersBySuperPerson(superperson, offset, limit);
     }
     
 }

@@ -51,5 +51,4 @@ public interface SuperPersonService {
     public List<SuperPersonViewModel> getSuperPersonViewModels(int offset, int limit);
     public SuperPersonViewModel getSuperPersonViewModelBySuperPersonId(Integer superPersonId);    
     
-    
 }

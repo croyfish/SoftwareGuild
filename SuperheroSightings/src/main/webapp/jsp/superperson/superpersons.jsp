@@ -189,7 +189,7 @@
                                     <tr> <!-- should include links to the locations page, sightings page, and superperson page -->
                                         <td><a href="chooseSuperPerson?superPersonClicked=${currentSPVM.superPerson.superPersonId}"><c:out value="${loop.count}"/></a></td>
                                         <td><c:out value="${currentSPVM.superPerson.name}"/></td>
-                                        <td><a href="REQUESTMAPPING">Edit</a>
+                                        <td><a href="${pageContext.request.contextPath}/superperson/displayUpdateSuperPersonPage?superPersonToUpdate=${currentSPVM.superPerson.superPersonId}">Edit</a>
                                             <a href="${pageContext.request.contextPath}/superperson/delete_superperson?superPersonToDelete=${currentSPVM.superPerson.superPersonId}">Delete</a></td>
                                     </tr>
                                 </c:forEach>

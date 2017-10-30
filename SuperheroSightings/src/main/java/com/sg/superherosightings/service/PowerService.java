@@ -6,6 +6,7 @@
 package com.sg.superherosightings.service;
 
 import com.sg.superherosightings.model.Power;
+import com.sg.superherosightings.model.SuperPerson;
 import java.util.List;
 
 /**
@@ -17,5 +18,7 @@ public interface PowerService {
     public Power getPowerById(Integer powerId);
     public List<Power> getAllPowers(int offset, int limit);
     public Power updatePower(Power power);
-    public Power deletePower(Power power);    
+    public Power deletePower(Power power);
+
+    public List<Power> getAllPowersBySuperPerson(SuperPerson superperson, int offset, int limit);     
 }

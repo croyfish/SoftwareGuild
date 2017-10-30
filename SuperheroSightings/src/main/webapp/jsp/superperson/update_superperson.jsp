@@ -5,16 +5,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Add Super Person</title>
+        <title>Edit Super Person</title>
         <!-- Bootstrap core CSS -->
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet"> 
     </head>
     <body>
         <div class="container">
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-2">
-                    <h1>Add Super Person</h1>
+                    <h1>Edit Super Person</h1>
                 </div>
             </div>
             <hr/>
@@ -28,28 +28,34 @@
                          style="display:none;">
                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                     </div>
-
                 </div>
             </div>
             <div class="row">
-                <form id="createSuperPersonForm" class="form-horizontal"
-                      action="${pageContext.request.contextPath}/superperson/createSuperPerson" method="POST">
+                <form id="updateSuperPersonForm" class="form-horizontal"
+                      action="${pageContext.request.contextPath}/superperson/updateSuperPerson" method="POST">
+                    <input type="hidden" value="${spvm2.superPerson.superPersonId}" name="superPersonId">
                     <div class="form-group">
                         <label class="col-xs-3 control-label"> Name </label>
                         <div class="col-xs-5">
                             <input type="text" class="form-control" name="name"
-                                   placeholder="Enter Name"/>
+                                   value="${spvm2.superPerson.name}"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-xs-3 control-label"> Powers </label>
                         <div class="col-xs-5">
-                            <select multiple name="powers" form="createSuperPersonForm">
+                            <select multiple name="powers" form="updateSuperPersonForm">
                                 <c:forEach
-                                    items="${spvm.powers}" 
+                                    items="${spvm2.powers}" 
                                     var="currentPower" 
                                     varStatus="loop">
-                                    <option value="${currentPower.powerId}">${currentPower.name}</option>
+                                    <option selected="true" value="${currentPower.powerId}" >${currentPower.name}</option>
+                                </c:forEach>
+                                <c:forEach
+                                    items="${doesntHavePowers}" 
+                                    var="currentPower" 
+                                    varStatus="loop">
+                                    <option  value="${currentPower.powerId}" >${currentPower.name}</option>
                                 </c:forEach>
                                 </select>
                             </div>
@@ -57,9 +63,15 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label"> Organizations </label>
                             <div class="col-xs-5">
-                                <select multiple name="organizations" form="createSuperPersonForm">
+                                <select multiple name="organizations" form="updateSuperPersonForm">
                                 <c:forEach
-                                    items="${spvm.organizations}" 
+                                    items="${spvm2.organizations}" 
+                                    var="currentOrganization" 
+                                    varStatus="loop">
+                                    <option selected="true" value="${currentOrganization.organizationId}">${currentOrganization.name}</option>
+                                </c:forEach>
+                                 <c:forEach
+                                    items="${doesntHaveOrganizations}" 
                                     var="currentOrganization" 
                                     varStatus="loop">
                                     <option value="${currentOrganization.organizationId}">${currentOrganization.name}</option>
@@ -70,42 +82,35 @@
                         <div class="form-group">
                             <label class="col-xs-3 control-label"> Description </label>
                             <div class="col-xs-5">
-                                <input type="text" class="form-control" name="description"
-                                       placeholder="Enter Description"/>
+                                <textarea rows ="10" type="textarea" class="form-control" name="description"
+                                          >${spvm2.superPerson.description}</textarea>
                             </div>
                         </div>
-
-
                         <div class="form-group">
                             <label class="col-xs-3 control-label"> Good or Evil? </label>
                             <div class="col-xs-5 inputGroupContainer">
                                 <div class="input-group">
-                                    <input type="radio" name="reputation" value="good" />  Good<br />
-                                    <input type="radio" name="reputation" value="evil"/>  Evil<br />
+                                    <input <c:if test="${spvm2.superPerson.isGood}">checked = "checked"</c:if>  type="radio" name="reputation" value="good" />  Good<br />
+                                    <input <c:if test="${not spvm2.superPerson.isGood}">checked = "checked"</c:if> type="radio" name="reputation" value="evil"/>  Evil<br />
                                     <input type="radio" name="reputation" value="unknown"/> Unknown<br />
                                 </div>
                             </div>
                         </div>
-
-
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-xs-5 col-xs-offset-3">
-                    <button type="submit" class="btn btn-default" id="btnCreateSuperPerson">Add Super Person</button>
+                    <button type="submit" class="btn btn-default" id="btnCreateSuperPerson">Save Edit</button>
                     <button type="submit" class="btn btn-default" id="btnCancel" formaction="${pageContext.request.contextPath}/superperson/superpersons" formmethod="GET">Cancel</button>
                 </div>
             </div>
         </form>
-    </div>
+            </div>
     <!-- Main Page Content Start -->
-
     <!-- Main Page Content Stop -->
 </div>
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-
 </body>
 </html>

@@ -81,7 +81,8 @@
                                             <tr> <!-- should include links to the locations page, sightings page, and superperson page -->
                                                 <td><c:out value="${loop.count}"/></td>
                                                 <td><c:out value="${currentSuperPerson.name}"/></td><!-- name -->                                           
-                                                <td><c:out value=""/></td><!-- image -->                                           
+                                                <td><img src="${pageContext.request.contextPath}/images/superpersons/${currentSuperPerson.superPersonId}.jpg" width="80px" 
+                                                         style="border: solid black;"/></td><!-- image -->                                           
                                             </tr>
                                         </c:forEach>
                                     </tbody>
