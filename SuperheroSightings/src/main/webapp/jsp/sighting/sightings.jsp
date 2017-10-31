@@ -101,7 +101,7 @@
                 -->
                 <div class="col-md-6">
                     <sf:form class="form-horizontal" role="form" modelAttribute="button"
-                             action="displayCreateSighting" method="POST">                             
+                             action="${pageContext.request.contextPath}/sighting/displayCreateSightingPage" method="POST">                             
                         <input type="submit" class="btn btn-default" name="button" value="Report Sighting" />
                     </sf:form>
 

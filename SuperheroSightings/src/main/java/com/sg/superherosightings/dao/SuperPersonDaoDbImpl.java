@@ -78,6 +78,8 @@ public class SuperPersonDaoDbImpl implements SuperPersonDao {
 
     @Override
     public SuperPerson getSuperPersonById(Integer superpersonId) {
+        Integer superId = superpersonId;
+        Integer pause = 0;
         try {
             return jdbcTemplate.queryForObject(SQL_GET_SUPERPERSON,
                     new SuperPersonMapper(),

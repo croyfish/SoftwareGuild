@@ -33,13 +33,13 @@ public class LocationController {
     @RequestMapping(value = "/location/locations", method = RequestMethod.GET)
     public String displayLocationsPage(Model model, RedirectAttributes redirectAttrs) {
         List<LocationViewModel> lvmList = locationService.getLocationViewModels(0, 10);
-        
+
         if (lvmList.size() != 0) {
             Integer locationClicked = lvmList.get(0).getLocation().getLocationId();
             redirectAttrs.addAttribute("locationClicked", locationClicked);
             return "redirect:/location/chooseLocation?locationClicked={locationClicked}";
         }
-        
+
         model.addAttribute("lvmList", lvmList);
 
         return "/location/locations";
@@ -55,4 +55,11 @@ public class LocationController {
 
         return "/location/locations";
     }
+
+    @RequestMapping(value = "location/displayCreateLocationPage", method = RequestMethod.POST)
+    public String displayCreateLocationPage(Model model) {
+
+        return "location/create_location";
+    }
+
 }

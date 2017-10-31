@@ -1,110 +1,130 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Create New Location</title>
-    <!-- Bootstrap core CSS -->
-    <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet">
-</head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-xs-3 col-xs-offset-2">
-            <h1>Create Location</h1>
-        </div>
-    </div>
-    <hr/>
-    <div class="row">
-        <div class="col-xs-5 col-xs-offset-3">
-            <div class="alert alert-danger alert-dismissable" id="validationError"
-                 style="display:none;">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            </div>
-            <div class="alert alert-success alert-dismissable" id="successMsg"
-                 style="display:none;">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <form id="createLocationForm" method="post" class="form-horizontal">
-            <div class="form-group">
-                <label class="col-xs-3 control-label">Location Name</label>
-                <div class="col-xs-5">
-                    <input type="text" class="form-control" name="name" id="title"
-                           placeholder="Enter Name"/>
+    <head>
+        <title>Add Location</title>
+        <!-- Bootstrap core CSS -->
+        <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-2">
+                    <h1>Add Location</h1>
                 </div>
             </div>
+            <hr/>
+            <div class="row">
+                <div class="col-xs-9 col-xs-offset-3">
 
-            <div class="form-group">
-                <label class="col-xs-3 control-label">Address</label>
-                <div class="col-xs-5">
-                    <input type="text" class="form-control" name="address" id="year"
-                           placeholder="Enter Address"/>
+
                 </div>
             </div>
+            <div class="row">
 
-            <div class="form-group">
-                <label class="col-xs-3 control-label">Latitude</label>
-                <div class="col-xs-5 inputGroupContainer">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="Latitude" id="latitude"
-                               placeholder="Enter the Latitude"/>
+                <sf:form id="createSightingForm" class="form-horizontal" commandName="clcm"
+                         action="${pageContext.request.contextPath}/sighting/createSighting" method="POST">
+
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Name</label>
+                        <div class="col-xs-5">
+                            <sf:errors path="name" cssclass="error"></sf:errors>
+                                <input type="text" name="name" id="name" class="form-control" rows="5"
+                                       placeholder="Enter Location Name" path="name"></input>         
+                            </div>
+                        </div>   
+
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">Street Address</label>
+                            <div class="col-xs-5">
+                            <sf:errors path="street" cssclass="error"></sf:errors>
+                                <input type="text" name="street" id="street" class="form-control" rows="5"
+                                       placeholder="Enter Street" path="street"></input>         
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">City</label>
+                            <div class="col-xs-5">
+                            <sf:errors path="city" cssclass="error"></sf:errors>
+                                <input type="text" name="city" id="city" class="form-control" rows="5"
+                                       placeholder="Enter City" path="city"></input>         
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">State</label>
+                            <div class="col-xs-5">
+                            <sf:errors path="state" cssclass="error"></sf:errors>
+                                <input type="text" name="state" id="name" class="form-control" rows="5"
+                                       placeholder="Enter State (XX)" path="state"></input>         
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">Zipcode</label>
+                            <div class="col-xs-5">
+                            <sf:errors path="zipcode" cssclass="error"></sf:errors>
+                                <input type="text" name="zipcode" id="name" class="form-control" rows="5"
+                                       placeholder="Enter Zipcode" path="zipcode"></input>         
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">Description</label>
+                            <div class="col-xs-5">
+                            <sf:errors path="description" cssclass="error"></sf:errors>
+                                <textarea name="description" id="description" class="form-control" rows="5"
+                                          placeholder="Enter Description" path="description"></textarea>         
+                            </div>
+                        </div>                                    
+
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">Latitude</label>
+                            <div class="col-xs-5">
+                            <sf:errors path="latitude" cssclass="error"></sf:errors>
+                                <input type="text" name="latitude" id="name" class="form-control" rows="5"
+                                       placeholder="Enter Latitude" path="latitude"></input>         
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">Longitude</label>
+                            <div class="col-xs-5">
+                            <sf:errors path="longitude" cssclass="error"></sf:errors>
+                                <input type="text" name="longitude" id="name" class="form-control" rows="5"
+                                       placeholder="Enter Longitude" path="longitude"></input>         
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-5 col-xs-offset-3">
+                            <input type="hidden" name="nameHidden" value="">
+                            <input type="hidden" name="addressHidden" value="">
+                            <input type="hidden" name="latitudeHidden" value="">
+                            <input type="hidden" name="longitudeHidden" value="">
+                            <button type="submit" class="btn btn-default" id="btnCreateSighting">Add Location</button>
+                            <button type="submit" class="btn btn-default" id="btnCancel" formaction="${pageContext.request.contextPath}/location/locations" formmethod="GET">Cancel</button>
+
                     </div>
                 </div>
-            </div>
-            
-              <div class="form-group">
-                <label class="col-xs-3 control-label">Longitude</label>
-                <div class="col-xs-5 inputGroupContainer">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="Longitude" id="longitude"
-                               placeholder="Enter the longitude"/>
-                    </div>
-                </div>
-            </div>
-            
-            
-            <div class="form-group">
-                <label class="col-xs-3 control-label"> Description</label>
-                <div class="col-xs-5">
-						<textarea name="notes" id="notes" class="form-control" rows="5"
-                                  placeholder="Enter Description"></textarea>
-                </div>
-            </div>
-                       
-                </div>
-            </div>
+            </sf:form>
+        </div>
+        <!-- Main Page Content Start -->
 
-            <div class="form-group">
-                <div class="col-xs-5 col-xs-offset-3">
-                    <input type="hidden" name="nameHidden" value="">
-                    <input type="hidden" name="addressHidden" value="">
-                    <input type="hidden" name="latitudeHidden" value="">
-                    <input type="hidden" name="longitudeHidden" value="">
-                    <button type="button" class="btn btn-default" id="btnCancel">Cancel</button>
-                    <button type="submit" class="btn btn-default" id="btnCreateDvd">Create
-                        Location
-                    </button>
-                </div>
-            </div>
-        </form>
+        <!-- Main Page Content Stop -->
     </div>
-    <!-- Main Page Content Start -->
-
-    <!-- Main Page Content Stop -->
-</div>
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
 </body>
 </html>
-<script>
-    
-</script>

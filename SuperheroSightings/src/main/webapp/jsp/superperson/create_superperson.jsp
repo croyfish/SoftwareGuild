@@ -51,57 +51,57 @@
                                     varStatus="loop">
                                     <option value="${currentPower.powerId}">${currentPower.name}</option>
                                 </c:forEach>
-                                </select>
-                            </div>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label"> Organizations </label>
-                            <div class="col-xs-5">
-                                <select multiple name="organizations" form="createSuperPersonForm">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label"> Organizations </label>
+                        <div class="col-xs-5">
+                            <select multiple name="organizations" form="createSuperPersonForm">
                                 <c:forEach
                                     items="${spvm.organizations}" 
                                     var="currentOrganization" 
                                     varStatus="loop">
                                     <option value="${currentOrganization.organizationId}">${currentOrganization.name}</option>
                                 </c:forEach>
-                                </select>
-                            </div>
-                        </div>            
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label"> Description </label>
-                            <div class="col-xs-5">
-                                <input type="text" class="form-control" name="description"
-                                       placeholder="Enter Description"/>
+                            </select>
+                        </div>
+                    </div>            
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label"> Description </label>
+                        <div class="col-xs-5">
+                            <input type="text" class="form-control" name="description"
+                                   placeholder="Enter Description"/>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label"> Good or Evil? </label>
+                        <div class="col-xs-5 inputGroupContainer">
+                            <div class="input-group">
+                                <input type="radio" name="reputation" value="good" />  Good<br />
+                                <input type="radio" name="reputation" value="evil"/>  Evil<br />
+                                <input type="radio" name="reputation" value="unknown"/> Unknown<br />
                             </div>
                         </div>
+                    </div>
 
 
-                        <div class="form-group">
-                            <label class="col-xs-3 control-label"> Good or Evil? </label>
-                            <div class="col-xs-5 inputGroupContainer">
-                                <div class="input-group">
-                                    <input type="radio" name="reputation" value="good" />  Good<br />
-                                    <input type="radio" name="reputation" value="evil"/>  Evil<br />
-                                    <input type="radio" name="reputation" value="unknown"/> Unknown<br />
-                                </div>
-                            </div>
-                        </div>
-
-
-                </div>
             </div>
+        </div>
 
-            <div class="form-group">
-                <div class="col-xs-5 col-xs-offset-3">
-                    <button type="submit" class="btn btn-default" id="btnCreateSuperPerson">Add Super Person</button>
-                    <button type="submit" class="btn btn-default" id="btnCancel" formaction="${pageContext.request.contextPath}/superperson/superpersons" formmethod="GET">Cancel</button>
-                </div>
+        <div class="form-group">
+            <div class="col-xs-5 col-xs-offset-3">
+                <button type="submit" class="btn btn-default" id="btnCreateSuperPerson">Add Super Person</button>
+                <button type="submit" class="btn btn-default" id="btnCancel" formaction="${pageContext.request.contextPath}/superperson/superpersons" formmethod="GET">Cancel</button>
             </div>
-        </form>
-    </div>
-    <!-- Main Page Content Start -->
+        </div>
+    </form>
+</div>
+<!-- Main Page Content Start -->
 
-    <!-- Main Page Content Stop -->
+<!-- Main Page Content Stop -->
 </div>
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>

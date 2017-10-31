@@ -116,7 +116,7 @@
 
                 <div class="col-md-3"> <!-- begin main right col -->
                     <sf:form class="form-horizontal" role="form" modelAttribute="button"
-                             action="displayAddLocation" method="POST">                             
+                             action="${pageContext.request.contextPath}/location/displayCreateLocationPage" method="POST">                             
                         <input type="submit" class="btn btn-default" name="button" value="Add Location" />
                     </sf:form>
                     <h2>Locations</h2>
