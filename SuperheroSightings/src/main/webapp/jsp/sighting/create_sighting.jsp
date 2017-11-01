@@ -27,7 +27,7 @@
             </div>
             <div class="row">
 
-                <sf:form id="createLocationForm" class="form-horizontal" commandName="scm"
+                <sf:form id="createSightingForm" class="form-horizontal" commandName="scm"
                          action="${pageContext.request.contextPath}/sighting/createSighting" method="POST">
 
                     <div class="form-group">
@@ -62,7 +62,7 @@
                                     items="${superPersons}" 
                                     var="currentSuperPerson" 
                                     varStatus="loop">
-                                    <option value="${currentSuperPerson.superPersonId}">${currentSuperPerson.name}</option>
+                                    <option value="${currentSuperPerson.superPersonId}">${currentSuperPerson.superPersonId} ${currentSuperPerson.name}</option>
                                 </c:forEach>
                             </select>
                         </div>

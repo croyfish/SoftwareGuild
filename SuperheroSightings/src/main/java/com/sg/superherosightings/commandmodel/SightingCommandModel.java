@@ -27,7 +27,7 @@ public class SightingCommandModel {
     private String description;
     
     @NotEmpty(message = "You must supply the name of at least one super person at this sighting.")
-    Integer[] superPersons;
+    private Integer[] superPersons;
 
     public Integer getSightingId() {
         return sightingId;

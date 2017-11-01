@@ -12,7 +12,6 @@
         <title>HERO - Organization Page</title>
         <!-- Bootstrap core CSS -->
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">        
-        <link href="${pageContext.request.contextPath}/css/herostyle.css" rel="stylesheet"> 
         <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet">
     </head>
     <body>
@@ -36,7 +35,7 @@
                             Sightings
                         </a> 
                     </li>
-                    <li role="presentation">
+                    <li role="presentation" class="active">
                         <a href="${pageContext.request.contextPath}/organization/organizations">
                             Organizations
                         </a> 
@@ -169,8 +168,8 @@
                                                 </c:when>
                                             </c:choose>
                                         </td>
-                                        <td><a href="${pageContext.request.contextPath}/sighting/edit_sighting">Edit</a><br/>
-                                            <a href="${pageContext.request.contextPath}/sighting/delete_sighting?sightingToDelete=${currentSVM.sighting.sightingId}">Delete</a></td>
+                                        <td><a href="${pageContext.request.contextPath}/organization/displayUpdateOrganizationPage?organizationToUpdate=${currentOVM.organization.organizationId}">Edit</a><br/>
+                                            <a href="${pageContext.request.contextPath}/organization/displayDeleteOrganizationPage?organizationToDelete=${currentOVM.organization.organizationId}">Delete</a></td>
                                     </tr>
                                 </c:forEach>
 

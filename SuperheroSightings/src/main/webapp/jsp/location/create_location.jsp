@@ -27,8 +27,8 @@
             </div>
             <div class="row">
 
-                <sf:form id="createSightingForm" class="form-horizontal" commandName="clcm"
-                         action="${pageContext.request.contextPath}/sighting/createSighting" method="POST">
+                <sf:form id="createLocationForm" class="form-horizontal" commandName="clcm"
+                         action="${pageContext.request.contextPath}/location/createLocation" method="POST">
 
                     <div class="form-group">
                         <label class="col-xs-3 control-label">Name</label>

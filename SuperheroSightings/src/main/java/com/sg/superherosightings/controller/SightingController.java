@@ -131,10 +131,67 @@ public class SightingController {
         return "redirect:/sighting/sightings";
     }
 
-//    @InitBinder
-//    public void initBinder(WebDataBinder binder) {
-//        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-//        sdf.setLenient(true);
-//        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
-//    }
+@RequestMapping(value = "sighting/displayUpdateSightingPage", method = RequestMethod.GET)
+    public String displayUpdateSightingPage(Model model, HttpServletRequest request, @RequestParam Integer sightingToUpdate) {
+        
+        SightingViewModel svm = sightingService.getSightingViewModelBySightingId(sightingToUpdate);
+        model.addAttribute("svm", svm);
+        
+        model.addAttribute("sightingToUpdate", sightingToUpdate);
+
+        List<SuperPerson> allSuperPersons = superPersonService.getAllSuperPersons(0, Integer.MAX_VALUE);
+        model.addAttribute("allSuperPersons", allSuperPersons);
+
+        List<Location> allLocations = locationService.getAllLocations(0, Integer.MAX_VALUE);
+        model.addAttribute("allLocations", allLocations);
+
+        return "sighting/update_sighting";
+    }
+
+    @RequestMapping(value = "sighting/updateSighting", method = RequestMethod.POST)
+    public String updateSighting(@Valid @ModelAttribute("scm") SightingCommandModel scm,
+            BindingResult result, Model model, HttpServletRequest request, @RequestParam Integer sightingToUpdate) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("allLocations", locationService.getAllLocations(0, Integer.MAX_VALUE));
+            List<SuperPerson> sps = superPersonService.getAllSuperPersons(0, Integer.MAX_VALUE);
+            model.addAttribute("allSuperPersons", sps);
+            SightingViewModel svm = sightingService.getSightingViewModelBySightingId(sightingToUpdate);
+            model.addAttribute("svm", svm);
+            LocalDate currentDate = svm.getSighting().getDate();
+            String htmlDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            model.addAttribute("htmlDate", htmlDate);
+            model.addAttribute("sightingToUpdate", sightingToUpdate);
+            return "sighting/update_sighting";
+        }
+
+        Integer idForUpdate = scm.getSightingId();
+        Sighting sightingToBeUpdated = sightingService.getSightingById(idForUpdate);
+
+        //but should this go before or after the service update method?
+        //need to reset the associations btw the org and its superpersons
+        //1. get all the superpersons originally on the dto
+        SightingViewModel svm = sightingService.getSightingViewModelBySightingId(idForUpdate);
+        List<SuperPerson> originalSuperPersons = svm.getSuperPersons();
+        //2. remove associations with super persons
+        for (SuperPerson currentSp : originalSuperPersons) {
+            superPersonService.deleteSightingFromSuperPerson(currentSp.getSuperPersonId(), idForUpdate);
+        }
+        //3. add new assocations with super persons
+        Integer[] newSuperPersons = scm.getSuperPersons();
+        for (Integer currentId : newSuperPersons) {
+            superPersonService.addSuperPersonToSighting(currentId, idForUpdate);
+        }
+
+        Location sightingLocation = locationService.getLocationById(scm.getLocationId());
+        
+        sightingToBeUpdated.setLocation(sightingLocation);
+        sightingToBeUpdated.setDescription(scm.getDescription());
+        sightingToBeUpdated.setDate(LocalDate.parse(scm.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
+        Sighting updatedSighting = sightingService.updateSighting(sightingToBeUpdated);
+
+        return "redirect:/sighting/sightings";
+    }    
+    
 }

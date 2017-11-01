@@ -116,7 +116,7 @@
 
                 <div class="col-md-3"> <!-- begin main right col -->
                     <sf:form class="form-horizontal" role="form" modelAttribute="button"
-                             action="${pageContext.request.contextPath}/location/displayCreateLocationPage" method="POST">                             
+                             action="${pageContext.request.contextPath}/location/displayCreateLocationPage" method="GET">                             
                         <input type="submit" class="btn btn-default" name="button" value="Add Location" />
                     </sf:form>
                     <h2>Locations</h2>
@@ -135,7 +135,8 @@
                                     <tr> 
                                         <td><a href="chooseLocation?locationClicked=${currentLVM.location.locationId}"><c:out value="${loop.count}"/></a></td>
                                         <td><c:out value="${currentLVM.location.name}"/></td>                                                                                    
-                                        <td><a href="REQUESTMAPPING">Edit</a><br/><a href="REQUESTMAPPING">Delete</a></td>
+                                        <td><a href="${pageContext.request.contextPath}/location/displayUpdateLocationPage?locationToUpdate=${currentLVM.location.locationId}">Edit</a><br/>
+                                            <a href="${pageContext.request.contextPath}/location/displayDeleteLocationPage?locationToDelete=${currentLVM.location.locationId}">Delete</a></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>

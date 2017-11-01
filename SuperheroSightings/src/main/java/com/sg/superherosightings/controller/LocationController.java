@@ -5,13 +5,20 @@
  */
 package com.sg.superherosightings.controller;
 
+import com.sg.superherosightings.commandmodel.CreateLocationCommandModel;
+import com.sg.superherosightings.model.Address;
+import com.sg.superherosightings.model.Location;
+import com.sg.superherosightings.service.AddressService;
 import com.sg.superherosightings.service.LocationService;
 import com.sg.superherosightings.viewmodel.LocationViewModel;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +33,9 @@ public class LocationController {
 
     @Inject
     LocationService locationService;
+    
+    @Inject
+    AddressService addressService;
 
     public LocationController() {
     }
@@ -56,10 +66,42 @@ public class LocationController {
         return "/location/locations";
     }
 
-    @RequestMapping(value = "location/displayCreateLocationPage", method = RequestMethod.POST)
+    @RequestMapping(value = "location/displayCreateLocationPage", method = RequestMethod.GET)
     public String displayCreateLocationPage(Model model) {
 
         return "location/create_location";
     }
+    
+ @RequestMapping(value = "location/createLocation", method = RequestMethod.POST)
+    public String createLocation(@Valid @ModelAttribute("clcm") CreateLocationCommandModel clcm,
+            BindingResult result) {
 
+        if (result.hasErrors()) {
+            return "location/create_location";
+        }
+
+        
+        Address newAddress = new Address();
+        
+        newAddress.setCity(clcm.getCity());
+        newAddress.setState(clcm.getState());
+        newAddress.setStreet(clcm.getStreet());
+        newAddress.setZipcode(clcm.getZipcode());
+        
+        Address createdAddress = addressService.createAddress(newAddress);
+        
+        Location newLocation = new Location();
+        
+        newLocation.setAddress(createdAddress);
+        newLocation.setDescription(clcm.getDescription());
+        newLocation.setLatitude(clcm.getLatitude());
+        newLocation.setLongitude(clcm.getLongitude());
+        newLocation.setName(clcm.getName());
+        
+        Location createdLocation = locationService.createLocation(newLocation);
+
+        return "redirect:/location/locations";
+    }
+    
+    
 }

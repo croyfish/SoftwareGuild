@@ -37,7 +37,7 @@ public class CreateLocationCommandModel {
 
     @NotEmpty(message = "You must supply a zipcode.") 
     @Length(min = 5, max = 10, message = "Zipcode must be between 5 and 10 characters in length.")
-    private String Zipcode;
+    private String zipcode;
 
     @NotEmpty(message = "You must supply a latitude.")
     @Length(min = 9, max = 15, message = "Latitude must be between nine and 15 characters in length.")
@@ -96,11 +96,11 @@ public class CreateLocationCommandModel {
     }
 
     public String getZipcode() {
-        return Zipcode;
+        return zipcode;
     }
 
-    public void setZipcode(String Zipcode) {
-        this.Zipcode = Zipcode;
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     public String getLatitude() {

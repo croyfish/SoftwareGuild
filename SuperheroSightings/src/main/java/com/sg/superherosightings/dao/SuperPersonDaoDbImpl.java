@@ -41,7 +41,7 @@ public class SuperPersonDaoDbImpl implements SuperPersonDao {
             + "inner join `superperson_sighting` on `superperson`.`SuperPersonId` = `superperson_sighting`.`SuperPersonId` "
             + "inner join `sighting` on `superperson_sighting`.`SightingId` = `sighting`.`SightingId` "
             + "Inner join `location` on `sighting`.`LocationId` = `location`.`LocationId` "
-            + "where `location`.`LocationId` = ? ORDER BY `superperson`.`Name` LIMIT ?,?;";
+            + "where `location`.`LocationId` = ? GROUP BY `superperson`.`superPersonId` ORDER BY `superperson`.`Name` LIMIT ?,?;";
 
     private static String SQL_LIST_SUPERPERSONS_BY_ORGANIZATION = "SELECT `superperson`.* FROM `superperson` "
             + "inner join `superperson_organization` "

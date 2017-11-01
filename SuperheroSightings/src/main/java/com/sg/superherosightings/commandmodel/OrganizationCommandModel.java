@@ -25,15 +25,15 @@ public class OrganizationCommandModel {
     private String description;
     
     @NotEmpty(message = "You must supply a location.")
-    private LocationCommandModel location;
+    private Integer locationId;
     
     @NotEmpty(message = "You must supply a value for phone.")
     @Length(min = 2, max = 15, message = "Phone must be between 2 and 15 characters in length.")  
     private String phone;
     
-    private Boolean isGood;
+    private String isGood;
     
-    private Integer[] superPersonsInOrg;
+    private Integer[] superPersons;
 
     public Integer getOrganizationId() {
         return organizationId;
@@ -59,20 +59,20 @@ public class OrganizationCommandModel {
         this.description = description;
     }
 
-    public LocationCommandModel getLocation() {
-        return location;
+    public Integer getLocationId() {
+        return locationId;
     }
 
-    public void setLocation(LocationCommandModel location) {
-        this.location = location;
+    public void setLocationId(Integer locationId) {
+        this.locationId = locationId;
     }
 
-    public Integer[] getSuperPersonsInOrg() {
-        return superPersonsInOrg;
+    public Integer[] getSuperPersons() {
+        return superPersons;
     }
 
-    public void setSuperPersonsInOrg(Integer[] superPersonsInOrg) {
-        this.superPersonsInOrg = superPersonsInOrg;
+    public void setSuperPersons(Integer[] superPersons) {
+        this.superPersons = superPersons;
     }
 
     public String getPhone() {
@@ -83,13 +83,12 @@ public class OrganizationCommandModel {
         this.phone = phone;
     }
 
-    public Boolean getIsGood() {
+    public String getIsGood() {
         return isGood;
     }
 
-    public void setIsGood(Boolean isGood) {
+    public void setIsGood(String isGood) {
         this.isGood = isGood;
-    }    
-    
+    }
     
 }

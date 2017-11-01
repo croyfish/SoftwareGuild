@@ -23,7 +23,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private OrganizationDao organizationDao;
     private SuperPersonService superPersonService;
-    
+
     @Inject
     private LocationService locationService;
     @Inject
@@ -57,7 +57,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Organization deleteOrganization(Organization organization) {
         List<SuperPerson> superPersonsAtOrganization = superPersonService.getAllSuperPersonsByOrganization(organization, 0, Integer.MAX_VALUE);
-        for(SuperPerson currentSuperPerson : superPersonsAtOrganization) {
+        for (SuperPerson currentSuperPerson : superPersonsAtOrganization) {
             superPersonService.deleteOrganizationFromSuperPerson(currentSuperPerson, organization);
         }
         return organizationDao.deleteOrganization(organization);
@@ -70,25 +70,25 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public OrganizationViewModel getOrganizationViewModelByOrganizationId(Integer organizationId) {
-        
+
         OrganizationViewModel ovm = new OrganizationViewModel();
-        
+
         Organization organization = getOrganizationById(organizationId);
         ovm.setOrganization(organization);
-        
+
         Integer locationId = organization.getLocation().getLocationId();
         Location location = locationService.getLocationById(locationId);
         ovm.setLocation(location);
-        
+
         Integer addressId = location.getAddress().getAddressId();
         Address address = addressService.getAddressById(addressId);
         ovm.setAddress(address);
-        
+
         List<SuperPerson> superPersonsInOrganization = superPersonService.getAllSuperPersonsByOrganization(
                 ovm.getOrganization(), 0, 10);
-        
+
         ovm.setSuperPersons(superPersonsInOrganization);
- 
+
         return ovm;
     }
 

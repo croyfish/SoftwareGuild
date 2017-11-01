@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Edit Super Person</title>
+        <title>Update Super Person</title>
         <!-- Bootstrap core CSS -->
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
         <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet"> 
@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-2">
-                    <h1>Edit Super Person</h1>
+                    <h1>Update Super Person</h1>
                 </div>
             </div>
             <hr/>
