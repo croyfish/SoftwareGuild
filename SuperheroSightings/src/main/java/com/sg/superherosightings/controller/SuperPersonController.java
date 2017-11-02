@@ -5,6 +5,8 @@
  */
 package com.sg.superherosightings.controller;
 
+import com.sg.superherosightings.commandmodel.CreateSuperPersonCommandModel;
+import com.sg.superherosightings.commandmodel.UpdateSuperPersonCommandModel;
 import com.sg.superherosightings.model.Organization;
 import com.sg.superherosightings.model.Power;
 import com.sg.superherosightings.model.SuperPerson;
@@ -15,8 +17,11 @@ import com.sg.superherosightings.viewmodel.SuperPersonViewModel;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,8 +47,9 @@ public class SuperPersonController {
     @RequestMapping(value = "/superperson/superpersons", method = RequestMethod.GET)
     public String displaySuperPersonsPage(Model model, RedirectAttributes redirectAttrs) {
 
+        
         List<SuperPersonViewModel> spvmList = superPersonService.getSuperPersonViewModels(0, 10);
-
+        
         if (spvmList.size() != 0) {
             Integer superPersonClicked = spvmList.get(0).getSuperPerson().getSuperPersonId();
             redirectAttrs.addAttribute("superPersonClicked", superPersonClicked);
@@ -97,36 +103,20 @@ public class SuperPersonController {
     }
 
     @RequestMapping(value = "superperson/createSuperPerson", method = RequestMethod.POST)
-    public String createSuperPerson(HttpServletRequest request) {
-
-        SuperPerson newSuperPerson = new SuperPerson();
-        newSuperPerson.setName(request.getParameter("name"));
-        newSuperPerson.setDescription(request.getParameter("description"));
-        String reputation = request.getParameter("reputation");
-
-        if (reputation != null) {
-            if (reputation.equals("good")) {
-                newSuperPerson.setIsGood(true);
-            } else if (reputation.equals("evil")) {
-                newSuperPerson.setIsGood(false);
-            }
+    public String createSuperPerson(@Valid @ModelAttribute("cspcm") CreateSuperPersonCommandModel cspcm,
+            BindingResult result, Model model) {
+        
+        if (result.hasErrors()) {
+            model.addAttribute("powers", powerService.getAllPowers(0, Integer.MAX_VALUE));
+            List<Organization> orgs = organizationService.getAllOrganizations(0, Integer.MAX_VALUE);
+            model.addAttribute("organizations", orgs);
+            return "superperson/create_superperson";
         }
-
-        String[] powers = request.getParameterValues("powers");
-        String[] orgs = request.getParameterValues("organizations");
-
-        newSuperPerson = superPersonService.createSuperPerson(newSuperPerson);
-
-        for (String currentPower : powers) {
-            superPersonService.addSuperPersonToPower(newSuperPerson,
-                    powerService.getPowerById(Integer.parseInt(currentPower)));
-        }
-
-        for (String currentOrg : orgs) {
-            superPersonService.addSuperPersonToOrganization(newSuperPerson,
-                    organizationService.getOrganizationById(Integer.parseInt(currentOrg)));
-        }
-
+        
+        SuperPerson superPersonToCreate = superPersonService.buildSuperPersonFromCommandModel(cspcm);
+        SuperPerson createdSuperPerson = superPersonService.createSuperPerson(superPersonToCreate);
+        superPersonService.addSuperPersonToPowers(createdSuperPerson.getSuperPersonId(), cspcm.getPowers());
+        superPersonService.addSuperPersonToOrganizations(createdSuperPerson.getSuperPersonId(), cspcm.getOrganizations());
         return "redirect:/superperson/superpersons";
     }
 
@@ -158,8 +148,20 @@ public class SuperPersonController {
     }
 
     @RequestMapping(value = "superperson/updateSuperPerson", method = RequestMethod.POST)
-    public String UpdateSuperPerson(HttpServletRequest request) {
-        SuperPerson oldSp = superPersonService.getSuperPersonById(Integer.parseInt(request.getParameter("superPersonId")));
+    public String updateSuperPerson(@Valid @ModelAttribute("uspcm") UpdateSuperPersonCommandModel uspcm,
+            BindingResult result, Model model) {
+        
+        if (result.hasErrors()) {
+            model.addAttribute("power", powerService.getAllPowers(0, Integer.MAX_VALUE));
+            List<SuperPerson> orgs = superPersonService.getAllSuperPersons(0, Integer.MAX_VALUE);
+            model.addAttribute("organizations", orgs);
+            return "superperson/update_superperson";
+        }        
+        
+
+        Integer idForUpdate = uspcm.getSuperPersonId();
+        SuperPerson oldSp = superPersonService.getSuperPersonById(idForUpdate);
+        
         List<Power> oldPowers = powerService.getAllPowersBySuperPerson(oldSp, 0, Integer.MAX_VALUE);
         for (Power currentPower : oldPowers) {
             superPersonService.deletePowerFromSuperPerson(oldSp, currentPower);
@@ -171,10 +173,10 @@ public class SuperPersonController {
         }
 
         SuperPerson updatedSuperPerson = new SuperPerson();
-        updatedSuperPerson.setName(request.getParameter("name"));
-        updatedSuperPerson.setDescription(request.getParameter("description"));
-        updatedSuperPerson.setSuperPersonId(Integer.parseInt(request.getParameter("superPersonId")));
-        String reputation = request.getParameter("reputation");
+        updatedSuperPerson.setName(uspcm.getName());
+        updatedSuperPerson.setDescription(uspcm.getDescription());
+        updatedSuperPerson.setSuperPersonId(uspcm.getSuperPersonId());
+        String reputation = uspcm.getReputation();
 
         if (reputation.equals("good")) {
             updatedSuperPerson.setIsGood(true);
@@ -182,19 +184,19 @@ public class SuperPersonController {
             updatedSuperPerson.setIsGood(false);
         }
 
-        String[] powers = request.getParameterValues("powers");
-        String[] orgs = request.getParameterValues("organizations");
+        Integer[] powers = uspcm.getPowers();
+        Integer[] orgs = uspcm.getOrganizations();
         updatedSuperPerson = superPersonService.updateSuperPerson(updatedSuperPerson);
-        for (String currentPower : powers) {
+        
+        for (Integer currentPower : powers) {
             superPersonService.addSuperPersonToPower(updatedSuperPerson,
-                    powerService.getPowerById(Integer.parseInt(currentPower)));
+                    powerService.getPowerById(currentPower));
         }
-        for (String currentOrg : orgs) {
+        for (Integer currentOrg : orgs) {
             superPersonService.addSuperPersonToOrganization(updatedSuperPerson,
-                    organizationService.getOrganizationById(Integer.parseInt(currentOrg)));
+                    organizationService.getOrganizationById(currentOrg));
         }
 
-//        newSuperPerson.setIsGood(request.getParameter("description"));
         return "redirect:/superperson/superpersons";
     }
 }

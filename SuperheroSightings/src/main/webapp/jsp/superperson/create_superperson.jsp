@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -19,32 +20,21 @@
             </div>
             <hr/>
             <div class="row">
-                <div class="col-xs-5 col-xs-offset-3">
-                    <div class="alert alert-danger alert-dismissable" id="validationError"
-                         style="display:none;">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    </div>
-                    <div class="alert alert-success alert-dismissable" id="successMsg"
-                         style="display:none;">
-                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    </div>
-
-                </div>
-            </div>
-            <div class="row">
-                <form id="createSuperPersonForm" class="form-horizontal"
+                <sf:form id="createSuperPersonForm" class="form-horizontal" commandName="cspcm"
                       action="${pageContext.request.contextPath}/superperson/createSuperPerson" method="POST">
                     <div class="form-group">
                         <label class="col-xs-3 control-label"> Name </label>
                         <div class="col-xs-5">
-                            <input type="text" class="form-control" name="name"
+                            <sf:errors path="name" cssclass="error"></sf:errors>
+                            <input type="text" class="form-control" name="name" path="name"
                                    placeholder="Enter Name"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-xs-3 control-label"> Powers </label>
                         <div class="col-xs-5">
-                            <select multiple name="powers" form="createSuperPersonForm">
+                            <sf:errors path="powers" cssclass="error"></sf:errors>
+                            <select multiple name="powers" form="createSuperPersonForm" path="powers">
                                 <c:forEach
                                     items="${spvm.powers}" 
                                     var="currentPower" 
@@ -57,7 +47,8 @@
                     <div class="form-group">
                         <label class="col-xs-3 control-label"> Organizations </label>
                         <div class="col-xs-5">
-                            <select multiple name="organizations" form="createSuperPersonForm">
+                            <sf:errors path="organizations" cssclass="error"></sf:errors>
+                            <select multiple name="organizations" form="createSuperPersonForm" path="organizations">
                                 <c:forEach
                                     items="${spvm.organizations}" 
                                     var="currentOrganization" 
@@ -69,8 +60,9 @@
                     </div>            
                     <div class="form-group">
                         <label class="col-xs-3 control-label"> Description </label>
+                        <sf:errors path="organizations" cssclass="error"></sf:errors>
                         <div class="col-xs-5">
-                            <input type="text" class="form-control" name="description"
+                            <input type="text" class="form-control" name="description" path="description"
                                    placeholder="Enter Description"/>
                         </div>
                     </div>
@@ -78,11 +70,12 @@
 
                     <div class="form-group">
                         <label class="col-xs-3 control-label"> Good or Evil? </label>
+                        <sf:errors path="reputation" cssclass="error"></sf:errors>
                         <div class="col-xs-5 inputGroupContainer">
                             <div class="input-group">
-                                <input type="radio" name="reputation" value="good" />  Good<br />
-                                <input type="radio" name="reputation" value="evil"/>  Evil<br />
-                                <input type="radio" name="reputation" value="unknown"/> Unknown<br />
+                                <input type="radio" name="reputation" value="good"  path="reputation" />  Good<br />
+                                <input type="radio" name="reputation" value="evil"  path="reputation" />  Evil<br />
+                                <input type="radio" name="reputation" value="unknown"  path="reputation" /> Unknown<br />
                             </div>
                         </div>
                     </div>
@@ -97,7 +90,7 @@
                 <button type="submit" class="btn btn-default" id="btnCancel" formaction="${pageContext.request.contextPath}/superperson/superpersons" formmethod="GET">Cancel</button>
             </div>
         </div>
-    </form>
+    </sf:form>
 </div>
 <!-- Main Page Content Start -->
 

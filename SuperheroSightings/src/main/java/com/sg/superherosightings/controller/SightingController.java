@@ -131,12 +131,16 @@ public class SightingController {
         return "redirect:/sighting/sightings";
     }
 
-@RequestMapping(value = "sighting/displayUpdateSightingPage", method = RequestMethod.GET)
+    @RequestMapping(value = "sighting/displayUpdateSightingPage", method = RequestMethod.GET)
     public String displayUpdateSightingPage(Model model, HttpServletRequest request, @RequestParam Integer sightingToUpdate) {
-        
+
         SightingViewModel svm = sightingService.getSightingViewModelBySightingId(sightingToUpdate);
         model.addAttribute("svm", svm);
-        
+
+        LocalDate currentDate = svm.getSighting().getDate();
+        String htmlDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        model.addAttribute("htmlDate", htmlDate);
+
         model.addAttribute("sightingToUpdate", sightingToUpdate);
 
         List<SuperPerson> allSuperPersons = superPersonService.getAllSuperPersons(0, Integer.MAX_VALUE);
@@ -184,7 +188,7 @@ public class SightingController {
         }
 
         Location sightingLocation = locationService.getLocationById(scm.getLocationId());
-        
+
         sightingToBeUpdated.setLocation(sightingLocation);
         sightingToBeUpdated.setDescription(scm.getDescription());
         sightingToBeUpdated.setDate(LocalDate.parse(scm.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -192,6 +196,6 @@ public class SightingController {
         Sighting updatedSighting = sightingService.updateSighting(sightingToBeUpdated);
 
         return "redirect:/sighting/sightings";
-    }    
-    
+    }
+
 }

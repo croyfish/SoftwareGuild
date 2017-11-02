@@ -7,6 +7,7 @@ package com.sg.superherosightings.dao;
 
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
+import com.sg.superherosightings.model.Power;
 import com.sg.superherosightings.model.Sighting;
 import com.sg.superherosightings.model.SuperPerson;
 import java.sql.ResultSet;
@@ -49,6 +50,11 @@ public class SuperPersonDaoDbImpl implements SuperPersonDao {
             + "inner join `organization` "
             + "on `superperson_organization`.`OrganizationId` = `organization`.`OrganizationId` "
             + "where `organization`.`organizationId` = ? ORDER BY `superperson`.`Name` LIMIT ?,?;";   
+    
+    private static String SQL_LIST_SUPERPERSONS_BY_POWER = "SELECT `SuperPerson`.* FROM `SuperPerson`\n"
+            + "inner join `SuperPerson_Power` on `SuperPerson`.`SuperPersonId` = `SuperPerson_Power`.`SuperPersonId`\n"
+            + "inner join `Power` on `SuperPerson_Power`.`PowerId` = `Power`.`PowerId`\n"
+            + "where `Power`.`PowerId` = ? ORDER BY `SuperPerson`.`Name` LIMIT ?,?;";
     
     private JdbcTemplate jdbcTemplate;
 
@@ -126,6 +132,12 @@ public class SuperPersonDaoDbImpl implements SuperPersonDao {
     public List<SuperPerson> getAllSuperPersonsByOrganization(Organization organization, int offset, int limit) {
         return jdbcTemplate.query(SQL_LIST_SUPERPERSONS_BY_ORGANIZATION, 
                 new SuperPersonMapper(), organization.getOrganizationId(), offset, limit);
+    }
+
+    @Override
+    public List<SuperPerson> getAllSuperPersonsByPower(Power power, int offset, int limit) {
+        return jdbcTemplate.query(SQL_LIST_SUPERPERSONS_BY_POWER,
+                new SuperPersonMapper(), power.getPowerId(), offset, limit);
     }
      
     

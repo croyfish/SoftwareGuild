@@ -39,9 +39,7 @@
                         <label class="col-xs-3 control-label">Date </label>
                         <div class="col-xs-5">
                             <span><sf:errors path="date" cssclass="error"></sf:errors></span>
-                            <fmt:parseDate value="${ovm.htmlDate}" var="dateObject" pattern="yyyy-MM-dd"/>
-                            <fmt:formatDate value="${dateObject}" var="formattedDateObject" pattern="MM/dd/yyyy" />
-                            <input id="date" name="date" type="date" path="date" value="${formattedDateObject}"/>
+                            <input id="date" name="date" type="date" path="date" value="${htmlDate}"/>
                         </div>
                     </div>        
 

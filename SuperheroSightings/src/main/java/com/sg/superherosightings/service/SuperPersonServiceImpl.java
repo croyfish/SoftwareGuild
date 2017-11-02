@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.commandmodel.CreateSuperPersonCommandModel;
 import com.sg.superherosightings.dao.LocationDao;
 import com.sg.superherosightings.dao.OrganizationDao;
 import com.sg.superherosightings.dao.PowerDao;
@@ -54,8 +55,48 @@ public class SuperPersonServiceImpl implements SuperPersonService {
     }
 
     @Override
-    public SuperPerson createSuperPerson(SuperPerson superPerson) {
-        return superPersonDao.createSuperPerson(superPerson);
+    public SuperPerson buildSuperPersonFromCommandModel(CreateSuperPersonCommandModel cspcm) {
+
+        SuperPerson newSuperPerson = new SuperPerson();
+        newSuperPerson.setName(cspcm.getName());
+        newSuperPerson.setDescription(cspcm.getDescription());
+        String reputation = cspcm.getReputation();
+
+        if (reputation != null) {
+            if (reputation.equals("good")) {
+                newSuperPerson.setIsGood(true);
+            } else if (reputation.equals("evil")) {
+                newSuperPerson.setIsGood(false);
+            }
+        }
+
+        newSuperPerson = superPersonDao.createSuperPerson(newSuperPerson);
+
+        return newSuperPerson;
+
+    }
+
+    @Override
+    public List<SuperPersonPower> addSuperPersonToPowers(Integer superPersonId, Integer[] powerIds) {
+        List<SuperPersonPower> spps = new ArrayList<SuperPersonPower>();
+
+        for (Integer currentPowerId : powerIds) {
+            SuperPersonPower spp = this.addSuperPersonToPower(superPersonId,
+                    currentPowerId);
+            spps.add(spp);
+        }
+        return spps;
+    }
+
+    @Override
+    public List<SuperPersonOrganization> addSuperPersonToOrganizations(Integer superPersonId, Integer[] organizationIds) {
+        List<SuperPersonOrganization> spos = new ArrayList<SuperPersonOrganization>();
+
+        for (Integer currentOrgId : organizationIds) {
+            SuperPersonOrganization spo = this.addSuperPersonToOrganization(superPersonId, currentOrgId);
+            spos.add(spo);
+        }
+        return spos;
     }
 
     @Override
@@ -236,4 +277,13 @@ public class SuperPersonServiceImpl implements SuperPersonService {
         return superPersonSightingDao.deleteSuperPersonSighting(superPersonSighting);
     }
 
+    @Override
+    public SuperPerson createSuperPerson(SuperPerson superPerson) {
+        return superPersonDao.createSuperPerson(superPerson);
+    }
+
+    @Override
+    public List<SuperPerson> getAllSuperPersonsByPower(Power power, int offset, int limit) {
+        return superPersonDao.getAllSuperPersonsByPower(power, offset, limit);
+    }
 }

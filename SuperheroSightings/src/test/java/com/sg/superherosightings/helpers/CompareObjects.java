@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.helpers;
 
+import com.sg.superherosightings.commandmodel.CreateSuperPersonCommandModel;
 import com.sg.superherosightings.model.Address;
 import com.sg.superherosightings.model.Location;
 import com.sg.superherosightings.model.Organization;
@@ -59,6 +60,7 @@ public class CompareObjects {
         System.out.println(result);
         return result;
     }
+     
 
     public String compareObjects(Location loc1, Location loc2) {
         String result = "";

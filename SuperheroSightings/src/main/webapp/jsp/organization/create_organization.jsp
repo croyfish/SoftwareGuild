@@ -79,7 +79,7 @@
                                         choose Unknown, can I leave value and path off?
                                     -->
                             <input name="isGood" type="radio" path="isGood" value="good"/> Good <br>
-                            <input name="isGood" type="radio" path="isGood"value = "evil"/> Evil <br>
+                            <input name="isGood" type="radio" path="isGood" value = "evil"/> Evil <br>
                                 
                                 </div>
                             </div>

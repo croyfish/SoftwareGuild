@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.service;
 
+import com.sg.superherosightings.commandmodel.CreateSuperPersonCommandModel;
 import com.sg.superherosightings.dao.SuperPersonOrganizationDao;
 import com.sg.superherosightings.dao.SuperPersonPowerDao;
 import com.sg.superherosightings.dao.SuperPersonSightingDao;
@@ -505,6 +506,109 @@ public class SuperPersonServiceTest {
         l.setName("Slime Factory");
 
         return locationService.createLocation(l);
+    }
+    
+    
+    @Test
+    public void testBuildSuperPersonFromCommandModel() {
+        //arrange
+        CreateSuperPersonCommandModel cspcm = co.createAndReturnCommandModel();
+
+        //act
+        SuperPerson newSuperPerson = superPersonService.buildSuperPersonFromCommandModel(cspcm);
+
+        //assert -- maybe put this into the helper method too -- easier to repeat later
+        assertEquals(cspcm.getDescription(), newSuperPerson.getDescription());
+        assertEquals(cspcm.getName(), newSuperPerson.getName());
+        assertEquals(true, newSuperPerson.getIsGood());
+
+    }
+
+    @Test
+    public void testAddSuperPersonToOrganizations() {
+        //arrange
+        SuperPerson testSP = co.createAndAddSuperPerson();
+        Organization org1 = co.createAndAddOrganization();
+        Organization org2 = co.createAndAddOrganization();
+        Organization org3 = co.createAndAddOrganization();
+
+        Integer[] orgs = new Integer[3];
+        orgs[0] = org1.getOrganizationId();
+        orgs[1] = org2.getOrganizationId();
+        orgs[2] = org3.getOrganizationId();
+
+        //act
+        List<SuperPersonOrganization> spos = superPersonService.addSuperPersonToOrganizations(testSP.getSuperPersonId(), orgs);
+        List<SuperPerson> spList1 = superPersonService.getAllSuperPersonsByOrganization(org1, 0, 10);
+        List<SuperPerson> spList2 = superPersonService.getAllSuperPersonsByOrganization(org2, 0, 10);
+        List<SuperPerson> spList3 = superPersonService.getAllSuperPersonsByOrganization(org3, 0, 10);
+        SuperPerson fromDao1 = spList1.get(0);
+        SuperPerson fromDao2 = spList2.get(0);
+        SuperPerson fromDao3 = spList3.get(0);
+
+        //assert -- maybe put this into the helper method too -- easier to repeat later
+        String result1 = c.compareObjects(testSP, fromDao1);
+        String result2 = c.compareObjects(testSP, fromDao2);
+        String result3 = c.compareObjects(testSP, fromDao3);
+
+        assertEquals("", result1);
+        assertEquals("", result2);
+        assertEquals("", result3);
+    }
+
+    @Test
+    public void testAddSuperPersonToPowers() {
+        SuperPerson testSP = co.createAndAddSuperPerson();
+        Power power1 = co.createAndAddPower();
+        Power power2 = co.createAndAddPower();
+        Power power3 = co.createAndAddPower();
+
+        Integer[] powers = new Integer[3];
+        powers[0] = power1.getPowerId();
+        powers[1] = power2.getPowerId();
+        powers[2] = power3.getPowerId();
+
+        //act
+        List<SuperPersonPower> spos = superPersonService.addSuperPersonToPowers(testSP.getSuperPersonId(), powers);
+        List<SuperPerson> spList1 = superPersonService.getAllSuperPersonsByPower(power1, 0, 10);
+        List<SuperPerson> spList2 = superPersonService.getAllSuperPersonsByPower(power2, 0, 10);
+        List<SuperPerson> spList3 = superPersonService.getAllSuperPersonsByPower(power3, 0, 10);
+        SuperPerson fromDao1 = spList1.get(0);
+        SuperPerson fromDao2 = spList2.get(0);
+        SuperPerson fromDao3 = spList3.get(0);
+
+        //assert -- maybe put this into the helper method too -- easier to repeat later
+        String result1 = c.compareObjects(testSP, fromDao1);
+        String result2 = c.compareObjects(testSP, fromDao2);
+        String result3 = c.compareObjects(testSP, fromDao3);
+
+        assertEquals("", result1);
+        assertEquals("", result2);
+        assertEquals("", result3);
+    }
+
+    @Test
+    public void testGetAllSuperPersonsByPower() {
+        //arrange
+        SuperPerson newSP1 = co.createAndAddSuperPerson();
+        SuperPerson newSP2 = co.createAndAddSuperPerson();
+        Power newPower = co.createAndAddPower();
+        superPersonService.addSuperPersonToPower(newSP1.getSuperPersonId(), newPower.getPowerId());
+        superPersonService.addSuperPersonToPower(newSP2.getSuperPersonId(), newPower.getPowerId());
+
+        //act
+        List<SuperPerson> listOfSPs = superPersonService.getAllSuperPersonsByPower(newPower, 0, 10);
+        //assert
+        assertTrue(2 == listOfSPs.size());
+
+        for (SuperPerson currentSuperPerson : listOfSPs) {
+
+            String result1 = c.compareObjects(newSP1, currentSuperPerson);
+            String result2 = c.compareObjects(newSP2, currentSuperPerson);
+
+            assertTrue(result1.equals("") ^ result2.equals(""));
+        }
+
     }
 
 }

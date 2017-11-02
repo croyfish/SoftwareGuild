@@ -5,6 +5,7 @@
  */
 package com.sg.superherosightings.helpers;
 
+import com.sg.superherosightings.commandmodel.CreateSuperPersonCommandModel;
 import com.sg.superherosightings.dao.SuperPersonOrganizationDao;
 import com.sg.superherosightings.dao.SuperPersonPowerDao;
 import com.sg.superherosightings.dao.SuperPersonSightingDao;
@@ -133,4 +134,25 @@ public class CreateAndAddObjectsForServiceTests {
         sps.setSighting(s);
         return superPersonSightingDao.createSuperPersonSighting(sps);
     }
+    
+public CreateSuperPersonCommandModel createAndReturnCommandModel() {
+        CreateSuperPersonCommandModel cspcm = new CreateSuperPersonCommandModel();
+        cspcm.setDescription("A nice guy");
+        cspcm.setName("Fred Flinstone");
+        Integer[] orgs = new Integer[3];
+        orgs[0] = 1;
+        orgs[1] = 2;
+        orgs[2] = 3;
+
+        Integer[] powers = new Integer[3];
+        powers[0] = 1;
+        powers[1] = 2;
+        powers[2] = 3;
+
+        cspcm.setOrganizations(orgs);
+        cspcm.setPowers(powers);
+        cspcm.setReputation("good");
+        
+        return cspcm;
+    }      
 }
