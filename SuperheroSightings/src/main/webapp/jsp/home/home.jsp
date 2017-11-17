@@ -11,7 +11,7 @@
         <!-- Bootstrap core CSS -->
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">        
         <link href="${pageContext.request.contextPath}/css/mapstyling.css" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet">        
+        <link href="${pageContext.request.contextPath}/css/herostyling.css" rel="stylesheet"> 
     </head>
     <body>
         <div class="container">
@@ -53,12 +53,12 @@
 
                 <div class="col-md-6">
                     <h2>HERO</h2>
-                    <hr>
+                    <hr/>
+
                     <p>Superhero and supervillain sightings have been increasing at an alarming rate. Supervillains have brought about chaos, fear, and destruction. Superheroes have been doing their part to stop them, while also serving the greater good every day while working with armed forces and first responders. We live in a new world where a heightened sense of awareness is necessary to stay safe. </p>
                     <p>Please use this site to keep track of super person sightings. You can look over information on super persons, sightings, super person organizations, and locations. However, we need your help! Please report information related to super persons and sightings whenever you can. The more information we have, the better. </p>
                     <div id="map"></div> <!-- Google map -->
                 </div> <!-- End col div -->
-
 
                 <div class="col-md-6">
                     <h2>Most Recent Sightings</h2>
@@ -108,6 +108,7 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/tinymce.js"></script>    
         <script>
             function initMap() {
                 var lati = 41.0695166;
@@ -126,14 +127,6 @@
             </c:forEach>
             }
         </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC84zAyiffzxBzIApQHoin_5xQUp83eHSo&callback=initMap"></script>    
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC84zAyiffzxBzIApQHoin_5xQUp83eHSo&callback=initMap"></script>
     </body>
 </html>
-
-<!-- NOTES 
-To do 
-    -add links to sightings page on the MostRecent list
-
-
-
--->

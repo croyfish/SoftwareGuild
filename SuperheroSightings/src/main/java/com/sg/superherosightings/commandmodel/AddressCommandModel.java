@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class AddressCommandModel {
     
-private Integer addressId;
+    private Integer addressId;
     
     @NotEmpty(message = "You must supply a value for street address.")
     @Length(max = 50, message = "Street address must be no more than 50 characters in length.")
